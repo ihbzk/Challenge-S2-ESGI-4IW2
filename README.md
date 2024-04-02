@@ -1,13 +1,13 @@
-# Challenge-S2-ESGI-4IW2
-## Projet : E-commerce humanitaire qui vend des kits, produits ou services pour aider les personnes dans le besoins
+# Challenge S2 G19 - ESGI 4IW2
+## Projet : ?
 
 ## Auteurs
 ### X (X) : 
 @
 ### X (X) : 
 @
-### X (X) :
-@
+### Stéphan GUEORGUIEFF (@StephanG2a) :
+stephan.gueorguieff@gmail.com
 ### Ilyesse HAMCHERIF (@ihbzk) : 
 ilyesse@bhgroupe.fr / hamcherif.ilyesse@gmail.com / ihamcherif@myges.fr
 
@@ -22,7 +22,7 @@ ilyesse@bhgroupe.fr / hamcherif.ilyesse@gmail.com / ihamcherif@myges.fr
 - 
 - 
 
-### Fonctionnalités X
+### Fonctionnalités Stéphan GUEORGUIEFF
 - 
 - 
 - 
