@@ -10,7 +10,7 @@ Description du projet
 
 Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le repository](https://github.com/ihbzk/Challenge-S2-ESGI-4IW2).
 
-## 🌟 Fonctionnalités (à faire)
+## 🌟 Fonctionnalités /15 (à faire)
 
 - **Authentification :**
   - Inscription avec confirmation par mail
@@ -70,12 +70,25 @@ Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le reposit
   - Dashboard avec datavisualisation (pas juste des KPI)
   - Dashboard personnalisable sous forme de widgets
 
-- **“Suppressionˮ de compte:**
+- **“Suppressionˮ de compte :**
   - Trouver une solution pour conserver les données dʼun utilisateur en les rendant anonymes
   - Il doit être possible de se créer de nouveau un compte avec les mêmes informations données à lʼinscription (après une suppression), dans ce cas les anciennes informations ne doivent pas être accessible par lʼutilisateur (puisquʼelles sont anonymisées)
   - Intégration des directives liées à la RGPD suivant la suppression dʼun compte
 
 - **... [autres fonctionnalités]**
+
+## 🌟 Fonctionnalités bonus /5 (à faire)
+
+- **Gestion de téléchargement des données personnelles dʼun client**
+- **Gestion dʼopération de promotion (code promo avec date dʼexpiration sur une catégorie de produit ou un produit)**
+- **ROLE_COMPTA : dashboard custom compta + extraction des factures**
+- **Possibilité de se connecter en tant quʼun utilisateur afin de lʼaccompagner en direct dans son parcours utilisateu**
+- **Possibilité de choisir parmi les options suivantes de livraison pour un client :**
+  - Livraison classique La Poste
+  - Livraison en point relais
+    - Payante avec montant défini côté administration pour chaque point relai ajout
+    - Liste des points relais définis par lʼadministrateur
+    - Affichage dʼune carte Google Maps avec la liste des différents points relais les plus proches de lʼutilisateur (API Geolocation) aux alentours (rayon de 10km avec GeoJSON MongoDB)
 
 ## 🌟 Rôles utilisateurs
 
