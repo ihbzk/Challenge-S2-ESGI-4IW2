@@ -118,4 +118,9 @@ Ce projet est sous licence [MIT](lien_vers_le_fichier_de_licence).
 
 ## 📞 Contact
 
+- **Ilyesse HAMCHERIF** - hamcherif.ilyesse@gmail.com
+- **Théo DAVIGNY** - theodavigny06@gmail.com
+- **Victor DE DOMENICO** - victordedomenico.du60@gmail.com
+- **Stéphan GUEORGUIEFF** - stephan.gueorguieff@gmail.com
+
 Pour toute question ou retour d'information, n'hésitez pas à nous contacter.
