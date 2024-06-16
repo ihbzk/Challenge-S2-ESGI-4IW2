@@ -1,12 +1,65 @@
 version: "3.8"
+
 services:
   client:
     image: node:20.0.0-alpine
     user: node
     working_dir: /home/node
     entrypoint: sh -c
-    command: '"npm install && npm run dev"'
+    command: '"npm install && npm run dev -- --host 0.0.0.0"'
+    restart: always
     ports:
       - 8000:8000
     volumes:
       - ./front:/home/node
+
+  server:
+    image: node:20.0.0-alpine
+    user: node
+    working_dir: /home/node
+    entrypoint: sh -c
+    command: '"npm install && npm run dev"'
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+      - postgresdb
+    env_file:
+      - .env.local
+    volumes:
+      - ./back:/home/node
+
+  mongodb:
+    image: mongo:4.4.6
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodata:/data/db
+
+  postgresdb:
+    image: postgres:13
+    env_file:
+      - .env.local
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: elestio/pgadmin
+    ports:
+      - 5050:5050
+    env_file:
+      - .env.local
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgresdb
+
+volumes:
+  mongodata:
+  pgdata:
+  pgadmin:
+  back:
+  front:
