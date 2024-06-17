@@ -14,7 +14,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8000,
-    host: true
+    port: process.env.PORT_FRONTEND || 8000,
+    host: true,
+    // enable Vite to watch files in WSL2
+    watch: {
+      usePolling: true
+    }
   }
 })
