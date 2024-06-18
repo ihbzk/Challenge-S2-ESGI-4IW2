@@ -42,6 +42,7 @@ const cartEmpty = computed(() => state.cart.length === 0)
 </script>
 
 <template>
+  <router-view></router-view>
   <div
     class="app-container"
     :class="{
