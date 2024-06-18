@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../components/Login.vue';
-import Register from '../components/Register.vue';
-import ForgotPassword from '../components/ForgotPassword.vue';
-import ResetPassword from '../components/ResetPassword.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import Login from '../components/forms/Login.vue'
+import Register from '../components/forms/Register.vue'
+import ForgotPassword from '../components/forms/ForgotPassword.vue'
+import ResetPassword from '../components/forms/ResetPassword.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -26,6 +26,6 @@ const router = createRouter({
       component: ResetPassword
     }
   ]
-});
+})
 
-export default router;
+export default router
