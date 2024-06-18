@@ -1,8 +1,11 @@
 <template>
   <router-view></router-view>
-  <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-8 lg:py-12">
-    <div class="absolute inset-0 bg-[url('/img/grid.svg')] bg-top [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-    <div class="relative w-full bg-white px-6 py-12 shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:mx-auto md:max-w-3xl lg:max-w-4xl lg:pb-28 lg:pt-16">
+  <div
+    class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-8 lg:py-12"
+  >
+    <div
+      class="relative w-full bg-white px-6 py-12 shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:mx-auto md:max-w-3xl lg:max-w-4xl lg:pb-28 lg:pt-16"
+    >
       <div class="mx-auto max-w-prose lg:text-lg">
         <svg class="h-6" fill="none" viewBox="0 0 297 24">
           <!-- SVG content here -->
@@ -61,7 +64,9 @@
         </code></pre>
         <p>
           For more information about how to use the plugin and the features it includes,
-          <a href="https://github.com/tailwindcss/typography/blob/master/README.md">read the documentation</a>.
+          <a href="https://github.com/tailwindcss/typography/blob/master/README.md"
+            >read the documentation</a
+          >.
         </p>
         <hr />
         <h2>What to expect from here on out</h2>
@@ -95,7 +100,10 @@
         </blockquote>
         <p>It's probably important that images look okay here by default as well:</p>
         <figure>
-          <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80" alt="" />
+          <img
+            src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80"
+            alt=""
+          />
           <figcaption>
             Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
             piece of classical Latin literature from 45 BC, making it over 2000 years old.
@@ -150,18 +158,18 @@
             <p><strong>It's not a bad idea to add a third item either.</strong></p>
             <p>
               I think it probably would've been fine to just use two items but three is definitely
-              not worse, and since I seem to be having no trouble finding things to write about
-              I'm just adding this final item to complete the list.
+              not worse, and since I seem to be having no trouble finding things to write about I'm
+              just adding this final item to complete the list.
             </p>
           </li>
         </ul>
         <p>After this, things should start looking pretty good.</p>
         <h2>Hopefully it looks good.</h2>
         <p>
-          So there you have it, a reasonably complete document that uses the new typography plugin to
-          style all of the typographic HTML elements out of the box. I'm actually curious to see what
-          this looks like with a <code>dark</code> mode class on the <code>&lt;html&gt;</code> tag —
-          let's find out.
+          So there you have it, a reasonably complete document that uses the new typography plugin
+          to style all of the typographic HTML elements out of the box. I'm actually curious to see
+          what this looks like with a <code>dark</code> mode class on the
+          <code>&lt;html&gt;</code> tag — let's find out.
         </p>
         <p>
           <em>Now let's see what a <code>dark</code> mode class does.</em>
@@ -169,8 +177,8 @@
         <h2>Introducing dark mode.</h2>
         <p>
           This isn't too hard because we only need to apply the <code>dark</code> class to the
-          <code>&lt;html&gt;</code> element and make sure we have a
-          <code>dark:</code> variant of the <code>prose</code> class.
+          <code>&lt;html&gt;</code> element and make sure we have a <code>dark:</code> variant of
+          the <code>prose</code> class.
         </p>
         <p>Here's a dark mode example:</p>
         <pre><code class="language-html">&lt;html class="dark"&gt;
@@ -183,8 +191,8 @@
         <article class="prose dark:prose-dark dark:bg-slate-800 dark:text-white">
           <h1>Dark mode activated!</h1>
           <p>
-            This is an example of how the document looks in dark mode. As you can see, the text color
-            changes to a lighter shade and the background to a darker one.
+            This is an example of how the document looks in dark mode. As you can see, the text
+            color changes to a lighter shade and the background to a darker one.
           </p>
         </article>
       </div>
@@ -192,12 +200,4 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App',
-};
-</script>
-
-<style scoped>
-@import 'tailwindcss/tailwind.css';
-</style>
+<script lang="ts" setup></script>
