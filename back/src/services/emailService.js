@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Configure Handlebars templates
+// chemin vers les templates de mails
 const viewPath = path.resolve(__dirname, '../mails/templates');
 
 transporter.use('compile', hbs({

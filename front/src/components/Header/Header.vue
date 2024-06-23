@@ -16,10 +16,10 @@
     </ul>
     <ul class="d-flex flex-row">
       <li class="mr-10">
-        <a href="#">Inscription</a>
+        <a href="/register">Inscription</a>
       </li>
       <li>
-        <a href="#">Connexion</a>
+        <a href="/login">Connexion</a>
       </li>
     </ul>
   </header>
