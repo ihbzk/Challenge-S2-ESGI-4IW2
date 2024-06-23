@@ -1,103 +1,129 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
-const jwt = require('jsonwebtoken');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const dotenv = require('dotenv').config({ path: './.env.local' });
 const moment = require('moment');
+require('moment/locale/fr');
+moment.locale('fr');
 
-const userSchema = new mongoose.Schema({
+const sequelize = new Sequelize(process.env.POSTGRES_URI);
+
+// Définition de la classe User
+class User extends Model {
+    isLocked() {
+        return this.lockUntil && moment(this.lockUntil).format('YYYY-MM-DD HH:mm:ss') > moment.tz('Europe/Paris').format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    async incrementLoginAttempts() {
+        if (this.lockUntil && moment(this.lockUntil).format('YYYY-MM-DD HH:mm:ss') < moment.tz('Europe/Paris').format('YYYY-MM-DD HH:mm:ss')) {
+            await this.update({ loginAttempts: 1, lockUntil: null });
+            
+            return;
+        }
+
+        const updates = { loginAttempts: this.loginAttempts + 1 };
+        if (this.loginAttempts + 1 >= 3 && !this.isLocked()) {
+            const lockTime = parseInt(process.env.LOCK_TIME);
+            updates.lockUntil = moment.tz('Europe/Paris').add(lockTime, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+        }
+
+        await this.update(updates);
+    }
+}
+
+// Définition du modèle User
+User.init({
     role: {
-        type: String,
-        required: true,
-        enum: ['ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN'],
-        default: 'ROLE_USER'
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'ROLE_USER',
+        validate: {
+            isIn: [['ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN']]
+        }
     },
     firstname: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        allowNull: false
     },
     lastname: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        allowNull: false
     },
     email: {
-        type: String,
-        required: [true, 'L\'adresse email est requise'],
-        match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Le format de l\'adresse email est invalide'],
-        unique: true,
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: {
+            msg: "L'adresse email est déjà utilisée"
+        },
+        validate: {
+            isEmail: {
+                msg: "Le format de l'adresse email est invalide"
+            }
+        }
     },
     password: {
-        type: String,
-        required: true,
-        minlength: [12, 'Le mot de passe doit contenir au moins 12 caractères'],
-        match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/, 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial'],
+        type: DataTypes.STRING,
+        allowNull: false,      
+        validate: {
+            len: {
+                args: [12],
+                msg: 'Le mot de passe doit contenir au moins 12 caractères'
+            },
+            is: {
+                args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/,
+                msg: 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial'
+            }
+        }
     },
     lastPasswordModificationDate: {
-        type: Date,
-        default: Date.now
+        type: DataTypes.DATE,
+        allowNull: true
     },
     createdAt: {
-        type: Date,
-        default: Date.now
+        type: DataTypes.DATE,
+        allowNull: true
     },
     updatedAt: {
-        type: Date,
-        default: Date.now
+        type: DataTypes.DATE,
+        allowNull: true,
     },
     isConfirmed: {
-        type: Boolean,
-        required: true,
-        default: false
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     },
-    loginAttempts: { type: Number, required: true, default: 0 },
-    lockUntil: { type: Date },
-    authTokens: [{
-        authToken: {
-            type: String,
-            required: true
-        },
-        expiresAt: {
-            type: Date,
-            required: true
-        }
-    }]
+    loginAttempts: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+    lockUntil: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    resetPasswordToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    resetPasswordExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    confirmationToken: Sequelize.STRING
+    }, {
+    sequelize,
+    modelName: 'User',
 });
 
-userSchema.plugin(uniqueValidator, { message: 'L\'email est déjà utilisé' });
+// Synchronisation du modèle avec la base de données
+(async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection to PostgreSQL database successful');
 
-userSchema.methods.generateAuthToken = async function () {
-    const authToken = jwt.sign({ _id: this._id }, "" + process.env.JWT_SECRET, { expiresIn: '1h' });
-    const expiresAt = moment().add(1, 'hour').toDate();
-
-    // Filtrer et supprimer les tokens expirés avant d'ajouter le nouveau token
-    this.authTokens = this.authTokens.filter(tokenObj => moment(tokenObj.expiresAt).isAfter(moment()));
-    this.authTokens.push({ authToken, expiresAt });
-
-    await this.save();
-    return authToken;
-};
-
-userSchema.methods.isLocked = function() {
-    return this.lockUntil && this.lockUntil > Date.now();
-};
-  
-userSchema.methods.incrementLoginAttempts = function(callback) {
-    if (this.lockUntil && this.lockUntil < Date.now()) {
-        return this.updateOne({
-        $set: { loginAttempts: 1 },
-        $unset: { lockUntil: 1 }
-        }, callback);
+        await sequelize.sync();
+        console.log('Database synchronized');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
     }
-    
-    const updates = { $inc: { loginAttempts: 1 } };
-    if (this.loginAttempts + 1 >= 3 && !this.isLocked()) {
-        updates.$set = { lockUntil: Date.now() + 20 * 60 * 1000 }; // 20 minutes
-    }
+})();
 
-    return this.updateOne(updates, callback);
-};
-
-
-const user = mongoose.model('User', userSchema);
-
-module.exports = user;
-
+module.exports = User;
