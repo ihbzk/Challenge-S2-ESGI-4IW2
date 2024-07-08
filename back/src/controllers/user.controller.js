@@ -318,9 +318,9 @@ exports.confirm = async (req, res) => {
 };
 
 // Route pour récupérer l'ensemble des utilisateurs
-exports.getUsers = async (req, res) => {
+exports.readUsers = async (req, res) => {
     try {
-        const users = await User.find({});
+        const users = await User.findAll();
 
         res.send(users);
     } catch (error) {
@@ -328,6 +328,60 @@ exports.getUsers = async (req, res) => {
     }
 };
 
+exports.createUser = async (req, res) => {
+    try {
+        const { firstname, lastname, email, password, role } = req.body;
+
+        const newUser = await User.create({
+            firstname,
+            lastname,
+            email,
+            password,
+            role,
+        });
+
+        newUser.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+        await newUser.save();
+
+        res.status(201);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404);
+        }
+
+        await user.destroy();
+
+        res.status(204).end();
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.updateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404);
+        }
+
+        await user.update(req.body);
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
 // Route pour récupérer un utilisateur
 exports.me = async (req, res) => {

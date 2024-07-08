@@ -11,7 +11,10 @@ router.get('/confirm-token-verify', userController.confirmVerifyToken);
 router.post('/forgot-password', userController.forgotPassword);
 router.post('/reset-password', userController.resetPassword);
 router.get('/reset-password-token-verify', userController.resetPasswordVerifyToken);
-router.get('/users', checkAuth, userController.getUsers);
+router.post('/users/create', checkAuth, userController.createUser);
+router.get('/users', checkAuth, userController.readUsers);
+router.put('/users/update/:id', checkAuth, userController.updateUser);
+router.delete('/users/delete/:id', checkAuth, userController.deleteUser);
 router.get('/me', checkAuth, userController.me);
 
 module.exports = router;
