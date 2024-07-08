@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const registerSchema = z.object({
-    role: z.enum(['ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN'], {
-        errorMap: () => ({ message: "Le rôle doit être 'ROLE_USER', 'ROLE_STORE_KEEPER' ou 'ROLE_ADMIN'" })
+    role: z.enum(['ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_COMPTA', 'ROLE_ADMIN'], {
+        errorMap: () => ({ message: "Le rôle doit être 'ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_COMPTA' ou 'ROLE_ADMIN'" })
     }).default('ROLE_USER'),
     firstname: z.string().nonempty({ message: 'Le prénom est obligatoire' }),
     lastname: z.string().nonempty({ message: 'Le nom de famille est obligatoire' }),
@@ -63,3 +63,14 @@ export const resetPasswordSchema = z.object({
         });
     }
 });
+
+export const productSchema = z.object({
+    productName: z.string().min(1, { message: "Le nom du produit est obligatoire" }),
+    description: z.string().min(1, { message: "La description est obligatoire" }),
+    category: z.string().min(1, { message: "La catégorie est obligatoire" }),
+    brand: z.string().min(1, { message: "La marque est obligatoire" }),
+    price: z.number().min(0, { message: "Le prix doit être supérieur ou égal à 0" }),
+    promotion: z.boolean(),
+    stock: z.number().int().min(0, { message: "Le stock doit être un entier supérieur ou égal à 0" }),
+    illustration: z.string().url({ message: "L'illustration doit être une URL valide" }),
+  });

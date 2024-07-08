@@ -11,15 +11,15 @@
         <a href="#">Boutique</a>
       </li>
       <li>
-        <a href="#">Admin</a>
+        <router-link :to="{ name: 'AdminLayout' }">Admin</router-link>
       </li>
     </ul>
     <ul class="d-flex flex-row">
       <li class="mr-10">
-        <a href="/register">Inscription</a>
+        <router-link :to="{ name: 'Register' }">Inscription</router-link>
       </li>
       <li>
-        <a href="/login">Connexion</a>
+        <router-link :to="{ name: 'Login' }">Connexion</router-link>
       </li>
     </ul>
   </header>

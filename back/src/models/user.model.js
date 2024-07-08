@@ -36,7 +36,7 @@ User.init({
         allowNull: false,
         defaultValue: 'ROLE_USER',
         validate: {
-            isIn: [['ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN']]
+            isIn: [['ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_COMPTA', 'ROLE_ADMIN']]
         }
     },
     firstname: {
