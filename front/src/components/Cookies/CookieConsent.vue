@@ -1,14 +1,14 @@
 <template>
   <PopUp :visible="visible" @close="handleClose">
-    <h2>Politique de Cookies</h2>
-    <p>
+    <h2 class="text-indigo-600 text-xl mb-4">Politique de Cookies</h2>
+    <p class="text-gray-600 mb-4">
       Nous utilisons des cookies pour améliorer votre expérience sur notre site. En poursuivant votre navigation, vous acceptez notre politique de cookies.
     </p>
-    <div>
-      <input type="checkbox" id="accept-cookies" v-model="accepted" />
-      <label for="accept-cookies">J'accepte les cookies</label>
+    <div class="mb-4">
+      <input type="checkbox" id="accept-cookies" v-model="accepted" class="mr-2" />
+      <label for="accept-cookies" class="text-gray-600">J'accepte les cookies</label>
     </div>
-    <button @click="acceptCookies">Accepter</button>
+    <button @click="acceptCookies" class="bg-indigo-600 text-white py-2 px-4 mt-2 rounded hover:bg-[#4b46e5]">Accepter</button>
   </PopUp>
 </template>
 
@@ -33,19 +33,3 @@ const acceptCookies = () => {
   }
 };
 </script>
-
-<style scoped lang="scss">
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 10px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-</style>
