@@ -11,7 +11,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="mb-10 p-10 d-flex flex-row align-items-center product">
+  <div class="mb-10 p-10 flex flex-row items-center product">
     <strong class="mr-10">{{ product.title }}</strong>
     <span class="flex-fill mr-10">x {{ product.quantity }}</span>
     <span class="mr-10">Prix : {{ product.price }}€</span>

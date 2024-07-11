@@ -12,7 +12,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="d-flex flex-column">
+  <div class="flex flex-col">
     <CartProduct
       v-for="product of cart"
       :product="product"
