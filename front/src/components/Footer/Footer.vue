@@ -25,10 +25,11 @@ const footerNavigation = {
     { name: 'Privacy', href: '#' },
   ],
   legal: [
-    { name: 'Terms of Service', href: '#' },
-    { name: 'Return Policy', href: '#' },
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Shipping Policy', href: '#' },
+    { name: 'Mentions Légales', route: 'LegalMentions' },
+    { name: 'Politique de Confidentialité', route: 'PrivacyPolicy' },
+    { name: 'Conditions Générales d\'Utilisation', route: 'TermsOfService' },
+    { name: 'Politique de Cookies', route: 'CookiePolicy' },
+    { name: 'Politique de Retour et de Remboursement', route: 'RefundPolicy' },
   ],
   bottomLinks: [
     { name: 'Accessibility', href: '#' },
@@ -77,10 +78,11 @@ const footerNavigation = {
                   </ul>
                 </div>
                 <div>
-                  <h3 class="text-sm font-medium text-gray-900">Legal</h3>
+                  <h3 class="text-sm font-medium text-gray-900">Légal</h3>
                   <ul role="list" class="mt-6 space-y-6">
                     <li v-for="item in footerNavigation.legal" :key="item.name" class="text-sm">
-                      <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
+                      <router-link v-if="item.route" :to="{ name: item.route }" class="text-gray-500 hover:text-gray-600">{{ item.name }}</router-link>
+                      <a v-else :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
                     </li>
                   </ul>
                 </div>

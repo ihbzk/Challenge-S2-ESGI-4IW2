@@ -11,6 +11,13 @@ import Users from '../views/admin/Users.vue';
 import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
 
+// Import des pages légales
+import LegalMentions from '../views/LegalMentions.vue';
+import PrivacyPolicy from '../views/PrivacyPolicy.vue';
+import TermsOfService from '../views/TermsOfService.vue';
+import CookiePolicy from '../views/CookiePolicy.vue';
+import RefundPolicy from '../views/RefundPolicy.vue';
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -68,10 +75,36 @@ const router = createRouter({
           path: 'settings',
           name: 'Settings',
           component: Settings
-        }
+        },
       ]
-    }
+    },
+    // Routes pour les pages légales
+    {
+      path: '/legal-mentions',
+      name: 'LegalMentions',
+      component: LegalMentions
+    },
+    {
+      path: '/privacy-policy',
+      name: 'PrivacyPolicy',
+      component: PrivacyPolicy
+    },
+    {
+      path: '/terms-of-service',
+      name: 'TermsOfService',
+      component: TermsOfService
+    },
+    {
+      path: '/cookie-policy',
+      name: 'CookiePolicy',
+      component: CookiePolicy
+    },
+    {
+      path: '/refund-policy',
+      name: 'RefundPolicy',
+      component: RefundPolicy
+    },
   ]
-})
+});
 
-export default router
+export default router;
