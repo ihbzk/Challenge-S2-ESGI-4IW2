@@ -1,126 +1,183 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { registerSchema } from '@/composables/validation'
+import TheHeader from '@/components/Header/Header.vue'
+import { reactive } from 'vue'
+import type { ProductCartInterface } from '@/interfaces'
+
+const state = reactive<{
+  cart: ProductCartInterface[]
+  cartOpen: boolean
+}>({
+  cart: [],
+  cartOpen: false
+})
+
+const firstname = ref('')
+const lastname = ref('')
+const email = ref('')
+const password = ref('')
+const repeatPassword = ref('')
+const errors = ref({})
+const successMessage = ref('')
+
+const register = async () => {
+    errors.value = {}
+    successMessage.value = ''
+
+    const formData = {
+        firstname: firstname.value,
+        lastname: lastname.value,
+        email: email.value,
+        password: password.value,
+        repeatPassword: repeatPassword.value,
+    }
+
+    const result = registerSchema.safeParse(formData)
+
+    if (!result.success) {
+        result.error.errors.forEach((e) => {
+            errors.value[e.path[0]] = e.message
+        })
+        return
+    }
+
+    try {
+        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstname: firstname.value,
+                lastname: lastname.value,
+                email: email.value,
+                password: password.value,
+            })
+        })
+
+        const data = await response.json();
+        console.log("Response data:", data); // Ajout de ce log pour vérifier la réponse
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Network response was not ok')
+        }
+
+        if (data.verificationRequired) {
+            successMessage.value = 'Inscription réussit avec succès. Veuillez vérifier votre email pour confirmer votre inscription.'
+        }
+    } catch (error) {
+        errors.value.general = error.message
+        console.error('Échec de l\'inscription', error)
+    }
+}
+
+const openCart = () => {
+    state.cartOpen = true
+}
+
+const closeCart = () => {
+    state.cartOpen = false
+}
+
+const cartItemCount = computed(() => state.cart.reduce((acc, product) => acc + product.quantity, 0))
+</script>
+
 <template>
-    <div class="flex items-center justify-center min-h-screen bg-gray-100">
-        <div class="bg-white p-8 rounded-lg shadow-md max-w-sm w-full">
-            <h2 class="text-2xl font-bold mb-6">Inscription</h2>
-            <form @submit.prevent="register" class="space-y-6">
-                <div v-if="errors.general" class="text-red-500 font-bold mb-4">{{ errors.general }}</div>
-                <div v-if="successMessage" class="text-green-500 font-bold mb-4">{{ successMessage }}</div>
-                <FormInput 
-                    id="firstname" 
-                    label="Prénom :" 
-                    :modelValue="firstname"
-                    @update:modelValue="firstname = $event"
-                    type="text"
-                    :error="errors.firstname" 
-                    placeholder="Entrez votre prénom"
-                />
-                <FormInput 
-                    id="lastname" 
-                    label="Nom :" 
-                    :modelValue="lastname"
-                    @update:modelValue="lastname = $event"
-                    type="text"
-                    :error="errors.lastname" 
-                    placeholder="Entrez votre nom"
-                />
-                <FormInput 
-                    id="email" 
-                    label="Adresse email :"
-                    :modelValue="email"
-                    @update:modelValue="email = $event"
-                    type="email"
-                    :error="errors.email" 
-                    placeholder="Entrez votre adresse email"
-                />
-                <FormInput 
-                    id="password"
-                    label="Mot de passe :"
-                    :modelValue="password"
-                    @update:modelValue="password = $event"
-                    type="password"
-                    :error="errors.password" 
-                    placeholder="Entrez votre mot de passe"
-                />
-                <FormInput 
-                    id="repeatPassword" 
-                    label="Confirmer le mot de passe :" 
-                    :modelValue="repeatPassword"
-                    @update:modelValue="repeatPassword = $event"
-                    type="password"
-                    :error="errors.repeatPassword"  
-                    placeholder="Confirmez votre mot de passe"
-                />
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-700 transition">S'inscrire</button>
-                <div class="flex justify-between mt-4">
-                    <a href="/login" class="text-blue-500 hover:underline">Déjà un compte ? Se connecter</a>
+    <TheHeader :cart="state.cart" :cartOpen="state.cartOpen" @remove-product-from-cart="(productId) => state.cart = state.cart.filter(product => product.id !== productId)" @open-cart="openCart" @close-cart="closeCart" />
+    <div class="flex min-h-full flex-1 h-screen">
+        <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+            <div class="mx-auto w-full max-w-sm lg:w-96">
+                <div>
+                    <img src="../assets/images/logo.svg" alt="InformaCart" class="h-10 w-auto">
+                    <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">S'inscrire</h2>
+                    <p class="mt-2 text-sm leading-6 text-gray-500">
+                        Déjà un compte ?
+                        {{ ' ' }}
+                        <a href="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Se connecter</a>
+                    </p>
                 </div>
-            </form>
+
+                <div class="mt-10">
+                    <form @submit.prevent="register" class="space-y-6">
+                        <div v-if="errors.general" class="text-red-500 font-bold mb-4">{{ errors.general }}</div>
+                        <div v-if="successMessage" class="text-green-500 font-bold mb-4">{{ successMessage }}</div>
+
+                        <div>
+                            <label for="firstname"
+                                class="block text-sm font-medium leading-6 text-gray-900">Prénom</label>
+                            <div class="mt-2">
+                                <input id="firstname" name="firstname" type="text" v-model="firstname" required
+                                    :class="{ 'border-red-500': errors.firstname }"
+                                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="Entrez votre prénom" />
+                                <p v-if="errors.firstname" class="text-red-500 text-xs mt-2">{{ errors.firstname }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="lastname" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
+                            <div class="mt-2">
+                                <input id="lastname" name="lastname" type="text" v-model="lastname" required
+                                    :class="{ 'border-red-500': errors.lastname }"
+                                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="Entrez votre nom" />
+                                <p v-if="errors.lastname" class="text-red-500 text-xs mt-2">{{ errors.lastname }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Adresse
+                                email</label>
+                            <div class="mt-2">
+                                <input id="email" name="email" type="email" v-model="email" required
+                                    :class="{ 'border-red-500': errors.email }"
+                                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="Entrez votre adresse email" />
+                                <p v-if="errors.email" class="text-red-500 text-xs mt-2">{{ errors.email }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de
+                                passe</label>
+                            <div class="mt-2">
+                                <input id="password" name="password" type="password" v-model="password" required
+                                    :class="{ 'border-red-500': errors.password }"
+                                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="Entrez votre mot de passe" />
+                                <p v-if="errors.password" class="text-red-500 text-xs mt-2">{{ errors.password }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="repeatPassword"
+                                class="block text-sm font-medium leading-6 text-gray-900">Confirmer le mot de
+                                passe</label>
+                            <div class="mt-2">
+                                <input id="repeatPassword" name="repeatPassword" type="password"
+                                    v-model="repeatPassword" required :class="{ 'border-red-500': errors.repeatPassword }"
+                                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="Confirmez votre mot de passe" />
+                                <p v-if="errors.repeatPassword" class="text-red-500 text-xs mt-2">{{
+                                    errors.repeatPassword }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit"
+                                class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">S'inscrire</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="relative hidden w-0 flex-1 lg:block">
+            <img class="absolute inset-0 h-full w-full object-cover"
+                src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+                alt="" />
         </div>
     </div>
 </template>
 
-<script setup>
-    import FormInput from '@/components/Forms/FormInput.vue';
-
-    import { ref } from 'vue';
-    import { registerSchema } from '@/composables/validation';
-
-    const firstname = ref('');
-    const lastname = ref('');
-    const email = ref('');
-    const password = ref('');
-    const repeatPassword = ref('');
-    const errors = ref({});
-    const successMessage = ref('');
-
-    const register = async () => {
-        errors.value = {}; // Clear previous errors
-        successMessage.value = ''; // Clear previous success message
-
-        // Validate form data using Zod schema
-        const formData = {
-            firstname: firstname.value,
-            lastname: lastname.value,
-            email: email.value,
-            password: password.value,
-            repeatPassword: repeatPassword.value,
-        };
-
-        const result = registerSchema.safeParse(formData);
-
-        if (!result.success) {
-            result.error.errors.forEach((e) => {
-                errors.value[e.path[0]] = e.message;
-            });
-            return;
-        }
-
-        try {
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    firstname: firstname.value,
-                    lastname: lastname.value,
-                    email: email.value,
-                    password: password.value,
-                })
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || 'Network response was not ok');
-            }
-
-            const data = await response.json();
-            if (data.verificationRequired) {
-                successMessage.value = 'Inscription réussit avec succès. Veuillez vérifier votre email pour confirmer votre inscription.';
-            }
-        } catch (error) {
-            errors.value.general = error.message;
-            console.error('Échec de l\'inscription', error);
-        }
-    };
-</script>
+<style scoped></style>
