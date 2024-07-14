@@ -20,6 +20,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-  @use './assets/scss/base.scss' as *;
-  @use './assets/scss/debug.scss' as *;
+@use './assets/scss/base.scss' as *;
+@use './assets/scss/debug.scss' as *;
 </style>

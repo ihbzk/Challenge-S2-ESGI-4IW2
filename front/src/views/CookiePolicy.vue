@@ -23,6 +23,10 @@
       vous permettent de refuser ou d'accepter les cookies, de supprimer les cookies existants ou d'être informé
       lorsqu'un nouveau cookie est déposé.
     </p>
+    <h2>Consentement</h2>
+    <p>
+      En utilisant notre site, vous consentez à l'utilisation de cookies conformément à notre politique de cookies.
+    </p>
   </div>
 </template>
 
