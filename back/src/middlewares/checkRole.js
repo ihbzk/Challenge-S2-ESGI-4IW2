@@ -1,4 +1,4 @@
-module.exports = ({ role: [] }) => async (req,res,next) => {
+module.exports = ({ role: [] }) => async (req, res, next) => {
     try {
         if (!req.user) {
             return res.sendStatus(401);
