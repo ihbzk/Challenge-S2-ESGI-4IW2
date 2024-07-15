@@ -73,4 +73,19 @@ export const productSchema = z.object({
     promotion: z.boolean(),
     stock: z.number().int().min(0, { message: "Le stock doit être un entier supérieur ou égal à 0" }),
     illustration: z.string().url({ message: "L'illustration doit être une URL valide" }),
-  });
+});
+
+export const widgetSchema = z.object({
+    title: z.string().min(1, { message: "Le titre est obligatoire" }),
+    x: z.number().int().nonnegative(),
+    y: z.number().int().nonnegative(),
+    width: z.number().int().nonnegative(),
+    height: z.number().int().nonnegative(),
+    dimensionsDatas: z.array(z.string()).optional(),
+    measuresDatas: z.array(z.string()).optional(),
+    type: z.enum(['bar', 'line', 'pie'], {
+        errorMap: () => ({ message: "Le type doit être 'bar', 'line' ou 'pie'" })
+    }),
+    createdAt: z.date().optional(),
+    updatedAt: z.date().optional(),
+});
