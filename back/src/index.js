@@ -1,11 +1,11 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv').config({ path: './.env.local' });
-const cookieParser = require('cookie-parser');
 
 const userRoutes = require('./routes/user.routes');
 const productRoutes = require('./routes/product.routes');
 const paymentRoutes = require('./routes/payment.routes'); // Importer les routes de paiement
+const widgetRoutes = require('./routes/widget.routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -29,11 +29,9 @@ app.listen("" + process.env.PORT_BACKEND, () => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Cookie
-// app.use(cookieParser());
-
 // Routes
 app.use(bodyParser.json());
 app.use('/', userRoutes);
 app.use('/', productRoutes);
 app.use('/api/payments', paymentRoutes); // Ajouter les routes de paiement
+app.use('/', widgetRoutes);

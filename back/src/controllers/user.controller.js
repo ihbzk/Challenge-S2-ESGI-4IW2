@@ -375,9 +375,27 @@ exports.updateUser = async (req, res) => {
             return res.status(404);
         }
 
-        await user.update(req.body);
+        const { firstname, lastname, email, password, role } = req.body;
 
-        res.status(200).json(user);
+        // on hache le mot de passe si un nouveau mot de passe est fourni
+        let hashedPassword = user.password;
+        if (password) {
+            hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+        }
+
+        await User.update({
+            firstname,
+            lastname,
+            email,
+            password: hashedPassword,
+            role,
+        }, {
+            where: { id },
+        });
+
+        const updatedUser = await User.findByPk(id);
+
+        res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -389,17 +407,22 @@ exports.me = async (req, res) => {
         const user = await User.findByPk(req.user.id);
 
         if (!user) {
-            return res.sendStatus(404).json({ message: 'Utilisateur non trouvé' });
+            return res.sendStatus(404);
         }
 
         const token = req.headers.authorization.split(' ')[1];
 
         if (blacklistedTokens.has(token)) {
-            return res.sendStatus(403).json({ message: 'Forbidden' });
+            return res.status(403).json({ message: 'Forbidden' });
         }
 
         // Retourner les données de l'utilisateur
-        res.status(200).json({ user });
+        res.status(200).json({
+            email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            role: user.role
+        });
     } catch (error) {
         console.error('Erreur lors de la récupération de l\'utilisateur:', error);
         res.status(500).json({ message: error.message });
@@ -419,3 +442,23 @@ exports.logout = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// vérifier si l'utilisateur est administrateur
+exports.isAdministrator = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.user.id);
+
+        if (!user) {
+            return res.sendStatus(404);
+        }
+
+        if (user.role !== 'ROLE_ADMIN') {
+            return res.sendStatus(403); // Forbidden
+        }
+
+        next();
+    } catch (error) {
+        console.error('Error checking administrator role', error);
+        res.sendStatus(500); // Internal Server Error
+    }
+}

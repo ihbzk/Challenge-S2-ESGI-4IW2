@@ -1,24 +1,24 @@
 <template>
-  <div class="cookie-policy">
-    <h1>Politique de Cookies</h1>
-    <p>
+  <div class="cookie-policy bg-gray-100 rounded-lg max-w-3xl mx-auto p-5">
+    <h1 class="text-gray-900 text-2xl mb-4">Politique de Cookies</h1>
+    <p class="text-gray-600 mb-4">
       Le site InformaCart utilise des cookies pour améliorer l'expérience utilisateur, ainsi que pour
       les besoins de la navigation et de l'analyse.
     </p>
-    <h2>Qu'est-ce qu'un cookie ?</h2>
-    <p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Qu'est-ce qu'un cookie ?</h2>
+    <p class="text-gray-600 mb-4">
       Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous visitez un site Web.
       Il permet de retenir vos préférences et d'améliorer votre expérience de navigation.
     </p>
-    <h2>Utilisation des cookies</h2>
-    <p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Utilisation des cookies</h2>
+    <p class="text-gray-600 mb-4">
       Nous utilisons les cookies pour :
       - Garder en mémoire vos préférences de navigation.
       - Vous identifier lorsque vous vous connectez à notre site.
       - Analyser le trafic et les données sur notre site.
     </p>
-    <h2>Gestion des cookies</h2>
-    <p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Gestion des cookies</h2>
+    <p class="text-gray-600 mb-4">
       Vous pouvez gérer vos préférences de cookies via les paramètres de votre navigateur. La plupart des navigateurs
       vous permettent de refuser ou d'accepter les cookies, de supprimer les cookies existants ou d'être informé
       lorsqu'un nouveau cookie est déposé.
@@ -32,31 +32,3 @@
 
 <script setup lang="ts">
 </script>
-
-<style scoped lang="scss">
-.cookie-policy {
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.cookie-policy h1 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 16px;
-}
-
-.cookie-policy h2 {
-  color: #555;
-  font-size: 20px;
-  margin-top: 24px;
-}
-
-.cookie-policy p {
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-</style>

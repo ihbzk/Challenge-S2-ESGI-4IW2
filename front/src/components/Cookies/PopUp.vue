@@ -1,8 +1,8 @@
 <template>
-  <div class="popup-overlay" v-if="visible">
-    <div class="popup-content">
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50" v-if="visible">
+    <div class="bg-white p-5 rounded-lg relative max-w-md w-full z-50">
       <slot></slot>
-      <button class="close-btn" @click="closePopup">Close</button>
+      <button class="absolute top-2 right-2 text-xl text-gray-700 hover:text-gray-900" @click="closePopup">×</button>
     </div>
   </div>
 </template>
@@ -23,36 +23,3 @@ const closePopup = () => {
   emits('close');
 };
 </script>
-
-<style scoped lang="scss">
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  position: relative;
-  max-width: 500px;
-  width: 100%;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-</style>
