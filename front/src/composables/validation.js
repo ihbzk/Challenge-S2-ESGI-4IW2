@@ -89,3 +89,18 @@ export const widgetSchema = z.object({
     createdAt: z.date().optional(),
     updatedAt: z.date().optional(),
 });
+
+export const updateProfileSchema = z.object({
+    firstname: z.string().min(1, { message: 'Le prénom est requis' }),
+    lastname: z.string().min(1, { message: 'Le nom est requis' }),
+    email: z.string().email({ message: "Le format de l'adresse email est invalide" }),
+    password: z.string().min(12, { message: 'Le mot de passe doit contenir au moins 12 caractères' }).optional(),
+    repeatPassword: z.string().min(12, { message: 'Le mot de passe doit contenir au moins 12 caractères' }).optional(),
+  }).superRefine(({ password, repeatPassword }, ctx) => {
+    if (password && password !== repeatPassword) {
+      ctx.addIssue({
+        path: ['repeatPassword'],
+        message: 'Les mots de passe ne correspondent pas',
+      });
+    }
+  });

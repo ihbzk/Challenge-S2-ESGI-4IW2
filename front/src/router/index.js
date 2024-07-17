@@ -10,7 +10,8 @@ import Dashboard from '../views/admin/Dashboard.vue';
 import Users from '../views/admin/Users.vue';
 import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
-import Payment from '../components/Payment.vue'; // Importer le composant Payment
+import Payment from '../components/Payment.vue';
+import Profile from '@/views/Profile.vue';
 
 // Import des pages légales
 import LegalMentions from '../views/LegalMentions.vue';
@@ -20,7 +21,7 @@ import CookiePolicy from '../views/CookiePolicy.vue';
 import RefundPolicy from '../views/RefundPolicy.vue';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -51,6 +52,12 @@ const router = createRouter({
       path: '/confirm',
       name: 'AccountConfirmation',
       component: AccountConfirmation
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
+      meta: { requiresAuth: true }
     },
     {
       path: '/admin',
@@ -113,5 +120,16 @@ const router = createRouter({
     },
   ]
 });
+
+// Middleware pour vérifier l'authentification
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('authToken');
+  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+    next({ name: 'Login' });
+  } else {
+    next();
+  }
+});
+
 
 export default router;
