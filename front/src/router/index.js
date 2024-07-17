@@ -21,12 +21,13 @@ import CookiePolicy from '../views/CookiePolicy.vue';
 import RefundPolicy from '../views/RefundPolicy.vue';
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
       name: 'Homepage',
-      component: Homepage
+      component: Homepage,
+      meta: { requiresAuth: false }
     },
     {
       path: '/login',

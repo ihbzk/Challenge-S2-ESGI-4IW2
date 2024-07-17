@@ -6,6 +6,7 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import Cart from '../Cart/Cart.vue'
 import type { ProductCartInterface } from '@/interfaces'
 import useAuth from '@/composables/useAuth'
+import { useRouter } from 'vue-router' 
 
 const props = defineProps<{
   cart: ProductCartInterface[]
@@ -100,28 +101,7 @@ const router = useRouter()
 
 initializeAuth()
 
-const logout = async () => {
-  try {
-    let authToken = localStorage.getItem('authToken')
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${authToken}`,
-        'Content-Type': 'application/json'
-      }
-    })
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-
-    isAuthenticated.value = false
-    localStorage.removeItem('authToken')
-    router.push({ name: 'Login' })
-  } catch (error) {
-    console.error('Échec de la déconnexion', error)
-  }
-}
 </script>
 
 <template>
