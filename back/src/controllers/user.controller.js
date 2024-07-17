@@ -462,3 +462,20 @@ exports.isAdministrator = async (req, res, next) => {
         res.sendStatus(500); // Internal Server Error
     }
 }
+
+exports.deleteAccount = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Utilisateur introuvable' });
+        }
+
+        await user.anonymize();
+        res.status(200).json({ message: 'Compte supprimé avec succès' });
+    } catch (error) {
+        console.error('Erreur lors de la suppression du compte:', error);
+        res.status(500).json({ message: 'Erreur lors de la suppression du compte' });
+    }
+};

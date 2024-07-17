@@ -27,6 +27,24 @@ class User extends Model {
 
         await this.update(updates);
     }
+
+    async anonymize() {
+        await this.update({
+            firstname: 'Anonyme',
+            lastname: 'Anonyme',
+            email: 'anonyme@informacart.fr',
+            password: 'anonyme',
+            lastPasswordModificationDate: null,
+            createdAt: null,
+            updatedAt: null,
+            isConfirmed: false,
+            loginAttempts: 0,
+            lockUntil: null,
+            resetPasswordToken: null,
+            resetPasswordExpires: null,
+            confirmationToken: null
+        });
+    }
 }
 
 // Définition du modèle User
