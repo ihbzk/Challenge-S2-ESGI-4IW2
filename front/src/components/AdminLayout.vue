@@ -1,3 +1,39 @@
+<script setup>
+  import { ref } from 'vue';
+  import useAuth from '@/composables/useAuth';
+  import { useRouter } from 'vue-router';
+
+  const isSidebarOpen = ref(false);
+  const { isAuthenticated, initializeAuth } = useAuth();
+  const router = useRouter();
+
+  initializeAuth();
+
+  const logout = async () => {
+    try {
+        let authToken = localStorage.getItem('authToken');
+        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        isAuthenticated.value = false;
+        localStorage.removeItem('authToken');
+        router.push({ name: 'Login' });
+    } catch (error) {
+        console.error('Échec de la déconnexion', error);
+    }
+  };
+</script>
+
+
 <template>
   <div class="min-h-screen flex">
     <!-- Sidebar -->
@@ -47,40 +83,5 @@
     </div>
   </div>
 </template>
-
-<script setup>
-  import { ref } from 'vue';
-  import useAuth from '@/composables/useAuth';
-  import { useRouter } from 'vue-router';
-
-  const isSidebarOpen = ref(false);
-  const { isAuthenticated, initializeAuth } = useAuth();
-  const router = useRouter();
-
-  initializeAuth();
-
-  const logout = async () => {
-    try {
-        let authToken = localStorage.getItem('authToken');
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${authToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        isAuthenticated.value = false;
-        localStorage.removeItem('authToken');
-        router.push({ name: 'Login' });
-    } catch (error) {
-        console.error('Échec de la déconnexion', error);
-    }
-  };
-</script>
 
 <style scoped></style>
