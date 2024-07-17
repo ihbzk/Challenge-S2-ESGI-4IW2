@@ -50,6 +50,9 @@ const login = async () => {
         authToken.value = data.authToken;
         isAuthenticated.value = true;
         localStorage.setItem('authToken', authToken.value);
+
+        // Redirect to homepage
+        router.push({ name: 'Homepage' });
     } catch (error) {
         errors.value.general = 'Échec de la connexion';
         console.error('Échec de la connexion', error);
