@@ -1,4 +1,3 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import Homepage from '../views/Homepage.vue';
 import Login from '../views/Login.vue';
@@ -11,8 +10,7 @@ import Dashboard from '../views/admin/Dashboard.vue';
 import Users from '../views/admin/Users.vue';
 import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
-import Payment from '../components/Payment.vue';
-import PayPalPayment from '../components/PayPalPayment.vue';
+import Payment from '../components/Payment.vue'; // Importer le composant Payment
 
 // Import des pages légales
 import LegalMentions from '../views/LegalMentions.vue';
@@ -86,12 +84,6 @@ const router = createRouter({
       path: '/payment',
       name: 'Payment',
       component: Payment
-    },
-    // Route pour le paiement PayPal
-    {
-      path: '/paypal-payment',
-      name: 'PayPalPayment',
-      component: PayPalPayment
     },
     // Routes pour les pages légales
     {
