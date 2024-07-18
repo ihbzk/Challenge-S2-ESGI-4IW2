@@ -96,11 +96,8 @@ const closeCart = () => {
   emit('close-cart')
 }
 
-const { isAuthenticated, initializeAuth } = useAuth()
+const { isAuthenticated, user } = useAuth()
 const router = useRouter()
-
-initializeAuth()
-
 
 </script>
 
@@ -114,14 +111,17 @@ initializeAuth()
           <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
             <template v-if="isAuthenticated">
               <button @click="logout" class="text-sm font-medium text-white hover:text-gray-100">Déconnexion</button>
+              <router-link :to="{ name: 'Profile' }" class="text-sm font-medium text-white hover:text-gray-100">Profile</router-link>
+              <template v-if="user.role === 'ROLE_ADMIN'">
+                <span class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
+                <router-link :to="{ name: 'AdminLayout' }" class="text-sm font-medium text-white hover:text-gray-100">Admin</router-link>
+              </template>
             </template>
             <template v-else>
               <router-link :to="{ name: 'Register' }" class="text-sm font-medium text-white hover:text-gray-100">Inscription</router-link>
               <span class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
               <router-link :to="{ name: 'Login' }" class="text-sm font-medium text-white hover:text-gray-100">Connexion</router-link>
             </template>
-            <span class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
-            <router-link :to="{ name: 'AdminLayout' }" class="text-sm font-medium text-white hover:text-gray-100">Admin</router-link>
           </div>
         </div>
       </div>
