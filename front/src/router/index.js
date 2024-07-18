@@ -10,7 +10,8 @@ import Dashboard from '../views/admin/Dashboard.vue';
 import Users from '../views/admin/Users.vue';
 import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
-import Payment from '../components/Payment.vue'; // Importer le composant Payment
+import Payment from '../components/Payment.vue';
+import PayPalButton from '../components/PayPalButton.vue';
 
 // Import des pages légales
 import LegalMentions from '../views/LegalMentions.vue';
@@ -84,6 +85,11 @@ const router = createRouter({
       path: '/payment',
       name: 'Payment',
       component: Payment
+    },
+    {
+      path: '/paypal-payment',
+      name: 'PayPalPayment',
+      component: PayPalButton
     },
     // Routes pour les pages légales
     {
