@@ -4,7 +4,9 @@ const dotenv = require('dotenv').config({ path: './.env.local' });
 
 const userRoutes = require('./routes/user.routes');
 const productRoutes = require('./routes/product.routes');
-const paymentRoutes = require('./routes/payment.routes'); // Importer les routes de paiement
+const paymentRoutes = require('./routes/payment.routes');
+const paypalRoutes = require('./routes/paypal.routes');
+const deliveryRoutes = require('./routes/delivery.routes');
 const widgetRoutes = require('./routes/widget.routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -33,5 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/', userRoutes);
 app.use('/', productRoutes);
-app.use('/api/payments', paymentRoutes); // Ajouter les routes de paiement
+app.use('/api/payments', paymentRoutes);
+app.use('/api/paypal', paypalRoutes);
+app.use('/api/delivery', deliveryRoutes);
 app.use('/', widgetRoutes);
