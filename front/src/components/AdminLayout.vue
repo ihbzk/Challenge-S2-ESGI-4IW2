@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue';
   import useAuth from '@/composables/useAuth';
   import { useRouter } from 'vue-router';

@@ -1,15 +1,12 @@
-module.exports = ({ role: [] }) => async (req, res, next) => {
+// middlewares/checkRole.js
+module.exports = ({ roles = [] }) => async (req, res, next) => {
     try {
         if (!req.user) {
-            return res.sendStatus(401);
-        }
-        
-        if (!req.user) {
-            return res.sendStatus(401);
+            return res.sendStatus(401); // Unauthorized
         }
 
-        if (!role.includes(req.user.role)) {
-            return res.sendStatus(403);
+        if (!roles.includes(req.user.role)) {
+            return res.sendStatus(403); // Forbidden
         }
         
         next();
@@ -17,4 +14,4 @@ module.exports = ({ role: [] }) => async (req, res, next) => {
         console.error('Erreur lors de la vérification du rôle :', error);
         return res.status(500).json({ message: error.message });
     }
-}
+};
