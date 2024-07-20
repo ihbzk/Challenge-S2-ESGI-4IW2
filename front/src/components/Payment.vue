@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 
@@ -17,6 +18,7 @@ const stripe = ref(null);
 const elements = ref(null);
 const error = ref('');
 const clientSecret = ref('');
+const router = useRouter();
 
 onMounted(async () => {
   try {
@@ -50,6 +52,7 @@ const handleSubmit = async () => {
     } else {
       console.log('Payment successful', paymentIntent);
       error.value = '';
+      router.push('/delivery');
     }
   } catch (err) {
     console.error('Error confirming card payment:', err);
