@@ -20,19 +20,12 @@ const clientSecret = ref('');
 
 onMounted(async () => {
   try {
-    // Load Stripe.js
     stripe.value = await loadStripe('pk_test_51PbKHAIwDc1XOowALUAMUSiEm7AvQkTkCp097tPeoq8Xl1N4ZfdjmJL979D8QUdnltcenf0cMHFECVtcn01tR90S00m3VtnWuV');
-
-    // Fetch the client secret from the backend
     const { data } = await axios.post('http://localhost:3000/api/payments/create-payment-intent', {
-      amount: 2000 // replace with your desired amount in cents
+      amount: 2000
     });
     clientSecret.value = data.clientSecret;
-
-    // Create an instance of Elements
     elements.value = stripe.value.elements();
-
-    // Create and mount the Card Element
     const cardElement = elements.value.create('card');
     cardElement.mount('#card-element');
   } catch (err) {
@@ -66,7 +59,6 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-/* Add some basic styling */
 #card-element {
   margin: 10px 0;
 }

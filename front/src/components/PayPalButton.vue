@@ -14,7 +14,7 @@ onMounted(() => {
         return actions.order.create({
           purchase_units: [{
             amount: {
-              value: '20.00' // Replace with the actual amount
+              value: '20.00'
             }
           }]
         });
@@ -22,7 +22,6 @@ onMounted(() => {
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
           alert('Transaction completed by ' + details.payer.name.given_name);
-          // Optionally, you can send the payment details to your server
         });
       },
       onError: function(err) {
