@@ -1,8 +1,8 @@
 <template>
-  <div class="max-w-2xl mx-auto p-4">
+  <div class="max-w-2xl mx-auto p-4 bg-white shadow-md rounded">
     <h2 class="text-2xl font-bold mb-4">Choisissez votre méthode de paiement</h2>
     <div class="flex justify-around mb-6">
-      <button @click="showStripe = true; showPayPal = false" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Payer avec Stripe</button>
+      <button @click="showStripe = true; showPayPal = false" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Payer avec Stripe</button>
       <button @click="showStripe = false; showPayPal = true" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Payer avec PayPal</button>
     </div>
     <div v-if="showStripe">

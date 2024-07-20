@@ -2,7 +2,7 @@
   <div class="max-w-md mx-auto p-4 bg-white shadow-md rounded">
     <form @submit.prevent="handleSubmit">
       <div id="card-element" class="mb-4"><!-- Stripe Element will be inserted here --></div>
-      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Payer</button>
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Payer</button>
     </form>
     <div v-if="error" class="text-red-500 mt-4">{{ error }}</div>
   </div>

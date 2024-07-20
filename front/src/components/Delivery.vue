@@ -15,7 +15,7 @@
         <input type="text" v-model="address" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       </label>
     </div>
-    <button @click="createDelivery" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Créer livraison</button>
+    <button @click="createDelivery" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Créer livraison</button>
 
     <div v-if="trackingInfo" class="mt-6">
       <h3 class="text-xl font-bold mb-2">Informations de suivi</h3>
