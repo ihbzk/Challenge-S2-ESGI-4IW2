@@ -1,29 +1,19 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-const isAuthenticated = ref(false);
-const authToken = ref('');
-const message = ref('');
-const isError = ref(false);
-let intervalId = null;
+const isAuthenticated = ref<boolean>(false);
+const authToken = ref<string>('');
+const message = ref<string>('');
+const isError = ref<boolean>(false);
+const userRole = ref<string>('');
+let intervalId: number | null = null;
 
-/**
- * Vérifie si l'utilisateur est authentifié
- * Pour l'utiliser, il faut appeler cette fonction dans un composant => 
- * 
- *  import useAuth from '@/composables/useAuth';
- *
- *  const { isAuthenticated, initializeAuth } = useAuth();
- *
- *  initializeAuth();
- * 
- */
-const checkAuth = async () => {
+const checkAuth = async (): Promise<void> => {
     try {
-        const storedToken = localStorage.getItem('authToken');
+        const storedToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+
         if (!storedToken) {
             isAuthenticated.value = false;
-
             return;
         }
 
@@ -39,7 +29,9 @@ const checkAuth = async () => {
             throw new Error('Erreur lors de la récupération des données utilisateur');
         }
 
+        const data = await response.json();
         isAuthenticated.value = true;
+        userRole.value = data.role;
         isError.value = false;
         message.value = '';
     } catch (error) {
@@ -47,36 +39,39 @@ const checkAuth = async () => {
     }
 };
 
-const handleAuthError = (error) => {
+const handleAuthError = (error: Error): void => {
     message.value = error.message;
     isError.value = true;
     console.error('Échec de la vérification de l\'authentification', error);
     isAuthenticated.value = false;
     authToken.value = '';
     localStorage.removeItem('authToken');
+    sessionStorage.removeItem('authToken');
 };
 
-const setAuthToken = (token) => {
+const setAuthToken = (token: string, rememberMe: boolean): void => {
     authToken.value = token;
-    localStorage.setItem('authToken', token);
+    if (rememberMe) {
+        localStorage.setItem('authToken', token);
+    } else {
+        sessionStorage.setItem('authToken', token);
+    }
 };
 
-const startAuthCheck = () => {
-    // Vérification initiale
-    const storedToken = localStorage.getItem('authToken');
+const startAuthCheck = (): void => {
+    const storedToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     const router = useRouter();
     
     if (storedToken) {
-        setAuthToken(storedToken);
+        authToken.value = storedToken;
         checkAuth();
     } else {
         isAuthenticated.value = false;
         router.push({ name: 'Login' });
     }
 
-    // Intervalle de vérification
-    intervalId = setInterval(async () => {
-        const storedToken = localStorage.getItem('authToken');
+    intervalId = window.setInterval(async () => {
+        const storedToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
         if (!storedToken) {
             isAuthenticated.value = false;
@@ -91,14 +86,14 @@ const startAuthCheck = () => {
     }, import.meta.env.VITE_AUTH_CHECK_INTERVAL);
 };
 
-const stopAuthCheck = () => {
+const stopAuthCheck = (): void => {
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
     }
 };
 
-const initializeAuth = () => {
+const initializeAuth = (): void => {
     onMounted(() => {
         startAuthCheck();
     });
@@ -108,15 +103,26 @@ const initializeAuth = () => {
     });
 };
 
+const hasRole = (requiredRole: string): boolean => {
+    return userRole.value === requiredRole;
+};
+
+const hasAnyRole = (requiredRoles: string[]): boolean => {
+    return requiredRoles.includes(userRole.value);
+};
+
 const useAuth = () => {
     return {
         isAuthenticated,
         authToken,
         message,
         isError,
+        userRole,
         checkAuth,
         setAuthToken,
         initializeAuth,
+        hasRole,
+        hasAnyRole,
     };
 };
 

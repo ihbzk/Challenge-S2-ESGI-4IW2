@@ -5,6 +5,9 @@ import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon }
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import Cart from '../Cart/Cart.vue'
 import type { ProductCartInterface } from '@/interfaces'
+import useAuth from '@/composables/useAuth';
+
+const { hasRole, hasAnyRole, isAuthenticated } = useAuth();
 
 const props = defineProps<{
   cart: ProductCartInterface[]
@@ -93,6 +96,28 @@ const openCart = () => {
 const closeCart = () => {
   emit('close-cart')
 }
+
+const logout = async () => {
+    try {
+        const authToken = localStorage.getItem('authToken');
+        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        isAuthenticated.value = false;
+        localStorage.removeItem('authToken');
+    } catch (error) {
+        console.error('Échec de la déconnexion', error);
+    }
+};
 </script>
 
 <template>
@@ -101,16 +126,32 @@ const closeCart = () => {
       <!-- Top navigation -->
       <div class="bg-gray-900">
         <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <p class="flex-1 text-center text-sm font-medium text-white lg:flex-none">Livraison gratuite à partir de 100€ d'achat</p>
+          <p class="flex-1 text-center text-sm font-medium text-white lg:flex-none">
+            Livraison gratuite à partir de 100€ d'achat
+          </p>
           <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-            <router-link :to="{ name: 'Register' }" class="text-sm font-medium text-white hover:text-gray-100">Inscription</router-link>
+            <router-link :to="{ name: 'Register' }" class="text-sm font-medium text-white hover:text-gray-100">
+              Inscription
+            </router-link>
             <span class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
-            <router-link :to="{ name: 'Login' }" class="text-sm font-medium text-white hover:text-gray-100">Connexion</router-link>
-            <span class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
-            <router-link :to="{ name: 'AdminLayout' }" class="text-sm font-medium text-white hover:text-gray-100">Admin</router-link>
+            <router-link v-if="!isAuthenticated" :to="{ name: 'Login' }" class="text-sm font-medium text-white hover:text-gray-100">
+              Connexion
+            </router-link>
+            <button v-else @click="logout" class="text-sm font-medium text-white hover:text-gray-100">
+              Déconnexion
+            </button>
+            <span v-if="isAuthenticated" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
+            <router-link v-if="isAuthenticated" class="text-sm font-medium text-white hover:text-gray-100">
+              Mon compte
+            </router-link>
+            <span v-if="isAuthenticated && hasRole('ROLE_ADMIN')" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
+            <router-link v-if="isAuthenticated && hasRole('ROLE_ADMIN')" :to="{ name: 'AdminLayout' }" class="text-sm font-medium text-white hover:text-gray-100">
+              Espace d'administration
+            </router-link>
           </div>
         </div>
       </div>
+
       <!-- Secondary navigation -->
       <div class="bg-white">
         <div class="border-b border-gray-200">
