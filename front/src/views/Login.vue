@@ -1,17 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { loginSchema } from '@/composables/validation';
 import useAuth from '@/composables/useAuth';
 import { useRouter } from 'vue-router';
 
-const { isAuthenticated, initializeAuth } = useAuth();
+const { isAuthenticated, initializeAuth, setAuthToken } = useAuth();
 const router = useRouter();
 
 initializeAuth();
 
 const email = ref('');
 const password = ref('');
-const authToken = ref('');
+const rememberMe = ref(false);
 const errors = ref({ email: '', password: '', general: '' });
 
 const login = async () => {
@@ -47,35 +47,21 @@ const login = async () => {
             return;
         }
 
-        authToken.value = data.authToken;
+        // on vérifie ici si rememberMe est coché
+        if (rememberMe.value) {
+            // si on coche rememberMe, on stocke le token dans le localStorage
+            setAuthToken(data.authToken, true);
+        } else {
+            // sinon, on stocke le token dans le sessionStorage 
+            setAuthToken(data.authToken, false);
+        }
+
         isAuthenticated.value = true;
-        localStorage.setItem('authToken', authToken.value);
+        // on redirige l'utilisateur vers la page d'accueil
+        router.push({ name: 'Homepage' });
     } catch (error) {
         errors.value.general = 'Échec de la connexion';
         console.error('Échec de la connexion', error);
-    }
-};
-
-const logout = async () => {
-    try {
-        let authToken = localStorage.getItem('authToken');
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${authToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        isAuthenticated.value = false;
-        localStorage.removeItem('authToken');
-        router.push({ name: 'Login' });
-    } catch (error) {
-        console.error('Échec de la déconnexion', error);
     }
 };
 </script>
@@ -118,7 +104,8 @@ const logout = async () => {
             </div>
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
+                <input id="remember-me" name="remember-me" type="checkbox" v-model="rememberMe"
+                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
                 <label for="remember-me" class="ml-3 block text-sm leading-6 text-gray-700">Se souvenir de moi</label>
               </div>
               <div class="text-sm leading-6">
@@ -126,7 +113,9 @@ const logout = async () => {
               </div>
             </div>
             <div>
-              <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Connexion</button>
+              <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Se connecter
+              </button>
             </div>
           </form>
         </div>
