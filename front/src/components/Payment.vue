@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="max-w-md mx-auto p-4 bg-white shadow-md rounded">
     <form @submit.prevent="handleSubmit">
-      <div id="card-element"><!-- Stripe Element will be inserted here --></div>
-      <button type="submit">Payer</button>
+      <div id="card-element" class="mb-4"><!-- Stripe Element will be inserted here --></div>
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Payer</button>
     </form>
-    <div v-if="error">{{ error }}</div>
+    <div v-if="error" class="text-red-500 mt-4">{{ error }}</div>
   </div>
 </template>
 
@@ -31,8 +31,8 @@ onMounted(async () => {
     const cardElement = elements.value.create('card');
     cardElement.mount('#card-element');
   } catch (err) {
-    console.error('Error loading Stripe or creating payment intent:', err);
-    error.value = 'Failed to initialize payment. Please try again later.';
+    console.error('Erreur lors du chargement de Stripe ou de la création de l\'intention de paiement:', err);
+    error.value = 'Échec de l\'initialisation du paiement. Veuillez réessayer plus tard.';
   }
 });
 
@@ -42,7 +42,7 @@ const handleSubmit = async () => {
       payment_method: {
         card: elements.value.getElement('card'),
         billing_details: {
-          name: 'Test User',
+          name: 'Utilisateur Test',
         },
       },
     });
@@ -50,13 +50,13 @@ const handleSubmit = async () => {
     if (stripeError) {
       error.value = stripeError.message;
     } else {
-      console.log('Payment successful', paymentIntent);
+      console.log('Paiement réussi', paymentIntent);
       error.value = '';
-      router.push('/delivery');
+      router.push('/delivery'); // Redirection vers la page de livraison
     }
   } catch (err) {
-    console.error('Error confirming card payment:', err);
-    error.value = 'Payment failed. Please try again.';
+    console.error('Erreur lors de la confirmation du paiement par carte:', err);
+    error.value = 'Échec du paiement. Veuillez réessayer.';
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-w-md mx-auto p-4 bg-white shadow-md rounded">
     <div id="paypal-button-container"></div>
   </div>
 </template>
@@ -24,16 +24,16 @@ onMounted(() => {
       },
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
-          alert('Transaction completed by ' + details.payer.name.given_name);
-          router.push('/delivery');
+          alert('Transaction complétée par ' + details.payer.name.given_name);
+          router.push('/delivery'); // Redirection vers la page de livraison
         });
       },
       onError: function(err) {
-        console.error('Error during the transaction', err);
+        console.error('Erreur lors de la transaction', err);
       }
     }).render('#paypal-button-container');
   } else {
-    console.error('PayPal SDK not loaded.');
+    console.error('SDK PayPal non chargé.');
   }
 });
 </script>
