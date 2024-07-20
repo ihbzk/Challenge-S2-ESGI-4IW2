@@ -11,6 +11,9 @@ import Users from '../views/admin/Users.vue';
 import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
 import Payment from '../components/Payment.vue';
+import PayPalButton from '../components/PayPalButton.vue';
+import PaymentOptions from '../views/PaymentOptions.vue';
+import Delivery from '../components/Delivery.vue';
 
 // Import des pages légales
 import LegalMentions from '../views/LegalMentions.vue';
@@ -88,6 +91,24 @@ const routes: any = [
     path: '/payment',
     name: 'Payment',
     component: Payment,
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
+  },
+  {
+    path: '/paypal-payment',
+    name: 'PayPalPayment',
+    component: PayPalButton,
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
+  },
+  {
+    path: '/payment-options',
+    name: 'PaymentOptions',
+    component: PaymentOptions,
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
+  },
+  {
+    path: '/delivery',
+    name: 'Delivery',
+    component: Delivery,
     meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
   },
   {
