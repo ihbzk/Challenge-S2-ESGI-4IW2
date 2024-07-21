@@ -3,6 +3,9 @@
     <h2 class="text-indigo-600 text-xl mb-4">Politique de Cookies</h2>
     <p class="text-gray-600 mb-4">
       Nous utilisons des cookies pour améliorer votre expérience sur notre site. En poursuivant votre navigation, vous acceptez notre politique de cookies.
+      Vous pouvez consulter notre politique de cookies <router-link to="/cookie-policy" class="text-indigo-600 hover:underline">ici</router-link>.
+      Vous pouvez également gérer vos préférences de cookies via les paramètres de votre navigateur.
+      Pour plus d'informations, vous pouvez consulter les pages d'aide de votre navigateur.
     </p>
     <div class="mb-4">
       <input type="checkbox" id="accept-cookies" v-model="accepted" class="mr-2" />
