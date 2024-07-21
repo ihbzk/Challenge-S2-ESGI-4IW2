@@ -18,7 +18,7 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-  origin: 'http://localhost:8000', // Remplacez par l'URL de votre frontend
+  origin: 'http://localhost:8000',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
