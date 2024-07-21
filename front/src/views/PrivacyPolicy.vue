@@ -12,6 +12,9 @@
       faites un achat, participez à un concours, et/ou lorsque vous vous déconnectez. Les informations collectées
       incluent votre nom, votre adresse e-mail, votre numéro de téléphone et/ou votre carte de crédit.
     </p>
+    <p class="text-gray-600 mb-4">
+      Nous collectons également des informations automatiquement via l'utilisation de cookies et autres technologies de suivi.
+    </p>
     <h2 class="text-indigo-600 text-xl mt-6 mb-4">Utilisation des informations</h2>
     <p class="text-gray-600 mb-4">
       Toutes les informations que nous recueillons auprès de vous peuvent être utilisées pour :
@@ -21,6 +24,18 @@
       - Améliorer le service client et vos besoins de prise en charge.
       - Vous contacter par e-mail.
       - Administrer un concours, une promotion, ou une enquête.
+    </p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Divulgation à des tiers</h2>
+    <p class="text-gray-600 mb-4">
+      Nous ne vendons, n'échangeons et ne transférons pas vos informations personnelles identifiables à des tiers. Cela ne comprend pas les tierce parties de confiance qui nous aident à exploiter notre site Web ou à mener nos affaires, tant que ces parties conviennent de garder ces informations confidentielles.
+    </p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Protection des informations</h2>
+    <p class="text-gray-600 mb-4">
+      Nous mettons en œuvre une variété de mesures de sécurité pour préserver la sécurité de vos informations personnelles. Nous utilisons le cryptage pour protéger les informations sensibles transmises en ligne. Nous protégeons également vos informations hors ligne. Seuls les employés qui ont besoin d'effectuer un travail spécifique (par exemple, la facturation ou le service client) ont accès aux informations personnelles identifiables.
+    </p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Consentement</h2>
+    <p class="text-gray-600 mb-4">
+      En utilisant notre site, vous consentez à notre politique de confidentialité.
     </p>
   </div>
 </template>

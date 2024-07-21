@@ -17,14 +17,20 @@
       - Vous identifier lorsque vous vous connectez à notre site.
       - Analyser le trafic et les données sur notre site.
     </p>
+    <p class="text-gray-600 mb-4">
+      Les cookies peuvent également être utilisés pour afficher des publicités personnalisées en fonction de vos centres d'intérêt.
+    </p>
     <h2 class="text-indigo-600 text-xl mt-6 mb-4">Gestion des cookies</h2>
     <p class="text-gray-600 mb-4">
       Vous pouvez gérer vos préférences de cookies via les paramètres de votre navigateur. La plupart des navigateurs
       vous permettent de refuser ou d'accepter les cookies, de supprimer les cookies existants ou d'être informé
       lorsqu'un nouveau cookie est déposé.
     </p>
-    <h2>Consentement</h2>
-    <p>
+    <p class="text-gray-600 mb-4">
+      Pour plus d'informations sur la gestion des cookies, vous pouvez consulter les pages d'aide de votre navigateur.
+    </p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Consentement</h2>
+    <p class="text-gray-600 mb-4">
       En utilisant notre site, vous consentez à l'utilisation de cookies conformément à notre politique de cookies.
     </p>
   </div>
