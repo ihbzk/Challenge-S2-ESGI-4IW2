@@ -1,11 +1,10 @@
-// src/controllers/payment.controller.js
 const stripe = require('../config/stripe');
 
 exports.createPaymentIntent = async (req, res) => {
     try {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: req.body.amount, // en cents
-            currency: 'usd',
+            amount: req.body.amount,
+            currency: 'eur',
         });
 
         res.status(200).send({

@@ -24,7 +24,7 @@ onMounted(async () => {
   try {
     stripe.value = await loadStripe('pk_test_51PbKHAIwDc1XOowALUAMUSiEm7AvQkTkCp097tPeoq8Xl1N4ZfdjmJL979D8QUdnltcenf0cMHFECVtcn01tR90S00m3VtnWuV');
     const { data } = await axios.post('http://localhost:3000/api/payments/create-payment-intent', {
-      amount: 2000
+      amount: 2000 // Montant en centimes
     });
     clientSecret.value = data.clientSecret;
     elements.value = stripe.value.elements();
@@ -52,7 +52,7 @@ const handleSubmit = async () => {
     } else {
       console.log('Paiement réussi', paymentIntent);
       error.value = '';
-      router.push('/delivery'); // Redirection vers la page de livraison
+      router.push('/delivery');
     }
   } catch (err) {
     console.error('Erreur lors de la confirmation du paiement par carte:', err);

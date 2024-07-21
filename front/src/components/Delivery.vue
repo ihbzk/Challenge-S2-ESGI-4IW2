@@ -5,7 +5,7 @@
       <li v-for="option in deliveryOptions" :key="option.id" class="mb-2">
         <label class="flex items-center">
           <input type="radio" name="deliveryOption" :value="option.id" v-model="selectedOptionId" class="mr-2">
-          {{ option.name }} - ${{ option.price }} ({{ option.estimatedDays }} jours)
+          {{ option.name }} - €{{ option.price }} ({{ option.estimatedDays }} jours)
         </label>
       </li>
     </ul>
