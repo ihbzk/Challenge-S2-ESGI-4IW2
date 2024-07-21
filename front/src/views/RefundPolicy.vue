@@ -31,6 +31,10 @@
     <p class="text-gray-600 mb-4">
       Certains articles ne peuvent pas être retournés, tels que les cartes cadeaux, les produits logiciels téléchargeables, et certains articles de santé et de soins personnels.
     </p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Paiements</h2>
+    <p class="text-gray-600 mb-4">
+      Les remboursements pour les paiements effectués via Stripe et PayPal seront traités selon les politiques de remboursement de ces services. Veuillez noter que les délais de traitement peuvent varier en fonction de la méthode de paiement utilisée.
+    </p>
   </div>
 </template>
 

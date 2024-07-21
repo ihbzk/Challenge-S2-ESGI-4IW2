@@ -27,7 +27,7 @@
     </p>
     <h2 class="text-indigo-600 text-xl mt-6 mb-4">Divulgation à des tiers</h2>
     <p class="text-gray-600 mb-4">
-      Nous ne vendons, n'échangeons et ne transférons pas vos informations personnelles identifiables à des tiers. Cela ne comprend pas les tierce parties de confiance qui nous aident à exploiter notre site Web ou à mener nos affaires, tant que ces parties conviennent de garder ces informations confidentielles.
+      Nous ne vendons, n'échangeons et ne transférons pas vos informations personnelles identifiables à des tiers. Cela ne comprend pas les tierce parties de confiance qui nous aident à exploiter notre site Web ou à mener nos affaires, tant que ces parties conviennent de garder ces informations confidentielles. Nous utilisons Stripe et PayPal pour le traitement des paiements. Ces tiers ont leurs propres politiques de confidentialité concernant les informations que nous sommes tenus de leur fournir pour les transactions liées à vos achats.
     </p>
     <h2 class="text-indigo-600 text-xl mt-6 mb-4">Protection des informations</h2>
     <p class="text-gray-600 mb-4">

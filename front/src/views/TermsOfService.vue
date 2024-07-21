@@ -33,6 +33,10 @@
     <p class="text-gray-600 mb-4">
       Les liens hypertextes mis en place dans le cadre du présent site internet en direction d'autres ressources présentes sur le réseau Internet ne sauraient engager la responsabilité de InformaCart.
     </p>
+    <h2 class="text-indigo-600 text-xl mt-6 mb-4">Paiements</h2>
+    <p class="text-gray-600 mb-4">
+      Les paiements sur notre site sont sécurisés et peuvent être effectués via Stripe et PayPal. En utilisant ces services, vous acceptez leurs conditions d'utilisation et politiques de confidentialité respectives.
+    </p>
   </div>
 </template>
 
