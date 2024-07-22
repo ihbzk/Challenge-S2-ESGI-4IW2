@@ -5,7 +5,7 @@ import stripe from '../src/config/stripe';
 vi.mock('../src/config/stripe');
 
 describe('createPaymentIntent', () => {
-    it('should create a payment intent and return client secret', async () => {
+    it('devrait créer une intention de paiement et retourner le secret client', async () => {
         const req = {
             body: {
                 amount: 1000,
@@ -30,7 +30,7 @@ describe('createPaymentIntent', () => {
         });
     });
 
-    it('should handle errors', async () => {
+    it('devrait gérer les erreurs', async () => {
         const req = {
             body: {
                 amount: 1000,

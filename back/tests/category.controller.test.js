@@ -6,8 +6,8 @@ import Product from '../src/models/product.model';
 vi.mock('../src/models/category.model');
 vi.mock('../src/models/product.model');
 
-describe('Category Controller', () => {
-    it('should create a category', async () => {
+describe('Contrôleur de Catégorie', () => {
+    it('devrait créer une catégorie', async () => {
         const req = { body: { name: 'Test Category' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -19,7 +19,7 @@ describe('Category Controller', () => {
         expect(res.json).toHaveBeenCalledWith(req.body);
     });
 
-    it('should get all categories', async () => {
+    it('devrait obtenir toutes les catégories', async () => {
         const req = {};
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -32,7 +32,7 @@ describe('Category Controller', () => {
         expect(res.json).toHaveBeenCalledWith(categories);
     });
 
-    it('should get a category by id', async () => {
+    it('devrait obtenir une catégorie par id', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -45,7 +45,7 @@ describe('Category Controller', () => {
         expect(res.json).toHaveBeenCalledWith(category);
     });
 
-    it('should update a category by id', async () => {
+    it('devrait mettre à jour une catégorie par id', async () => {
         const req = { params: { id: 1 }, body: { name: 'Updated Category' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -59,7 +59,7 @@ describe('Category Controller', () => {
         expect(res.json).toHaveBeenCalledWith(category);
     });
 
-    it('should delete a category by id', async () => {
+    it('devrait supprimer une catégorie par id', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), end: vi.fn() };
 
@@ -73,7 +73,7 @@ describe('Category Controller', () => {
         expect(res.end).toHaveBeenCalled();
     });
 
-    it('should get products by category id', async () => {
+    it('devrait obtenir les produits par id de catégorie', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 

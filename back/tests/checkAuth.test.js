@@ -8,8 +8,8 @@ vi.mock('jsonwebtoken');
 vi.mock('../src/models/user.model');
 vi.mock('../src/middlewares/blacklistedTokens');
 
-describe('checkAuth middleware', () => {
-    it('should return 401 if no authorization header is present', async () => {
+describe('middleware checkAuth', () => {
+    it('devrait retourner 401 si aucun en-tête d’autorisation n’est présent', async () => {
         const req = { headers: {} };
         const res = { sendStatus: vi.fn() };
         const next = vi.fn();
@@ -20,7 +20,7 @@ describe('checkAuth middleware', () => {
         expect(next).not.toHaveBeenCalled();
     });
 
-    it('should return 401 if authorization type is not Bearer', async () => {
+    it('devrait retourner 401 si le type d’autorisation n’est pas Bearer', async () => {
         const req = { headers: { authorization: 'Basic token' } };
         const res = { sendStatus: vi.fn() };
         const next = vi.fn();
@@ -31,7 +31,7 @@ describe('checkAuth middleware', () => {
         expect(next).not.toHaveBeenCalled();
     });
 
-    it('should return 403 if token is blacklisted', async () => {
+    it('devrait retourner 403 si le jeton est sur liste noire', async () => {
         const req = { headers: { authorization: 'Bearer token' } };
         const res = { sendStatus: vi.fn() };
         const next = vi.fn();
@@ -44,7 +44,7 @@ describe('checkAuth middleware', () => {
         expect(next).not.toHaveBeenCalled();
     });
 
-    it('should return 401 if token verification fails', async () => {
+    it('devrait retourner 401 si la vérification du jeton échoue', async () => {
         const req = { headers: { authorization: 'Bearer token' } };
         const res = { sendStatus: vi.fn() };
         const next = vi.fn();
@@ -58,7 +58,7 @@ describe('checkAuth middleware', () => {
         expect(next).not.toHaveBeenCalled();
     });
 
-    it('should set req.user and call next if token is valid', async () => {
+    it('devrait définir req.user et appeler next si le jeton est valide', async () => {
         const req = { headers: { authorization: 'Bearer token' } };
         const res = { sendStatus: vi.fn() };
         const next = vi.fn();

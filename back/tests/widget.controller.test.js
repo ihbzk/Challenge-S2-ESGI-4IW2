@@ -4,8 +4,8 @@ import Widget from '../src/models/widget.model';
 
 vi.mock('../src/models/widget.model');
 
-describe('Widget Controller', () => {
-    it('should create a widget', async () => {
+describe('Contrôleur de Widget', () => {
+    it('devrait créer un widget', async () => {
         const req = { body: { title: 'Test Widget' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -17,7 +17,7 @@ describe('Widget Controller', () => {
         expect(res.json).toHaveBeenCalledWith(req.body);
     });
 
-    it('should update a widget', async () => {
+    it('devrait mettre à jour un widget', async () => {
         const req = { params: { id: 1 }, body: { title: 'Updated Widget' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -31,7 +31,7 @@ describe('Widget Controller', () => {
         expect(res.json).toHaveBeenCalledWith(widget);
     });
 
-    it('should delete a widget', async () => {
+    it('devrait supprimer un widget', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), end: vi.fn() };
 
@@ -45,7 +45,7 @@ describe('Widget Controller', () => {
         expect(res.end).toHaveBeenCalled();
     });
 
-    it('should get all widgets', async () => {
+    it('devrait obtenir tous les widgets', async () => {
         const req = {};
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
         const widgets = [{ title: 'Widget1' }, { title: 'Widget2' }];

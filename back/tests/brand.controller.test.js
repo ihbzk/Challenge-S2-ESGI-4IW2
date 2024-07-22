@@ -6,8 +6,8 @@ import Product from '../src/models/product.model';
 vi.mock('../src/models/brand.model');
 vi.mock('../src/models/product.model');
 
-describe('Brand Controller', () => {
-    it('should create a brand', async () => {
+describe('Contrôleur de Marque', () => {
+    it('devrait créer une marque', async () => {
         const req = { body: { name: 'Test Brand' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -19,7 +19,7 @@ describe('Brand Controller', () => {
         expect(res.json).toHaveBeenCalledWith(req.body);
     });
 
-    it('should get all brands', async () => {
+    it('devrait obtenir toutes les marques', async () => {
         const req = {};
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -32,7 +32,7 @@ describe('Brand Controller', () => {
         expect(res.json).toHaveBeenCalledWith(brands);
     });
 
-    it('should get a brand by id', async () => {
+    it('devrait obtenir une marque par id', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -45,7 +45,7 @@ describe('Brand Controller', () => {
         expect(res.json).toHaveBeenCalledWith(brand);
     });
 
-    it('should update a brand by id', async () => {
+    it('devrait mettre à jour une marque par id', async () => {
         const req = { params: { id: 1 }, body: { name: 'Updated Brand' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -59,7 +59,7 @@ describe('Brand Controller', () => {
         expect(res.json).toHaveBeenCalledWith(brand);
     });
 
-    it('should delete a brand by id', async () => {
+    it('devrait supprimer une marque par id', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), end: vi.fn(), json: vi.fn() };
 
