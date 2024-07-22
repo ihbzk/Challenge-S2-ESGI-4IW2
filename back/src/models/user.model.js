@@ -27,6 +27,23 @@ class User extends Model {
 
         await this.update(updates);
     }
+
+    async anonymize() {
+        await this.update({
+            firstname: 'Anonymized',
+            lastname: 'User',
+            email: `anonymized_${this.id}@example.com`,
+            password: null,
+            role: 'ROLE_USER',
+            isConfirmed: false,
+            loginAttempts: 0,
+            lockUntil: null,
+            resetPasswordToken: null,
+            resetPasswordExpires: null,
+            confirmationToken: null,
+            lastPasswordModificationDate: null,
+        });
+    }
 }
 
 // Définition du modèle User

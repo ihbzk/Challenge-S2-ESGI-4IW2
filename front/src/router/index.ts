@@ -18,6 +18,7 @@ import ProductList from '../views/ProductList.vue';
 import ProductDetail from '../views/ProductDetail.vue';
 import SearchResults from '../views/SearchResults.vue';
 import CategoryProducts from '../views/CategoryProducts.vue';
+import Profile from '../views/Profile.vue';
 
 // Import des pages légales
 import LegalMentions from '../views/LegalMentions.vue';
@@ -113,6 +114,12 @@ const routes: any = [
     path: '/delivery',
     name: 'Delivery',
     component: Delivery,
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
     meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
   },
   {

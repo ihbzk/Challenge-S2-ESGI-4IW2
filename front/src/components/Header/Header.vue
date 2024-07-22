@@ -93,7 +93,7 @@ const logout = async () => {
               Déconnexion
             </button>
             <span v-if="isAuthenticated" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
-            <router-link v-if="isAuthenticated" class="text-sm font-medium text-white hover:text-gray-100">
+            <router-link v-if="isAuthenticated" :to="{ name: 'Profile' }" class="text-sm font-medium text-white hover:text-gray-100">
               Mon compte
             </router-link>
             <span v-if="isAuthenticated && hasRole('ROLE_ADMIN')" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>

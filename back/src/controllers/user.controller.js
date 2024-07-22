@@ -355,10 +355,10 @@ exports.deleteUser = async (req, res) => {
         const user = await User.findByPk(id);
 
         if (!user) {
-            return res.status(404);
+            return res.status(404).json({ message: 'Utilisateur non trouvé' });
         }
 
-        await user.destroy();
+        await user.anonymize();
 
         res.status(204).end();
     } catch (error) {
