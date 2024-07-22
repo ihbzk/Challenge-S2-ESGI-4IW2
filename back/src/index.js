@@ -8,6 +8,9 @@ const paymentRoutes = require('./routes/payment.routes');
 const paypalRoutes = require('./routes/paypal.routes');
 const deliveryRoutes = require('./routes/delivery.routes');
 const widgetRoutes = require('./routes/widget.routes');
+const categoryRoutes = require('./routes/category.routes');
+const brandRoutes = require('./routes/brand.routes');
+const searchRoutes = require('./routes/search.routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -35,7 +38,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/', userRoutes);
 app.use('/', productRoutes);
+app.use('/', searchRoutes);
+app.use('/api/payments', paymentRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/paypal', paypalRoutes);
 app.use('/api/delivery', deliveryRoutes);
 app.use('/', widgetRoutes);
+app.use('/', categoryRoutes);
+app.use('/', brandRoutes);
+
+// Middleware de gestion des erreurs
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});

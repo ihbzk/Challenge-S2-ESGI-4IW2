@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { ProductCartInterface } from '@/interfaces'
 import { computed } from 'vue'
-import CartProductList from './CartProductList.vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   cart: ProductCartInterface[]
@@ -20,6 +20,11 @@ const totalPrice = computed(() =>
     return acc + product.price * product.quantity
   }, 0)
 )
+
+const router = useRouter()
+
+console.log('Props cart:', props.cart)
+console.log('Cart open:', props.cartOpen)
 </script>
 
 <template>
@@ -37,11 +42,11 @@ const totalPrice = computed(() =>
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                     <div class="flex items-start justify-between">
-                      <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
+                      <DialogTitle class="text-lg font-medium text-gray-900">Panier</DialogTitle>
                       <div class="ml-3 flex h-7 items-center">
                         <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="$emit('close-cart')">
                           <span class="absolute -inset-0.5" />
-                          <span class="sr-only">Close panel</span>
+                          <span class="sr-only">Fermer le panneau</span>
                           <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                         </button>
                       </div>
@@ -52,24 +57,24 @@ const totalPrice = computed(() =>
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
                           <li v-for="product in props.cart" :key="product.id" class="flex py-6">
                             <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                              <img :src="product.image" alt="product.title" class="h-full w-full object-cover object-center" />
+                              <img :src="product.illustration" alt="product.productName" class="h-full w-full object-cover object-center" />
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
                               <div>
                                 <div class="flex justify-between text-base font-medium text-gray-900">
                                   <h3>
-                                    <a>{{ product.title }}</a>
+                                    <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }">{{ product.productName }}</router-link>
                                   </h3>
                                   <p class="ml-4">{{ product.price }}€</p>
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">{{ product.description }}</p>
                               </div>
                               <div class="flex flex-1 items-end justify-between text-sm">
-                                <p class="text-gray-500">Qty {{ product.quantity }}</p>
+                                <p class="text-gray-500">Qté {{ product.quantity }}</p>
 
                                 <div class="flex">
-                                  <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="$emit('removeProductFromCart', product.id)">Remove</button>
+                                  <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="$emit('removeProductFromCart', product.id)">Supprimer</button>
                                 </div>
                               </div>
                             </div>
@@ -81,18 +86,18 @@ const totalPrice = computed(() =>
 
                   <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                     <div class="flex justify-between text-base font-medium text-gray-900">
-                      <p>Subtotal</p>
+                      <p>Sous-total</p>
                       <p>{{ totalPrice }}€</p>
                     </div>
-                    <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                    <p class="mt-0.5 text-sm text-gray-500">Les frais de port et les taxes sont calculés lors du paiement.</p>
                     <div class="mt-6">
-                      <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
+                      <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Passer à la caisse</a>
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
-                        or
+                        ou
                         <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="$emit('close-cart')">
-                          Continue Shopping
+                          Continuer vos achats
                           <span aria-hidden="true"> &rarr;</span>
                         </button>
                       </p>

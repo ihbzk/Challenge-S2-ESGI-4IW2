@@ -22,6 +22,12 @@
             <router-link :to="{ name: 'Products' }" class="block py-2 px-4 hover:bg-gray-700">Produits</router-link>
           </li>
           <li>
+            <router-link :to="{ name: 'Categories' }" class="block py-2 px-4 hover:bg-gray-700">Catégories de produits</router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'Brands' }" class="block py-2 px-4 hover:bg-gray-700">Marques de produits</router-link>
+          </li>
+          <li>
             <router-link :to="{ name: 'Settings' }" class="block py-2 px-4 hover:bg-gray-700">Paramètres</router-link>
           </li>
         </ul>
