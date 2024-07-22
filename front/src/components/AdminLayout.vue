@@ -1,5 +1,6 @@
 <template>
-  <div class="min-h-screen flex">
+  <main>
+    <div class="min-h-screen flex">
     <!-- Sidebar -->
     <aside :class="['flex flex-col justify-between fixed inset-y-0 left-0 transform bg-gray-800 text-white overflow-y-auto transition-transform duration-300 lg:static lg:transform-none lg:translate-x-0', { '-translate-x-full': !isSidebarOpen }]" @click.away="isSidebarOpen = false">
       <div class="p-4 flex justify-between items-center lg:justify-center">
@@ -52,6 +53,7 @@
       </main>
     </div>
   </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -67,7 +69,7 @@
 
   const logout = async () => {
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
             method: 'POST',
             headers: {

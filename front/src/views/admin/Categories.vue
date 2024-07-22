@@ -17,7 +17,7 @@ const errors = ref({});
 
 const getCategories = async () => {
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`, {
             method: 'GET',
             headers: {
@@ -49,7 +49,7 @@ const createCategory = async () => {
     }
 
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`, {
             method: 'POST',
@@ -89,7 +89,7 @@ const updateCategory = async () => {
     }
 
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const categoryId = editingCategory.value.id;
 
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories/${categoryId}`, {
@@ -124,7 +124,7 @@ const confirmDeleteCategory = (index) => {
 const deleteCategory = async () => {
     if (categoryToDelete.value !== null) {
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             const categoryId = categories.value[categoryToDelete.value].id;
 
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories/${categoryId}`, {

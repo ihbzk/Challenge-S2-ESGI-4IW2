@@ -244,7 +244,7 @@
         }
 
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets`, {
                 method: 'POST',
@@ -294,7 +294,7 @@
     // Fonction pour mettre à jour un widget existant
     const updateWidget = async (widget) => {
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets/${widget.id}`, {
             method: 'PUT',
@@ -318,7 +318,7 @@
     // Fonction pour supprimer un widget
     const deleteWidget = async (widgetId) => {
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets/${widgetId}`, {
             method: 'DELETE',
@@ -346,7 +346,7 @@
     // Fonction pour récupérer la liste des widgets depuis le backend
     const getWidgets = async () => {
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets`, {
                 headers: {
                     'method': 'GET',
@@ -375,7 +375,7 @@
     // Fonction pour récupérer la liste des utilisateurs depuis le backend
     const getUsers = async () => {
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users`, {
                 headers: {
                     'method': 'GET',
@@ -403,7 +403,7 @@
     // Fonction pour récupérer la liste des produits depuis le backend
     const getProducts = async () => {
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products`, {
                 headers: {
                     'method': 'GET',

@@ -52,7 +52,7 @@ onMounted(async () => {
 
 const logout = async () => {
     try {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
             method: 'POST',
             headers: {
@@ -93,7 +93,7 @@ const logout = async () => {
               Déconnexion
             </button>
             <span v-if="isAuthenticated" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
-            <router-link v-if="isAuthenticated" :to="{ name: 'Profile' }" class="text-sm font-medium text-white hover:text-gray-100">
+            <router-link v-if="isAuthenticated" :to="{ name: 'AccountLayout' }" class="text-sm font-medium text-white hover:text-gray-100">
               Mon compte
             </router-link>
             <span v-if="isAuthenticated && hasRole('ROLE_ADMIN')" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
@@ -177,7 +177,7 @@ const logout = async () => {
               </div>
               <span class="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true"></span>
               <div class="flex items-center">
-                <router-link :to="{ name: 'Login' }" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                <router-link :to="{ name: 'AccountLayout' }" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
                   <span class="sr-only">Account</span>
                   <UserIcon class="h-6 w-6" aria-hidden="true" />
                 </router-link>

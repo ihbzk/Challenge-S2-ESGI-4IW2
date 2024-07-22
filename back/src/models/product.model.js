@@ -1,9 +1,5 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
-const dotenv = require('dotenv').config({ path: './.env.local' });
-
-const sequelize = new Sequelize(process.env.POSTGRES_URI);
-const Category = require('./category.model');
-const Brand = require('./brand.model');
+const { DataTypes, Model, Sequelize } = require('sequelize');
+const sequelize = require('./database'); // Import the sequelize instance
 
 class Product extends Model {}
 
@@ -43,17 +39,5 @@ Product.init({
     sequelize,
     modelName: 'Product',
 });
-
-Product.belongsTo(Category, { foreignKey: 'categoryId' });
-Product.belongsTo(Brand, { foreignKey: 'brandId' });
-
-(async () => {
-    try {
-        await sequelize.authenticate();
-        await sequelize.sync();
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-})();
 
 module.exports = Product;

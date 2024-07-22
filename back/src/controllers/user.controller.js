@@ -355,7 +355,7 @@ exports.deleteUser = async (req, res) => {
         const user = await User.findByPk(id);
 
         if (!user) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé' });
+            return res.status(404);
         }
 
         await user.anonymize();
@@ -418,6 +418,7 @@ exports.me = async (req, res) => {
 
         // Retourner les données de l'utilisateur
         res.status(200).json({
+            id: user.id,
             email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,

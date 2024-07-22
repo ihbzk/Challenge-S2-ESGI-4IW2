@@ -1,3 +1,4 @@
+// useAuth.ts
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -5,7 +6,7 @@ const isAuthenticated = ref<boolean>(false);
 const authToken = ref<string>('');
 const message = ref<string>('');
 const isError = ref<boolean>(false);
-const userRole = ref<string>('');
+const user = ref<User | null>(null); // Stocker l'objet utilisateur complet
 let intervalId: number | null = null;
 
 const checkAuth = async (): Promise<void> => {
@@ -14,6 +15,7 @@ const checkAuth = async (): Promise<void> => {
 
         if (!storedToken) {
             isAuthenticated.value = false;
+            user.value = null;
             return;
         }
 
@@ -31,7 +33,13 @@ const checkAuth = async (): Promise<void> => {
 
         const data = await response.json();
         isAuthenticated.value = true;
-        userRole.value = data.role;
+        user.value = {
+          id: data.id,
+          role: data.role,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          email: data.email,
+        };
         isError.value = false;
         message.value = '';
     } catch (error) {
@@ -45,6 +53,7 @@ const handleAuthError = (error: Error): void => {
     console.error('Échec de la vérification de l\'authentification', error);
     isAuthenticated.value = false;
     authToken.value = '';
+    user.value = null;
     localStorage.removeItem('authToken');
     sessionStorage.removeItem('authToken');
 };
@@ -67,6 +76,7 @@ const startAuthCheck = (): void => {
         checkAuth();
     } else {
         isAuthenticated.value = false;
+        user.value = null;
         router.push({ name: 'Login' });
     }
 
@@ -75,6 +85,7 @@ const startAuthCheck = (): void => {
 
         if (!storedToken) {
             isAuthenticated.value = false;
+            user.value = null;
             router.push({ name: 'Login' });
         } else {
             await checkAuth();
@@ -104,11 +115,11 @@ const initializeAuth = (): void => {
 };
 
 const hasRole = (requiredRole: string): boolean => {
-    return userRole.value === requiredRole;
+    return user.value?.role === requiredRole;
 };
 
 const hasAnyRole = (requiredRoles: string[]): boolean => {
-    return requiredRoles.includes(userRole.value);
+    return requiredRoles.includes(user.value?.role ?? '');
 };
 
 const useAuth = () => {
@@ -117,7 +128,7 @@ const useAuth = () => {
         authToken,
         message,
         isError,
-        userRole,
+        user,
         checkAuth,
         setAuthToken,
         initializeAuth,

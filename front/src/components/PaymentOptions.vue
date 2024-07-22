@@ -10,7 +10,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 
@@ -18,13 +17,12 @@ const stripe = ref(null);
 const elements = ref(null);
 const error = ref('');
 const clientSecret = ref('');
-const router = useRouter();
 
 onMounted(async () => {
   try {
     stripe.value = await loadStripe('pk_test_51PbKHAIwDc1XOowALUAMUSiEm7AvQkTkCp097tPeoq8Xl1N4ZfdjmJL979D8QUdnltcenf0cMHFECVtcn01tR90S00m3VtnWuV');
     const { data } = await axios.post('http://localhost:3000/api/payments/create-payment-intent', {
-      amount: 2000 // Montant en centimes
+      amount: Math.round(cartTotal.value * 100) // Montant en centimes
     });
     clientSecret.value = data.clientSecret;
     elements.value = stripe.value.elements();
@@ -42,7 +40,7 @@ const handleSubmit = async () => {
       payment_method: {
         card: elements.value.getElement('card'),
         billing_details: {
-          name: 'Utilisateur Test',
+          name: formData.value.firstName + ' ' + formData.value.lastName,
         },
       },
     });
@@ -52,10 +50,30 @@ const handleSubmit = async () => {
     } else {
       console.log('Paiement réussi', paymentIntent);
       error.value = '';
+
+      // Enregistrez la commande après paiement réussi
+      await submitOrder(paymentIntent.id);
     }
   } catch (err) {
     console.error('Erreur lors de la confirmation du paiement par carte:', err);
     error.value = 'Échec du paiement. Veuillez réessayer.';
+  }
+};
+
+const submitOrder = async (paymentIntentId) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/orders', {
+      userId: 'user-id-placeholder',
+      totalAmount: cartTotal.value,
+      paymentIntentId,
+      // Autres détails de la commande
+    });
+
+    if (response.status === 200) {
+      router.push('/confirmation'); // Redirigez vers une page de confirmation
+    }
+  } catch (err) {
+    console.error('Erreur lors de l\'enregistrement de la commande:', err);
   }
 };
 </script>

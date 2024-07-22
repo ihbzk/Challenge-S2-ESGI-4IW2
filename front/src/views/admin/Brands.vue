@@ -17,7 +17,7 @@ const errors = ref({});
 
 const getBrands = async () => {
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands`, {
             method: 'GET',
             headers: {
@@ -49,7 +49,7 @@ const createBrand = async () => {
     }
 
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands`, {
             method: 'POST',
@@ -89,7 +89,7 @@ const updateBrand = async () => {
     }
 
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const brandId = editingBrand.value.id;
 
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands/${brandId}`, {
@@ -124,7 +124,7 @@ const confirmDeleteBrand = (index) => {
 const deleteBrand = async () => {
   if (brandToDelete.value !== null) {
     try {
-      let authToken = localStorage.getItem('authToken');
+      let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
       const brandId = brands.value[brandToDelete.value].id;
 
       const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands/${brandId}`, {

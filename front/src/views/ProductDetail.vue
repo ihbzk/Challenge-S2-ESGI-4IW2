@@ -15,7 +15,7 @@ const state = reactive<{
     cart: []
 })
 
-const selectedColor = ref(null)
+const selectedColor = ref<ProductInterface['colors'][number] | null>(null)
 const route = useRoute()
 
 const products = ref<ProductInterface[]>([])
@@ -57,20 +57,20 @@ const fetchCategories = async () => {
 
 const cartOpen = ref(false)
 
-function addProductToCart(productId: number): void {
-    const product = state.product
-    if (product) {
-        const productInCart = state.cart.find((product) => product.id === productId)
-        if (productInCart) {
-            productInCart.quantity++
-        } else {
-            state.cart.push({ ...product, quantity: 1 })
-        }
+const addProductToCart = (productId: number) => {
+  const product = products.value.find(product => product.id === productId);
+  if (product) {
+    const productInCart = state.cart.find(product => product.id === productId);
+    if (productInCart) {
+      productInCart.quantity++;
+    } else {
+      state.cart.push({ ...product, quantity: 1 });
     }
-    cartOpen.value = true
-}
+    cartOpen.value = true;
+  }
+};
 
-function removeProductFromCart(productId: number): void {
+const removeProductFromCart = (productId: number): void => {
     const productFromCart = state.cart.find((product) => product.id === productId)
     if (productFromCart) {
         if (productFromCart.quantity === 1) {
@@ -160,7 +160,7 @@ onMounted(() => {
                                 </fieldset>
                             </div>
                             <div class="mt-10 flex">
-                                <button @click.prevent="addProductToCart(state.product.id)"
+                                <button @click.prevent="addProductToCart(state.product.id!)"
                                     class="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">Ajouter
                                     au panier</button>
                                 <button type="button"

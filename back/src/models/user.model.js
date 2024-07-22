@@ -4,7 +4,7 @@ const moment = require('moment');
 require('moment/locale/fr');
 moment.locale('fr');
 
-const sequelize = new Sequelize(process.env.POSTGRES_URI);
+const sequelize = require('./database');
 
 // Définition de la classe User
 class User extends Model {
@@ -78,7 +78,7 @@ User.init({
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false,      
+        allowNull: true,      
         validate: {
             len: {
                 args: [12],
@@ -129,18 +129,5 @@ User.init({
     sequelize,
     modelName: 'User',
 });
-
-// Synchronisation du modèle avec la base de données
-(async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection to PostgreSQL database successful');
-
-        await sequelize.sync();
-        console.log('Database synchronized');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-})();
 
 module.exports = User;

@@ -2,6 +2,9 @@ const express = require('express');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv').config({ path: './.env.local' });
 
+// cela permet de charger les modèles et de les associer
+const models = require('./models');
+
 const userRoutes = require('./routes/user.routes');
 const productRoutes = require('./routes/product.routes');
 const paymentRoutes = require('./routes/payment.routes');
@@ -11,6 +14,9 @@ const widgetRoutes = require('./routes/widget.routes');
 const categoryRoutes = require('./routes/category.routes');
 const brandRoutes = require('./routes/brand.routes');
 const searchRoutes = require('./routes/search.routes');
+const orderRoutes = require('./routes/order.routes');
+const orderProductRoutes = require('./routes/orderProduct.routes')
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -46,6 +52,8 @@ app.use('/api/delivery', deliveryRoutes);
 app.use('/', widgetRoutes);
 app.use('/', categoryRoutes);
 app.use('/', brandRoutes);
+app.use('/', orderRoutes);
+app.use('/', orderProductRoutes);
 
 // Middleware de gestion des erreurs
 app.use((err, req, res, next) => {
