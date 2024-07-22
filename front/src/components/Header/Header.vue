@@ -82,20 +82,25 @@ const logout = async () => {
             Livraison gratuite à partir de 100€ d'achat
           </p>
           <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-            <router-link :to="{ name: 'Register' }" class="text-sm font-medium text-white hover:text-gray-100">
+            <!-- Si l'utilisateur n'est pas authentifié, afficher les liens d'inscription et de connexion -->
+            <router-link v-if="!isAuthenticated" :to="{ name: 'Register' }" class="text-sm font-medium text-white hover:text-gray-100">
               Inscription
             </router-link>
-            <span class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
+            <span v-if="!isAuthenticated" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
             <router-link v-if="!isAuthenticated" :to="{ name: 'Login' }" class="text-sm font-medium text-white hover:text-gray-100">
               Connexion
             </router-link>
-            <button v-else @click="logout" class="text-sm font-medium text-white hover:text-gray-100">
+
+            <!-- Si l'utilisateur est authentifié, afficher le bouton de déconnexion et le lien vers le profil -->
+            <button v-if="isAuthenticated" @click="logout" class="text-sm font-medium text-white hover:text-gray-100">
               Déconnexion
             </button>
             <span v-if="isAuthenticated" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
             <router-link v-if="isAuthenticated" :to="{ name: 'Profile' }" class="text-sm font-medium text-white hover:text-gray-100">
               Mon compte
             </router-link>
+
+            <!-- Si l'utilisateur est authentifié et a le rôle d'administrateur, afficher le lien vers l'espace d'administration -->
             <span v-if="isAuthenticated && hasRole('ROLE_ADMIN')" class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
             <router-link v-if="isAuthenticated && hasRole('ROLE_ADMIN')" :to="{ name: 'AdminLayout' }" class="text-sm font-medium text-white hover:text-gray-100">
               Espace d'administration
