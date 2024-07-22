@@ -21,8 +21,22 @@ jobs:
       with:
         node-version: '16'
 
-    - name: Install dependencies
-      run: npm install
+    - name: Install backend dependencies
+      run: |
+        cd back
+        npm install
 
-    - name: Run tests
-      run: npm test
+    - name: Run backend tests
+      run: |
+        cd back
+        npm test
+
+    - name: Install frontend dependencies
+      run: |
+        cd front
+        npm install
+
+    - name: Run frontend tests
+      run: |
+        cd front
+        npm test
