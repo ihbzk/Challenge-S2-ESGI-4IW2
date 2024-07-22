@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "nodemon --legacy-watch --inspect=0.0.0.0 ./src/index.js",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "test": "vitest"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -25,5 +26,8 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.6.5",
     "stripe": "^16.2.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.4"
   }
 }
