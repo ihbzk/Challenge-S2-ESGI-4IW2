@@ -2,8 +2,9 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const dotenv = require('dotenv').config({ path: './.env.local' });
 
 const sequelize = new Sequelize(process.env.POSTGRES_URI);
+const Category = require('./category.model');
+const Brand = require('./brand.model');
 
-// Define the Product model
 class Product extends Model {}
 
 Product.init({
@@ -13,14 +14,6 @@ Product.init({
     },
     description: {
         type: DataTypes.TEXT,
-        allowNull: false
-    },
-    category: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    brand: {
-        type: DataTypes.STRING,
         allowNull: false
     },
     price: {
@@ -51,13 +44,13 @@ Product.init({
     modelName: 'Product',
 });
 
+Product.belongsTo(Category, { foreignKey: 'categoryId' });
+Product.belongsTo(Brand, { foreignKey: 'brandId' });
+
 (async () => {
     try {
         await sequelize.authenticate();
-        console.log('Connection to PostgreSQL database successful');
-
         await sequelize.sync();
-        console.log('Database synchronized');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }

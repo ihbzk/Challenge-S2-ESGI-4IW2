@@ -10,8 +10,14 @@ import Dashboard from '../views/admin/Dashboard.vue';
 import Users from '../views/admin/Users.vue';
 import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
+import Categories from '../views/admin/Categories.vue';
+import Brands from '../views/admin/Brands.vue';
 import PaymentOptions from '../views/PaymentOptions.vue';
 import Delivery from '../components/Delivery.vue';
+import ProductList from '../views/ProductList.vue';
+import ProductDetail from '../views/ProductDetail.vue';
+import SearchResults from '../views/SearchResults.vue';
+import CategoryProducts from '../views/CategoryProducts.vue';
 
 // Import des pages légales
 import LegalMentions from '../views/LegalMentions.vue';
@@ -83,6 +89,18 @@ const routes: any = [
         component: Settings,
         meta: { requiresAuth: true, roles: ['ROLE_ADMIN'] }
       },
+      {
+        path: 'categories',
+        name: 'Categories',
+        component: Categories,
+        meta: { requiresAuth: true, roles: ['ROLE_ADMIN'] }
+      },
+      {
+        path: 'brands',
+        name: 'Brands',
+        component: Brands,
+        meta: { requiresAuth: true, roles: ['ROLE_ADMIN'] }
+      },
     ]
   },
   {
@@ -121,6 +139,26 @@ const routes: any = [
     path: '/refund-policy',
     name: 'RefundPolicy',
     component: RefundPolicy
+  },
+  {
+    path: '/products',
+    name: 'ProductList',
+    component: ProductList,
+  },
+  {
+    path: '/products/:id',
+    name: 'ProductDetail',
+    component: ProductDetail,
+  },
+  {
+    path: '/search',
+    name: 'SearchResults',
+    component: SearchResults
+  },
+  {
+    path: '/category/:id',
+    name: 'CategoryProducts',
+    component: CategoryProducts
   },
 ];
 

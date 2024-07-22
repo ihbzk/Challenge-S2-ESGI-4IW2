@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { Dialog, DialogPanel, Popover, PopoverButton, PopoverGroup, PopoverPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { ref, computed, onMounted } from 'vue'
+import { Dialog, DialogPanel, PopoverGroup, TransitionChild, TransitionRoot, Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
 import Cart from '../Cart/Cart.vue'
+import SearchBar from '../SearchBar.vue'
+import { useSearchBar } from '../../composables/useSearchModal'
+import axios from 'axios'
+
+const { openSearchBar } = useSearchBar()
 import type { ProductCartInterface } from '@/interfaces'
 import useAuth from '@/composables/useAuth';
 
@@ -12,6 +16,9 @@ const { hasRole, hasAnyRole, isAuthenticated } = useAuth();
 const props = defineProps<{
   cart: ProductCartInterface[]
   cartOpen: boolean
+  products: ProductInterface[]
+  categories: CategoryInterface[]
+  brands: { id: number, name: string }[]
 }>()
 
 const emit = defineEmits<{
@@ -20,74 +27,9 @@ const emit = defineEmits<{
   (e: 'close-cart'): void
 }>()
 
-const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
-const navigation = {
-  categories: [
-    {
-      "name": "Femmes",
-      "featured": [
-        { "name": "Nuit", "href": "#" },
-        { "name": "Maillots de bain", "href": "#" },
-        { "name": "Sous-vêtements", "href": "#" }
-      ],
-      "collection": [
-        { "name": "Tout", "href": "#" },
-        { "name": "Essentiel", "href": "#" },
-        { "name": "Nouveautés", "href": "#" },
-        { "name": "Soldes", "href": "#" }
-      ],
-      "categories": [
-        { "name": "T-shirts basiques", "href": "#" },
-        { "name": "T-shirts artistiques", "href": "#" },
-        { "name": "Bas", "href": "#" },
-        { "name": "Sous-vêtements", "href": "#" },
-        { "name": "Accessoires", "href": "#" }
-      ],
-      "brands": [
-        { "name": "Full Nelson", "href": "#" },
-        { "name": "À ma façon", "href": "#" },
-        { "name": "Réarrangé", "href": "#" },
-        { "name": "Contrefaçon", "href": "#" },
-        { "name": "Significant Other", "href": "#" }
-      ]
-    },
-    {
-      "name": "Hommes",
-      "featured": [
-        { "name": "Décontracté", "href": "#" },
-        { "name": "Boxers", "href": "#" },
-        { "name": "Extérieur", "href": "#" }
-      ],
-      "collection": [
-        { "name": "Tout", "href": "#" },
-        { "name": "Essentiel", "href": "#" },
-        { "name": "Nouveautés", "href": "#" },
-        { "name": "Soldes", "href": "#" }
-      ],
-      "categories": [
-        { "name": "T-shirts artistiques", "href": "#" },
-        { "name": "Pantalons", "href": "#" },
-        { "name": "Accessoires", "href": "#" },
-        { "name": "Boxers", "href": "#" },
-        { "name": "T-shirts basiques", "href": "#" }
-      ],
-      "brands": [
-        { "name": "Significant Other", "href": "#" },
-        { "name": "À ma façon", "href": "#" },
-        { "name": "Contrefaçon", "href": "#" },
-        { "name": "Réarrangé", "href": "#" },
-        { "name": "Full Nelson", "href": "#" }
-      ]
-    },
-  ],
-  pages: [
-    { name: 'Produits', href: '#' },
-  ],
-}
-
 const mobileMenuOpen = ref(false)
-
-const cartItemCount = computed(() => props.cart.reduce((acc, product) => acc + product.quantity, 0))
+const selectedCategoryId = ref<number | null>(null)
+const cartItemCount = computed(() => (props.cart || []).reduce((acc, product) => acc + product.quantity, 0))
 
 const openCart = () => {
   emit('open-cart')
@@ -96,6 +38,17 @@ const openCart = () => {
 const closeCart = () => {
   emit('close-cart')
 }
+
+const categories = ref([])
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`);
+    categories.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+})
 
 const logout = async () => {
     try {
@@ -123,7 +76,6 @@ const logout = async () => {
 <template>
   <header class="z-10 fixed w-full">
     <nav aria-label="Top">
-      <!-- Top navigation -->
       <div class="bg-gray-900">
         <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <p class="flex-1 text-center text-sm font-medium text-white lg:flex-none">
@@ -151,125 +103,99 @@ const logout = async () => {
           </div>
         </div>
       </div>
-
-      <!-- Secondary navigation -->
       <div class="bg-white">
         <div class="border-b border-gray-200">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">
               <div class="hidden lg:flex lg:items-center">
-                <a href="/">
+                <router-link :to="{ name: 'Homepage' }">
                   <img src="../../assets/images/logo.svg" alt="InformaCart" class="h-10 w-auto">
-                </a>
-              </div>
-              <div class="hidden h-full lg:flex">
-                <PopoverGroup class="ml-8">
+                </router-link>
+                <PopoverGroup class="inset-x-0 bottom-0 px-4">
                   <div class="flex h-full justify-center space-x-8">
-                    <Popover v-for="(category, categoryIdx) in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
-                      <div class="relative flex">
-                        <PopoverButton :class="[open ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-800', 'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']">{{ category.name }}</PopoverButton>
-                      </div>
-                      <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100" leave-to-class="opacity-0">
-                        <PopoverPanel class="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
-                          <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true"></div>
-                          <div class="relative bg-white">
-                            <div class="mx-auto max-w-7xl px-8">
-                              <div class="grid grid-cols-2 items-start gap-x-8 gap-y-10 pb-12 pt-10">
-                                <div class="grid grid-cols-2 gap-x-8 gap-y-10">
-                                  <div>
-                                    <p :id="`desktop-featured-heading-${categoryIdx}`" class="font-medium text-gray-900">En vedette</p>
-                                    <ul role="list" :aria-labelledby="`desktop-featured-heading-${categoryIdx}`" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                      <li v-for="item in category.featured" :key="item.name" class="flex">
-                                        <a :href="item.href" class="hover:text-gray-800">{{ item.name }}</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div>
-                                    <p id="desktop-categories-heading" class="font-medium text-gray-900">Catégories</p>
-                                    <ul role="list" aria-labelledby="desktop-categories-heading" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                      <li v-for="item in category.categories" :key="item.name" class="flex">
-                                        <a :href="item.href" class="hover:text-gray-800">{{ item.name }}</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-x-8 gap-y-10">
-                                  <div>
-                                    <p id="desktop-collection-heading" class="font-medium text-gray-900">Collection</p>
-                                    <ul role="list" aria-labelledby="desktop-collection-heading" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                      <li v-for="item in category.collection" :key="item.name" class="flex">
-                                        <a :href="item.href" class="hover:text-gray-800">{{ item.name }}</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div>
-                                    <p id="desktop-brand-heading" class="font-medium text-gray-900">Marques</p>
-                                    <ul role="list" aria-labelledby="desktop-brand-heading" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                      <li v-for="item in category.brands" :key="item.name" class="flex">
-                                        <a :href="item.href" class="hover:text-gray-800">{{ item.name }}</a>
-                                      </li>
-                                    </ul>
+                    <Popover v-for="category in categories" :key="category.id" class="flex">
+                      <PopoverButton
+                        @click="selectedCategoryId = selectedCategoryId === category.id ? null : category.id"
+                        class="relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
+                        :class="selectedCategoryId === category.id ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-800'"
+                      >
+                        {{ category.name }}
+                      </PopoverButton>
+                      <TransitionRoot as="template" :show="selectedCategoryId === category.id">
+                        <TransitionChild
+                          as="div"
+                          enter="transition ease-out duration-150"
+                          enter-from="opacity-0"
+                          enter-to="opacity-100"
+                          leave="transition ease-in duration-150"
+                          leave-from="opacity-100"
+                          leave-to="opacity-0"
+                        >
+                          <PopoverPanel class="absolute inset-x-0 top-full text-sm text-gray-500">
+                            <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
+                            <div class="relative bg-white">
+                              <div class="mx-auto max-w-7xl px-8">
+                                <h2 class="text-4xl font-bold tracking-tight text-gray-900 py-16">{{ category.name }}</h2>
+                                <div class="grid grid-cols-4 gap-x-8 gap-y-10 pb-16">
+                                  <div v-for="product in props.products.filter(p => p.categoryId === category.id)" :key="product.id" class="group relative">
+                                    <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
+                                      <img :src="product.illustration" :alt="product.name" class="object-cover object-center" />
+                                    </div>
+                                    <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }" class="mt-4 block font-medium text-gray-900">
+                                      <span class="absolute inset-0 z-10" aria-hidden="true" />
+                                      {{ product.Brand?.name }} {{ product.productName }}
+                                    </router-link>
+                                    <p aria-hidden="true" class="mt-1">{{ product.price }} €</p>
+                                    <button @click="addProductToCart(product.id)" class="mt-6 flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 w-full">
+                                      Voir le produit
+                                    </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </PopoverPanel>
-                      </transition>
+                          </PopoverPanel>
+                        </TransitionChild>
+                      </TransitionRoot>
                     </Popover>
-                    <a v-for="page in navigation.pages" :key="page.name" :href="page.href" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{{ page.name }}</a>
                   </div>
                 </PopoverGroup>
               </div>
-              <!-- Mobile menu and search (lg-) -->
               <div class="flex flex-1 items-center lg:hidden">
                 <button type="button" class="-ml-2 rounded-md bg-white p-2 text-gray-400" @click="mobileMenuOpen = true">
                   <span class="sr-only">Open menu</span>
-                  <Bars3Icon class="h-6 w-6" aria-hidden="true"></Bars3Icon>
+                  <Bars3Icon class="h-6 w-6" aria-hidden="true" />
                 </button>
-                <!-- Search -->
-                <a href="#" class="ml-2 p-2 text-gray-400 hover:text-gray-500">
-                  <span class="sr-only">Search</span>
-                  <MagnifyingGlassIcon class="h-6 w-6" aria-hidden="true"></MagnifyingGlassIcon>
-                </a>
               </div>
-              <!-- Logo (lg-) -->
-              <a href="#" class="lg:hidden">
-                <img src="../assets/images/logo.svg" alt="InformaCart" class="h-8 w-auto">
-              </a>
-              <div class="flex flex-1 items-center justify-end">
-                <div class="flex items-center lg:ml-8">
-                  <div class="flex space-x-8">
-                    <div class="hidden lg:flex">
-                      <a href="#" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">Search</span>
-                        <MagnifyingGlassIcon class="h-6 w-6" aria-hidden="true"></MagnifyingGlassIcon>
-                      </a>
-                    </div>
-                    <div class="flex">
-                      <router-link :to="{ name: 'Login' }" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">Account</span>
-                        <UserIcon class="h-6 w-6" aria-hidden="true"></UserIcon>
-                      </router-link>
-                    </div>
-                  </div>
-                  <span class="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true"></span>
-                  <div class="flow-root">
-                    <button @click="openCart" class="group -m-2 flex items-center p-2">
-                      <ShoppingCartIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true"></ShoppingCartIcon>
-                      <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ cartItemCount }}</span>
-                      <span class="sr-only">items in cart, view bag</span>
-                    </button>
-                  </div>
-                </div>
+              <router-link :to="{ name: 'Homepage' }" class="lg:hidden">
+                <img src="../../assets/images/logo.svg" alt="InformaCart" class="h-8 w-auto">
+              </router-link>
+              <div class="flex flex-1 items-center justify-center lg:justify-end">
+                <button @click="openSearchBar" class="text-gray-400 hover:text-gray-500">
+                  <MagnifyingGlassIcon class="h-6 w-6" aria-hidden="true" />
+                  <span class="sr-only">Search</span>
+                </button>
+              </div>
+              <span class="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true"></span>
+              <div class="flex items-center">
+                <router-link :to="{ name: 'Login' }" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                  <span class="sr-only">Account</span>
+                  <UserIcon class="h-6 w-6" aria-hidden="true" />
+                </router-link>
+              </div>
+              <span class="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true"></span>
+              <div class="flow-root">
+                <button @click="openCart" class="group -m-2 flex items-center p-2">
+                  <ShoppingCartIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                  <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ cartItemCount }}</span>
+                  <span class="sr-only">items in cart, view bag</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </nav>
-    <!-- Cart -->
-    <TransitionRoot as="template" :show="cartOpen">
+    <TransitionRoot as="template" :show="props.cartOpen">
       <Dialog class="relative z-10" @close="closeCart">
         <TransitionChild as="template" enter="ease-in-out duration-500" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-500" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -279,7 +205,7 @@ const logout = async () => {
             <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
               <TransitionChild as="template" enter="transform transition ease-in-out duration-500 sm:duration-700" enter-from="translate-x-full" enter-to="translate-x-0" leave="transform transition ease-in-out duration-500 sm:duration-700" leave-from="translate-x-0" leave-to="translate-x-full">
                 <DialogPanel class="pointer-events-auto w-screen max-w-md">
-                  <Cart :cart="cart" @remove-product-from-cart="$emit('remove-product-from-cart', $event)" />
+                  <Cart :cart="props.cart || []" @remove-product-from-cart="$emit('remove-product-from-cart', $event)" />
                 </DialogPanel>
               </TransitionChild>
             </div>
@@ -288,8 +214,9 @@ const logout = async () => {
       </Dialog>
     </TransitionRoot>
   </header>
+  <SearchBar />
 </template>
 
 <style scoped lang="scss">
-  @use '../../assets/scss/base.scss' as *;
+@use '../../assets/scss/base.scss' as *;
 </style>

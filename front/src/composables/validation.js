@@ -67,12 +67,16 @@ export const resetPasswordSchema = z.object({
 export const productSchema = z.object({
     productName: z.string().min(1, { message: "Le nom du produit est obligatoire" }),
     description: z.string().min(1, { message: "La description est obligatoire" }),
-    category: z.string().min(1, { message: "La catégorie est obligatoire" }),
-    brand: z.string().min(1, { message: "La marque est obligatoire" }),
+    categoryId: z.number().int().min(1, { message: "La catégorie est obligatoire" }),
+    brandId: z.number().nonnegative('La marque est obligatoire'),
     price: z.number().min(0, { message: "Le prix doit être supérieur ou égal à 0" }),
     promotion: z.boolean(),
     stock: z.number().int().min(0, { message: "Le stock doit être un entier supérieur ou égal à 0" }),
     illustration: z.string().url({ message: "L'illustration doit être une URL valide" }),
+});
+
+export const categorySchema = z.object({
+  name: z.string().min(1, { message: "Le nom de la catégorie est obligatoire" }),
 });
 
 export const widgetSchema = z.object({
