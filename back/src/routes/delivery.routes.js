@@ -4,9 +4,9 @@ const router = express.Router();
 // Simuler l'obtention des options de livraison
 router.get('/options', (req, res) => {
     const deliveryOptions = [
-        { id: 1, name: 'Standard Delivery', price: 5.00, estimatedDays: 5 },
-        { id: 2, name: 'Express Delivery', price: 10.00, estimatedDays: 2 },
-        { id: 3, name: 'Next Day Delivery', price: 15.00, estimatedDays: 1 }
+        { id: 1, name: 'Livraison Standard', price: 5.00, estimatedDays: 5 },
+        { id: 2, name: 'Livraison Express', price: 10.00, estimatedDays: 2 },
+        { id: 3, name: 'Livraison le Jour Suivant', price: 15.00, estimatedDays: 1 }
     ];
     res.json(deliveryOptions);
 });
@@ -18,7 +18,7 @@ router.post('/create', (req, res) => {
 
     const deliveryResponse = {
         trackingNumber: trackingNumber,
-        status: 'Order created',
+        status: 'Commande créée',
         estimatedDeliveryDate: new Date(Date.now() + (optionId === 1 ? 5 : optionId === 2 ? 2 : 1) * 24 * 60 * 60 * 1000)
     };
     res.json(deliveryResponse);
@@ -29,7 +29,7 @@ router.get('/status/:trackingNumber', (req, res) => {
     const { trackingNumber } = req.params;
     const deliveryStatus = {
         trackingNumber: trackingNumber,
-        status: 'In transit',
+        status: 'En transit',
         estimatedDeliveryDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
     };
     res.json(deliveryStatus);
