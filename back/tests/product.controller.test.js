@@ -8,8 +8,8 @@ vi.mock('../src/models/product.model');
 vi.mock('../src/models/category.model');
 vi.mock('../src/models/brand.model');
 
-describe('Product Controller', () => {
-    it('should create a product', async () => {
+describe('Contrôleur de Produit', () => {
+    it('devrait créer un produit', async () => {
         const req = { body: { name: 'Test Product' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -21,7 +21,7 @@ describe('Product Controller', () => {
         expect(res.json).toHaveBeenCalledWith(req.body);
     });
 
-    it('should get all products', async () => {
+    it('devrait obtenir tous les produits', async () => {
         const req = {};
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -34,7 +34,7 @@ describe('Product Controller', () => {
         expect(res.json).toHaveBeenCalledWith(products);
     });
 
-    it('should get a product by id', async () => {
+    it('devrait obtenir un produit par id', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -47,7 +47,7 @@ describe('Product Controller', () => {
         expect(res.json).toHaveBeenCalledWith(product);
     });
 
-    it('should update a product by id', async () => {
+    it('devrait mettre à jour un produit par id', async () => {
         const req = { params: { id: 1 }, body: { name: 'Updated Product' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -61,7 +61,7 @@ describe('Product Controller', () => {
         expect(res.json).toHaveBeenCalledWith(product);
     });
 
-    it('should delete a product by id', async () => {
+    it('devrait supprimer un produit par id', async () => {
         const req = { params: { id: 1 } };
         const res = { status: vi.fn().mockReturnThis(), end: vi.fn() };
 
@@ -75,7 +75,7 @@ describe('Product Controller', () => {
         expect(res.end).toHaveBeenCalled();
     });
 
-    it('should update product stock', async () => {
+    it('devrait mettre à jour le stock du produit', async () => {
         const req = { body: { id: 1, stock: 10 } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -89,7 +89,7 @@ describe('Product Controller', () => {
         expect(res.json).toHaveBeenCalledWith(product);
     });
 
-    it('should update product promotion', async () => {
+    it('devrait mettre à jour la promotion du produit', async () => {
         const req = { body: { id: 1, promotion: 20 } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -103,7 +103,7 @@ describe('Product Controller', () => {
         expect(res.json).toHaveBeenCalledWith(product);
     });
 
-    it('should search products', async () => {
+    it('devrait rechercher des produits', async () => {
         const req = { query: { q: 'Test' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -116,7 +116,7 @@ describe('Product Controller', () => {
         expect(res.json).toHaveBeenCalledWith(products);
     });
 
-    it('should suggest products', async () => {
+    it('devrait suggérer des produits', async () => {
         const req = { query: { q: 'Test' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 

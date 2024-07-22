@@ -12,8 +12,8 @@ vi.mock('jsonwebtoken');
 vi.mock('crypto');
 vi.mock('../src/services/emailService');
 
-describe('User Controller', () => {
-    it('should login a user', async () => {
+describe('Contrôleur Utilisateur', () => {
+    it('devrait connecter un utilisateur', async () => {
         const req = { body: { email: 'test@example.com', password: 'password' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -28,7 +28,7 @@ describe('User Controller', () => {
         expect(res.json).toHaveBeenCalledWith({ authToken: 'token' });
     });
 
-    it('should register a user', async () => {
+    it('devrait enregistrer un utilisateur', async () => {
         const req = { body: { firstname: 'John', lastname: 'Doe', email: 'test@example.com', password: 'password' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -42,12 +42,12 @@ describe('User Controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.json).toHaveBeenCalledWith({
-            message: 'Inscription réussit avec succès. Veuillez vérifier votre email pour confirmer votre inscription.',
+            message: 'Inscription réussie avec succès. Veuillez vérifier votre email pour confirmer votre inscription.',
             verificationRequired: true
         });
     });
 
-    it('should confirm a user', async () => {
+    it('devrait confirmer un utilisateur', async () => {
         const req = { query: { token: 'token' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -61,7 +61,7 @@ describe('User Controller', () => {
         expect(res.json).toHaveBeenCalledWith({ message: 'Confirmation réussie' });
     });
 
-    it('should get user details', async () => {
+    it('devrait obtenir les détails de l’utilisateur', async () => {
         const req = { user: { id: 1 }, headers: { authorization: 'Bearer token' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -79,7 +79,7 @@ describe('User Controller', () => {
         });
     });
 
-    it('should logout a user', async () => {
+    it('devrait déconnecter un utilisateur', async () => {
         const req = { headers: { authorization: 'Bearer token' } };
         const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
