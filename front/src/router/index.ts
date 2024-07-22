@@ -12,13 +12,23 @@ import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
 import Categories from '../views/admin/Categories.vue';
 import Brands from '../views/admin/Brands.vue';
-import PaymentOptions from '../views/PaymentOptions.vue';
 import Delivery from '../components/Delivery.vue';
+import Checkout from '@/components/Checkout.vue';
+import Payment from '@/components/Payment.vue';
+import PayPalButton from '@/components/PayPalButton.vue';
+
+// Import des pages du compte utilisateur
+import AccountLayout from '../components/AccountLayout.vue';
+import AccountInfo from '../views/myaccount/AccountInfo.vue';
+import OrderHistory from '../views/myaccount/OrderHistory.vue';
+import BillingRequest from '../views/myaccount/BillingRequest.vue';
+import ReturnRequest from '../views/myaccount/ReturnRequest.vue';
+import Search from '../views/myaccount/Search.vue';
+import Reorder from '../views/myaccount/Reorder.vue';
 import ProductList from '../views/ProductList.vue';
 import ProductDetail from '../views/ProductDetail.vue';
 import SearchResults from '../views/SearchResults.vue';
 import CategoryProducts from '../views/CategoryProducts.vue';
-import Profile from '../views/Profile.vue';
 
 // Import des pages légales
 import LegalMentions from '../views/LegalMentions.vue';
@@ -28,7 +38,13 @@ import CookiePolicy from '../views/CookiePolicy.vue';
 import RefundPolicy from '../views/RefundPolicy.vue';
 import useAuth from '@/composables/useAuth';
 
-const routes: any = [
+const routes = [
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: Checkout,
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] }
+  },
   {
     path: '/',
     name: 'Homepage',
@@ -85,12 +101,6 @@ const routes: any = [
         meta: { requiresAuth: true, roles: ['ROLE_ADMIN'] }
       },
       {
-        path: 'settings',
-        name: 'Settings',
-        component: Settings,
-        meta: { requiresAuth: true, roles: ['ROLE_ADMIN'] }
-      },
-      {
         path: 'categories',
         name: 'Categories',
         component: Categories,
@@ -102,24 +112,44 @@ const routes: any = [
         component: Brands,
         meta: { requiresAuth: true, roles: ['ROLE_ADMIN'] }
       },
+      {
+        path: 'settings',
+        name: 'Settings',
+        component: Settings,
+        meta: { requiresAuth: true, roles: ['ROLE_ADMIN'] }
+      },
     ]
   },
   {
-    path: '/payment-options',
-    name: 'PaymentOptions',
-    component: PaymentOptions,
+    path: '/profile',
+    name: 'AccountLayout',
+    component: AccountLayout,
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] },
+    children: [
+      { path: 'info', name: 'AccountInfo', component: AccountInfo, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
+      { path: 'history', name: 'OrderHistory', component: OrderHistory, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
+      { path: 'billing', name: 'BillingRequest', component: BillingRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
+      { path: 'return', name: 'ReturnRequest', component: ReturnRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
+      { path: 'search', name: 'Search', component: Search, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
+      { path: 'reorder', name: 'Reorder', component: Reorder, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } }
+    ]
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    component: Payment,
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
+  },
+  {
+    path: '/paypal-payment',
+    name: 'PayPalPayment',
+    component: PayPalButton,
     meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
   },
   {
     path: '/delivery',
     name: 'Delivery',
     component: Delivery,
-    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile,
     meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
   },
   {

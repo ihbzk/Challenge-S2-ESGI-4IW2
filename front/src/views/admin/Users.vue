@@ -130,7 +130,7 @@
 
     const getUsers = async () => {
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users`, {
             method: 'GET',
             headers: {
@@ -169,7 +169,7 @@
     }
 
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users`, {
             method: 'POST',
@@ -219,7 +219,7 @@
     }
 
     try {
-        let authToken = localStorage.getItem('authToken');
+        let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const userId = editingUser.value.id;
 
         const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${userId}`, {
@@ -254,7 +254,7 @@
     const deleteUser = async () => {
     if (userToDelete.value !== null) {
         try {
-            let authToken = localStorage.getItem('authToken');
+            let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             const userId = users.value[userToDelete.value].id;
 
             const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${userId}`, {

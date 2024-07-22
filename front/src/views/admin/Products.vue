@@ -4,7 +4,7 @@ import Modal from '@/components/Modal.vue';
 import { ref, onMounted, computed } from 'vue';
 import { productSchema } from '@/composables/validation';
 
-const headers = ['Nom', 'Description', 'Catégorie', 'Marque', 'Prix', 'Promotion', 'Stock', 'Illustration', 'Actions'];
+const headers = ['Nom', 'Description', 'Catégorie', 'Marque', 'Prix', 'Promotion', 'Stock', 'Illustration'];
 const products = ref([]);
 const categories = ref([]);
 const brands = ref([]);
@@ -27,7 +27,7 @@ const errors = ref({});
 
 const getProducts = async () => {
   try {
-    let authToken = localStorage.getItem('authToken');
+    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products`, {
       method: 'GET',
       headers: {
@@ -59,7 +59,7 @@ const getProducts = async () => {
 
 const getCategories = async () => {
   try {
-    let authToken = localStorage.getItem('authToken');
+    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`, {
       method: 'GET',
       headers: {
@@ -84,7 +84,7 @@ const getCategories = async () => {
 
 const getBrands = async () => {
   try {
-    let authToken = localStorage.getItem('authToken');
+    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands`, {
       method: 'GET',
       headers: {
@@ -120,7 +120,7 @@ const createProduct = async () => {
   }
 
   try {
-    let authToken = localStorage.getItem('authToken');
+    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products`, {
       method: 'POST',
       headers: {
@@ -174,7 +174,7 @@ const updateProduct = async () => {
   }
 
   try {
-    let authToken = localStorage.getItem('authToken');
+    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     const productId = editingProduct.value.id;
 
     const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products/${productId}`, {
@@ -209,7 +209,7 @@ const confirmDeleteProduct = (index) => {
 const deleteProduct = async () => {
   if (productToDelete.value !== null) {
     try {
-      let authToken = localStorage.getItem('authToken');
+      let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
       const productId = products.value[productToDelete.value].id;
 
       const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products/${productId}`, {

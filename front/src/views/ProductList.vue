@@ -24,32 +24,27 @@ const mobileFiltersOpen = ref(false)
 const selectedSortOption = ref('Les plus populaires')
 
 function addProductToCart(productId: number): void {
-  console.log('Adding product to cart, ID:', productId)
-  const product = state.products.find((product) => product.id === productId)
-  if (product) {
-    console.log('Product found:', product)
-    const productInCart = state.cart.find((product) => product.id === productId)
-    if (productInCart) {
-      console.log('Product already in cart, increasing quantity')
-      productInCart.quantity++
-    } else {
-      console.log('Product not in cart, adding')
-      state.cart.push({ ...product, quantity: 1 })
+    const product = state.products.find(product => product.id === productId)
+    if (product) {
+        const productInCart = state.cart.find(product => product.id === productId)
+        if (productInCart) {
+            productInCart.quantity++
+        } else {
+            state.cart.push({ ...product, quantity: 1 })
+        }
+        cartOpen.value = true
     }
-    cartOpen.value = true
-    console.log('Current cart state:', state.cart)
-  }
 }
 
 function removeProductFromCart(productId: number): void {
-  const productFromCart = state.cart.find((product) => product.id === productId)
-  if (productFromCart) {
-    if (productFromCart.quantity === 1) {
-      state.cart = state.cart.filter((product) => product.id !== productId)
-    } else {
-      productFromCart.quantity--
+    const productFromCart = state.cart.find((product) => product.id === productId)
+    if (productFromCart) {
+        if (productFromCart.quantity === 1) {
+            state.cart = state.cart.filter((product) => product.id !== productId)
+        } else {
+            productFromCart.quantity--
+        }
     }
-  }
 }
 
 const cartEmpty = computed(() => state.cart.length === 0)
@@ -122,6 +117,7 @@ const sortProducts = (sortOption: string) => {
   }
 }
 </script>
+
 
 <template>
   <div class="bg-white">
