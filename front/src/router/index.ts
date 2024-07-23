@@ -12,10 +12,11 @@ import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
 import Categories from '../views/admin/Categories.vue';
 import Brands from '../views/admin/Brands.vue';
-import Delivery from '../components/Delivery.vue';
-import Checkout from '@/components/Checkout.vue';
-import Payment from '@/components/Payment.vue';
-import PayPalButton from '@/components/PayPalButton.vue';
+import Delivery from '../components/Payment/Delivery.vue';
+import Checkout from '@/components/Payment/Checkout.vue';
+import Payment from '@/components/Payment/Payment.vue';
+import PayPalButton from '@/components/Payment/PayPalButton.vue';
+import ConfirmationPage from '@/components/Payment/ConfirmationPage.vue';
 
 // Import des pages du compte utilisateur
 import AccountLayout from '../components/AccountLayout.vue';
@@ -31,6 +32,17 @@ import SearchResults from '../views/SearchResults.vue';
 import CategoryProducts from '../views/CategoryProducts.vue';
 
 // Import des pages légales
+import Contact from '../views/Contact.vue';
+import Shipping from '../views/Shipping.vue';
+import Returns from '../views/Returns.vue';
+import Warranty from '../views/Warranty.vue';
+import SecurePayments from '../views/SecurePayments.vue';
+import FAQ from '../views/FAQ.vue';
+import StoreLocator from '../views/StoreLocator.vue';
+import AboutUs from '../views/AboutUs.vue';
+import Sustainability from '../views/Sustainability.vue';
+import Press from '../views/Press.vue';
+import Careers from '../views/Careers.vue';
 import LegalMentions from '../views/LegalMentions.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
@@ -151,6 +163,66 @@ const routes = [
     name: 'Delivery',
     component: Delivery,
     meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } 
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: Contact
+  },
+  {
+    path: '/shipping',
+    name: 'Shipping',
+    component: Shipping
+  },
+  {
+    path: '/returns',
+    name: 'Returns',
+    component: Returns
+  },
+  {
+    path: '/warranty',
+    name: 'Warranty',
+    component: Warranty
+  },
+  {
+    path: '/secure-payments',
+    name: 'SecurePayments',
+    component: SecurePayments
+  },
+  {
+    path: '/faq',
+    name: 'FAQ',
+    component: FAQ
+  },
+  {
+    path: '/store-locator',
+    name: 'StoreLocator',
+    component: StoreLocator
+  },
+  {
+    path: '/about-us',
+    name: 'AboutUs',
+    component: AboutUs
+  },
+  {
+    path: '/sustainability',
+    name: 'Sustainability',
+    component: Sustainability
+  },
+  {
+    path: '/press',
+    name: 'Press',
+    component: Press
+  },
+  {
+    path: '/careers',
+    name: 'Careers',
+    component: Careers
+  },
+  {
+    path: '/confirmation',
+    name: 'ConfirmationPage',
+    component: ConfirmationPage
   },
   {
     path: '/legal-mentions',

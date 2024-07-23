@@ -10,6 +10,8 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
+const props = defineProps(['onPaymentSuccess', 'amount']);
+
 onMounted(() => {
   if (window.paypal) {
     window.paypal.Buttons({
@@ -17,7 +19,7 @@ onMounted(() => {
         return actions.order.create({
           purchase_units: [{
             amount: {
-              value: '20.00'
+              value: props.amount
             }
           }]
         });
@@ -25,7 +27,12 @@ onMounted(() => {
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
           alert('Transaction complétée par ' + details.payer.name.given_name);
-          router.push('/delivery'); // Redirection vers la page de livraison
+
+          // Appeler la fonction de succès de paiement
+          props.onPaymentSuccess(details);
+
+          // on redirige l'utilisateur vers une page de confirmation
+          router.push({ name: 'ConfirmationPage'});
         });
       },
       onError: function(err) {

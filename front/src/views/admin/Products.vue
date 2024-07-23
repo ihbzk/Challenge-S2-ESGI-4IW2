@@ -1,18 +1,30 @@
 <script setup>
-import Table from '@/components/Table.vue';
-import Modal from '@/components/Modal.vue';
-import { ref, onMounted, computed } from 'vue';
-import { productSchema } from '@/composables/validation';
+import axios from 'axios'
+import Modal from '@/components/Modal.vue'
+import DataTable from '@/components/Table/DataTable.vue'
+import { ref, onMounted, computed } from 'vue'
+import { productSchema } from '@/composables/validation'
 
-const headers = ['Nom', 'Description', 'Catégorie', 'Marque', 'Prix', 'Promotion', 'Stock', 'Illustration'];
-const products = ref([]);
-const categories = ref([]);
-const brands = ref([]);
-const isCreateModalOpen = ref(false);
-const isEditModalOpen = ref(false);
-const isDeleteModalOpen = ref(false);
-const productToDelete = ref(null);
+const productColumns = ref([
+  { key: 'id', label: 'Id', visible: true },
+  { key: 'productName', label: 'Nom', visible: true },
+  { key: 'description', label: 'Description', visible: true },
+  { key: 'category', label: 'Catégorie', visible: true },
+  { key: 'brand', label: 'Marque', visible: true },
+  { key: 'price', label: 'Prix', visible: true },
+  { key: 'promotion', label: 'Promotion', visible: true },
+  { key: 'stock', label: 'Stock', visible: true },
+  { key: 'illustration', label: 'Illustration', visible: true, isImage: true }
+])
+const products = ref([])
+const categories = ref([])
+const brands = ref([])
+const isCreateModalOpen = ref(false)
+const isEditModalOpen = ref(false)
+const isDeleteModalOpen = ref(false)
+const productToDelete = ref(null)
 const newProduct = ref({
+  id: null,
   productName: '',
   description: '',
   categoryId: null,
@@ -20,28 +32,23 @@ const newProduct = ref({
   price: '',
   promotion: false,
   stock: 0,
-  illustration: '',
-});
-const editingProduct = ref({});
-const errors = ref({});
+  illustration: ''
+})
+const editingProduct = ref({})
+const errors = ref({})
+const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
+const axiosInstance = axios.create({
+  baseURL: `${import.meta.env.VITE_API_URL}`,
+  headers: {
+    Authorization: `Bearer ${authToken}`,
+    'Content-Type': 'application/json'
+  }
+})
 
 const getProducts = async () => {
   try {
-    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Impossible de récupérer les produits');
-    }
-
-    const data = await response.json();
-    products.value = data.map(product => ({
+    const response = await axiosInstance.get('/products')
+    products.value = response.data.map((product) => ({
       id: product.id,
       productName: product.productName,
       description: product.description,
@@ -50,95 +57,50 @@ const getProducts = async () => {
       price: product.price,
       promotion: product.promotion,
       stock: product.stock,
-      illustration: product.illustration,
-    }));
+      illustration: product.illustration
+    }))
   } catch (error) {
-    console.error('Échec de la récupération des produits', error);
+    console.error('Échec de la récupération des produits', error)
   }
-};
+}
 
 const getCategories = async () => {
   try {
-    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Impossible de récupérer les catégories');
-    }
-
-    const data = await response.json();
-    categories.value = data.map(category => ({
+    const response = await axiosInstance.get('/categories')
+    categories.value = response.data.map((category) => ({
       id: category.id,
-      name: category.name,
-    }));
+      name: category.name
+    }))
   } catch (error) {
-    console.error('Échec de la récupération des catégories', error);
+    console.error('Échec de la récupération des catégories', error)
   }
-};
+}
 
 const getBrands = async () => {
   try {
-    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/brands`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Impossible de récupérer les marques');
-    }
-
-    const data = await response.json();
-    brands.value = data.map(brand => ({
+    const response = await axiosInstance.get('/brands')
+    brands.value = response.data.map((brand) => ({
       id: brand.id,
-      name: brand.name,
-    }));
+      name: brand.name
+    }))
   } catch (error) {
-    console.error('Échec de la récupération des marques', error);
+    console.error('Échec de la récupération des marques', error)
   }
-};
+}
 
 const createProduct = async () => {
-  errors.value = {};
-
-  const result = productSchema.safeParse(newProduct.value);
-
+  errors.value = {}
+  const result = productSchema.safeParse(newProduct.value)
   if (!result.success) {
     result.error.errors.forEach((e) => {
-      errors.value[e.path[0]] = e.message;
-    });
-    return;
+      errors.value[e.path[0]] = e.message
+    })
+    return
   }
 
   try {
-    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      },
-      body: JSON.stringify(newProduct.value),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Erreur lors de la création du produit:', errorData);
-      throw new Error('Erreur lors de la création du produit');
-    }
-
-    const createdProduct = await response.json();
-    products.value.push(createdProduct);
-
+    const response = await axiosInstance.post('/products', newProduct.value)
+    products.value.push(response.data)
     newProduct.value = {
       productName: '',
       description: '',
@@ -147,131 +109,146 @@ const createProduct = async () => {
       price: '',
       promotion: false,
       stock: 0,
-      illustration: '',
-    };
-    isCreateModalOpen.value = false;
+      illustration: ''
+    }
+    isCreateModalOpen.value = false
   } catch (error) {
-    errors.value.general = error.message;
-    console.error('Échec de la création du produit', error);
+    errors.value.general = error.message || 'Erreur lors de la création du produit'
+    console.error('Échec de la création du produit', error)
   }
-};
+}
 
-const editProduct = (index) => {
-  editingProduct.value = { ...products.value[index] };
-  isEditModalOpen.value = true;
-};
+const editProduct = (item) => {
+  editingProduct.value = { ...item }
+  isEditModalOpen.value = true
+}
 
 const updateProduct = async () => {
-  errors.value = {};
+  errors.value = {}
 
-  const result = productSchema.safeParse(editingProduct.value);
-
-  if (!result.success) {
-    result.error.errors.forEach((e) => {
-      errors.value[e.path[0]] = e.message;
-    });
-    return;
+  const validation = productSchema.safeParse(editingProduct.value)
+  if (!validation.success) {
+    validation.error.errors.forEach((e) => {
+      errors.value[e.path[0]] = e.message
+    })
+    return
   }
 
   try {
-    let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    const productId = editingProduct.value.id;
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/products/${productId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      },
-      body: JSON.stringify(editingProduct.value),
-    });
-
-    if (!response.ok) {
-      throw new Error('Erreur lors de la mise à jour du produit');
+    const response = await axiosInstance.put(
+      `/products/${editingProduct.value.id}`,
+      editingProduct.value
+    )
+    if (response.status === 200) {
+      const index = products.value.findIndex((product) => product.id === editingProduct.value.id)
+      products.value[index] = response.data
+      isEditModalOpen.value = false
+      errors.value = {}
+    } else {
+      throw new Error('Response status not OK')
     }
-
-    const updatedProduct = await response.json();
-    const index = products.value.findIndex(product => product.id === productId);
-    products.value[index] = updatedProduct;
-
-    isEditModalOpen.value = false;
   } catch (error) {
-    errors.value.general = error.message;
-    console.error('Échec de la mise à jour du produit', error);
+    console.error('Failed to update product:', error)
+    errors.value.general = error.response?.data?.message || 'Error updating product.'
   }
-};
+}
 
 const confirmDeleteProduct = (index) => {
-  productToDelete.value = index;
-  isDeleteModalOpen.value = true;
-};
+  productToDelete.value = [index]
+  isDeleteModalOpen.value = true
+}
+
+const deleteSelectedProducts = (selectedIds) => {
+  productToDelete.value = selectedIds
+  isDeleteModalOpen.value = true
+}
 
 const deleteProduct = async () => {
-  if (productToDelete.value !== null) {
+  if (productToDelete.value && productToDelete.value.length > 0) {
     try {
-      let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-      const productId = products.value[productToDelete.value].id;
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/products/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Erreur lors de la suppression du produit');
+      for (const productId of productToDelete.value) {
+        await axiosInstance.delete(`/products/${productId}`)
+        const index = products.value.findIndex((product) => product.id === productId)
+        if (index !== -1) {
+          products.value.splice(index, 1)
+        }
       }
-
-      products.value.splice(productToDelete.value, 1);
-      productToDelete.value = null;
-      isDeleteModalOpen.value = false;
+      productToDelete.value = []
+      isDeleteModalOpen.value = false
     } catch (error) {
-      console.error('Échec de la suppression du produit', error);
+      console.error('Failed to delete products', error)
     }
   }
-};
+}
 
 const formattedProducts = computed(() => {
-  return products.value.map(product => ({
+  return products.value.map((product) => ({
+    id: product.id,
     productName: product.productName,
     description: product.description,
-    category: categories.value.find(category => category.id === product.categoryId)?.name || 'Unknown',
-    brand: brands.value.find(brand => brand.id === product.brandId)?.name || 'Unknown',
+    category:
+      categories.value.find((category) => category.id === product.categoryId)?.name || 'Unknown',
+    brand: brands.value.find((brand) => brand.id === product.brandId)?.name || 'Unknown',
     price: product.price,
     promotion: product.promotion ? 'Oui' : 'Non',
     stock: product.stock,
-    illustration: `<img src="${product.illustration}" alt="${product.productName}" style="width: 100px; height: auto;" />`,
-  }));
-});
+    illustration: product.illustration
+  }))
+})
 
 onMounted(async () => {
-  await getProducts();
-  await getCategories();
-  await getBrands();
-});
+  await getProducts()
+  await getCategories()
+  await getBrands()
+})
 </script>
 
 <template>
   <div>
     <div class="flex justify-between items-center m-6">
       <h2 class="text-2xl font-semibold">Liste des produits</h2>
-      <button @click="isCreateModalOpen = true" class="px-4 py-2 bg-green-500 text-white rounded">Créer un
-        produit</button>
+      <button @click="isCreateModalOpen = true" class="px-4 py-2 bg-green-500 text-white rounded">
+        Créer un produit
+      </button>
     </div>
-    <Table :headers="headers" :rows="formattedProducts" @edit-row="editProduct" @delete-row="confirmDeleteProduct" />
-    <Modal v-if="isCreateModalOpen" :isOpen="isCreateModalOpen" title="Créer un produit" confirmText="Enregistrer"
-      @close="isCreateModalOpen = false" @confirm="createProduct">
+    <DataTable
+      :items="formattedProducts"
+      :columns="productColumns"
+      @edit-item="editProduct"
+      @delete-item="confirmDeleteProduct"
+      @delete-selected="deleteSelectedProducts"
+    />
+    <Modal
+      v-if="isCreateModalOpen"
+      :isOpen="isCreateModalOpen"
+      title="Créer un produit"
+      confirmText="Enregistrer"
+      @close="isCreateModalOpen = false"
+      @confirm="createProduct"
+    >
       <div>
         <label for="productName">Nom du produit :</label>
-        <input v-model="newProduct.productName" type="text" id="productName" class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="newProduct.productName"
+          type="text"
+          id="productName"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.productName" class="text-red-500">{{ errors.productName }}</div>
         <label for="description">Description :</label>
-        <input v-model="newProduct.description" type="text" id="description" class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="newProduct.description"
+          type="text"
+          id="description"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.description" class="text-red-500">{{ errors.description }}</div>
         <label for="category">Catégorie :</label>
-        <select v-model="newProduct.categoryId" id="category" class="border p-2 rounded mb-4 w-full">
+        <select
+          v-model="newProduct.categoryId"
+          id="category"
+          class="border p-2 rounded mb-4 w-full"
+        >
           <option v-for="category in categories" :key="category.id" :value="category.id">
             {{ category.name }}
           </option>
@@ -285,36 +262,73 @@ onMounted(async () => {
         </select>
         <div v-if="errors.brand" class="text-red-500">{{ errors.brand }}</div>
         <label for="price">Prix :</label>
-        <input v-model="newProduct.price" type="number" id="price" class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="newProduct.price"
+          type="number"
+          id="price"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.price" class="text-red-500">{{ errors.price }}</div>
         <label for="promotion">Promotion :</label>
-        <select v-model="newProduct.promotion" id="promotion" class="border p-2 rounded mb-4 w-full">
+        <select
+          v-model="newProduct.promotion"
+          id="promotion"
+          class="border p-2 rounded mb-4 w-full"
+        >
           <option :value="true">Oui</option>
           <option :value="false">Non</option>
         </select>
         <div v-if="errors.promotion" class="text-red-500">{{ errors.promotion }}</div>
         <label for="stock">Stock :</label>
-        <input v-model="newProduct.stock" type="number" id="stock" class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="newProduct.stock"
+          type="number"
+          id="stock"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.stock" class="text-red-500">{{ errors.stock }}</div>
         <label for="illustration">Illustration :</label>
-        <input v-model="newProduct.illustration" type="text" id="illustration" class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="newProduct.illustration"
+          type="text"
+          id="illustration"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.illustration" class="text-red-500">{{ errors.illustration }}</div>
         <div v-if="errors.general" class="text-red-500">{{ errors.general }}</div>
       </div>
     </Modal>
-    <Modal v-if="isEditModalOpen" :isOpen="isEditModalOpen" title="Modifier le produit" confirmText="Enregistrer"
-      @close="isEditModalOpen = false" @confirm="updateProduct">
+    <Modal
+      v-if="isEditModalOpen"
+      :isOpen="isEditModalOpen"
+      title="Modifier le produit"
+      confirmText="Enregistrer"
+      @close="isEditModalOpen = false"
+      @confirm="updateProduct"
+    >
       <div>
         <label for="productName">Nom du produit :</label>
-        <input v-model="editingProduct.productName" type="text" id="productName"
-          class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="editingProduct.productName"
+          type="text"
+          id="productName"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.productName" class="text-red-500">{{ errors.productName }}</div>
         <label for="description">Description :</label>
-        <input v-model="editingProduct.description" type="text" id="description"
-          class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="editingProduct.description"
+          type="text"
+          id="description"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.description" class="text-red-500">{{ errors.description }}</div>
         <label for="category">Catégorie :</label>
-        <select v-model="editingProduct.categoryId" id="category" class="border p-2 rounded mb-4 w-full">
+        <select
+          v-model="editingProduct.categoryId"
+          id="category"
+          class="border p-2 rounded mb-4 w-full"
+        >
           <option v-for="category in categories" :key="category.id" :value="category.id">
             {{ category.name }}
           </option>
@@ -328,26 +342,50 @@ onMounted(async () => {
         </select>
         <div v-if="errors.brand" class="text-red-500">{{ errors.brand }}</div>
         <label for="price">Prix :</label>
-        <input v-model="editingProduct.price" type="number" id="price" class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="editingProduct.price"
+          type="number"
+          id="price"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.price" class="text-red-500">{{ errors.price }}</div>
         <label for="promotion">Promotion :</label>
-        <select v-model="editingProduct.promotion" id="promotion" class="border p-2 rounded mb-4 w-full">
+        <select
+          v-model="editingProduct.promotion"
+          id="promotion"
+          class="border p-2 rounded mb-4 w-full"
+        >
           <option :value="true">Oui</option>
           <option :value="false">Non</option>
         </select>
         <div v-if="errors.promotion" class="text-red-500">{{ errors.promotion }}</div>
         <label for="stock">Stock :</label>
-        <input v-model="editingProduct.stock" type="number" id="stock" class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="editingProduct.stock"
+          type="number"
+          id="stock"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.stock" class="text-red-500">{{ errors.stock }}</div>
         <label for="illustration">Illustration :</label>
-        <input v-model="editingProduct.illustration" type="text" id="illustration"
-          class="border p-2 rounded mb-4 w-full" />
+        <input
+          v-model="editingProduct.illustration"
+          type="text"
+          id="illustration"
+          class="border p-2 rounded mb-4 w-full"
+        />
         <div v-if="errors.illustration" class="text-red-500">{{ errors.illustration }}</div>
         <div v-if="errors.general" class="text-red-500">{{ errors.general }}</div>
       </div>
     </Modal>
-    <Modal v-if="isDeleteModalOpen" :isOpen="isDeleteModalOpen" title="Confirmation de suppression"
-      confirmText="Supprimer" @close="isDeleteModalOpen = false" @confirm="deleteProduct">
+    <Modal
+      v-if="isDeleteModalOpen"
+      :isOpen="isDeleteModalOpen"
+      title="Confirmation de suppression"
+      confirmText="Supprimer"
+      @close="isDeleteModalOpen = false"
+      @confirm="deleteProduct"
+    >
       <p>Êtes-vous sûr de vouloir supprimer ce produit ?</p>
     </Modal>
   </div>

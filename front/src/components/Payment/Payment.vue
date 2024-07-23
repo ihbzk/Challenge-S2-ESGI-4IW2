@@ -12,6 +12,11 @@
 import { ref, onMounted } from 'vue';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const props = defineProps(['onPaymentSuccess', 'amount']);
 
 const stripe = ref(null);
 const elements = ref(null);
@@ -21,11 +26,12 @@ const clientSecret = ref('');
 onMounted(async () => {
   try {
     // Load Stripe.js
-    stripe.value = await loadStripe('pk_test_51PbKHAIwDc1XOowALUAMUSiEm7AvQkTkCp097tPeoq8Xl1N4ZfdjmJL979D8QUdnltcenf0cMHFECVtcn01tR90S00m3VtnWuV');
+    stripe.value = await loadStripe(`${import.meta.env.VITE_STRIPE_PUBLIC_KEY}`);
 
     // Fetch the client secret from the backend
     const { data } = await axios.post('http://localhost:3000/api/payments/create-payment-intent', {
-      amount: 2000 // replace with your desired amount in cents
+      // on convertit le montant en centimes
+      amount: props.amount * 100,
     });
     clientSecret.value = data.clientSecret;
 
@@ -57,6 +63,12 @@ const handleSubmit = async () => {
     } else {
       console.log('Payment successful', paymentIntent);
       error.value = '';
+
+      // on appelle la fonction de succès de paiement
+      props.onPaymentSuccess(paymentIntent);
+
+      // on redirige l'utilisateur vers la page de confirmation
+      router.push({ name: 'ConfirmationPage' });
     }
   } catch (err) {
     console.error('Error confirming card payment:', err);

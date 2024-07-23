@@ -4,17 +4,17 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Brands', [
       {
-        name: 'Nike',
+        name: 'Apple',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Adidas',
+        name: 'Microsoft',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Puma',
+        name: 'Google',
         createdAt: new Date(),
         updatedAt: new Date()
       }

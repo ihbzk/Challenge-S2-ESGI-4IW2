@@ -36,6 +36,26 @@ Product.init({
     illustration: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+    },
+    brandId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Brands',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     }
 }, {
     sequelize,
@@ -44,14 +64,5 @@ Product.init({
 
 Product.belongsTo(Category, { foreignKey: 'categoryId' });
 Product.belongsTo(Brand, { foreignKey: 'brandId' });
-
-(async () => {
-    try {
-        await sequelize.authenticate();
-        await sequelize.sync();
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-})();
 
 module.exports = Product;
