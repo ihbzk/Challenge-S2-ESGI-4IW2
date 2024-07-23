@@ -43,7 +43,7 @@ const categories = ref([])
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`);
+    const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/api/categories`);
     categories.value = response.data;
   } catch (error) {
     console.error(error);

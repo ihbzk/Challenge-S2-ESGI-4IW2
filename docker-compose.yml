@@ -16,7 +16,9 @@ services:
       - server
 
   server:
-    image: node:20.0.0-alpine
+    build:
+      context: ./back
+      dockerfile: Dockerfile
     user: node
     working_dir: /home/node
     entrypoint: ["sh", "-c"]
@@ -30,7 +32,7 @@ services:
     env_file:
       - .env.local
     volumes:
-      - ./back:/home/node
+      - ./back:/app
 
   mongodb:
     image: mongo:4.4.6
