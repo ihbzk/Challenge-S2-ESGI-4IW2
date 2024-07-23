@@ -4,6 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Products', [
       {
+        id: 1,
         productName: 'Laptop',
         description: 'High-performance laptop with 16GB RAM and 512GB SSD.',
         price: 1200.00,
@@ -15,6 +16,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        id: 2,
         productName: 'Smartphone',
         description: 'Latest model smartphone with advanced features.',
         price: 800.00,
@@ -26,6 +28,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        id: 3,
         productName: 'Headphones',
         description: 'Noise-cancelling headphones with Bluetooth connectivity.',
         price: 150.00,

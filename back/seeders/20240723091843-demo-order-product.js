@@ -6,8 +6,8 @@ module.exports = {
     await queryInterface.bulkInsert('OrderProducts', [
       {
         quantity: 3,
-        orderId: 1, // S'assurer que l'ID correspond à une commande existante dans la table Orders
-        productId: 1, // S'assurer que l'ID correspond à un produit existant dans la table Products
+        orderId: 1, // Ensure this matches an existing order ID
+        productId: 1, // Ensure this matches an existing product ID
         createdAt: new Date(),
         updatedAt: new Date()
       },
