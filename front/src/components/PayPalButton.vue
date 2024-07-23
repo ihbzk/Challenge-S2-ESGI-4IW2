@@ -25,7 +25,7 @@ onMounted(() => {
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
           alert('Transaction complétée par ' + details.payer.name.given_name);
-          
+          router.push('/delivery'); // Redirection vers la page de livraison
         });
       },
       onError: function(err) {

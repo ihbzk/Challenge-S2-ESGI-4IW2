@@ -18,9 +18,31 @@ exports.getAllOrders = async (req, res) => {
 };
 
 exports.createOrder = async (req, res) => {
-    const { userId, products, totalAmount, deliveryAddress, email } = req.body;
+    const { userId, products, deliveryAddress, email } = req.body;
 
     try {
+        // on récup les détails des produits depuis la base de données
+        const productIds = products.map(product => product.id);
+        const dbProducts = await Product.findAll({
+            where: {
+                id: productIds
+            }
+        });
+
+        if (dbProducts.length !== products.length) {
+            return res.status(400);
+        }
+
+        // on calcule le total de la commande en utilisant les prix actuels
+        let totalAmount = 0;
+        products.forEach(product => {
+            const dbProduct = dbProducts.find(p => p.id === product.id);
+            if (!dbProduct) {
+                throw new Error(`Le produit avec l'ID ${product.id} est introuvable.`);
+            }
+            totalAmount += dbProduct.price * product.quantity;
+        });
+
         const order = await Order.create({
             userId,
             totalAmount,
@@ -31,6 +53,7 @@ exports.createOrder = async (req, res) => {
             shippingCountry: deliveryAddress.pays,
         });
 
+        // on crée les entrées dans la table de jointure
         await Promise.all(products.map(async (product) => {
             await OrderProduct.create({
                 orderId: order.id,
@@ -54,7 +77,7 @@ exports.getOrderById = async (req, res) => {
             ]
         });
 
-        if (!order) return res.status(404).json({ message: 'Order not found' });
+        if (!order) return res.status(404);
 
         res.json(order);
     } catch (error) {
@@ -66,7 +89,7 @@ exports.updateOrder = async (req, res) => {
     try {
         const order = await Order.findByPk(req.params.id);
 
-        if (!order) return res.status(404).json({ message: 'Order not found' });
+        if (!order) return res.status(404);
 
         await order.update(req.body);
 
@@ -80,7 +103,7 @@ exports.deleteOrder = async (req, res) => {
     try {
         const order = await Order.findByPk(req.params.id);
 
-        if (!order) return res.status(404).json({ message: 'Order not found' });
+        if (!order) return res.status(404);
 
         await order.destroy();
 

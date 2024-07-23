@@ -181,6 +181,7 @@ const submitOrder = async () => {
 
     const order = await response.json();
     alert('Order submitted!');
+    sessionStorage.removeItem('cart');
     console.log(order);
   } catch (error) {
     alert('Failed to submit order');

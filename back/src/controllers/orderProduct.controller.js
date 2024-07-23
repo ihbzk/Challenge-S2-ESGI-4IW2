@@ -30,7 +30,7 @@ exports.getOrderProductById = async (req, res) => {
         const orderProduct = await OrderProduct.findByPk(req.params.id, {
             include: [Order, Product]
         });
-        if (!orderProduct) return res.status(404).json({ message: 'OrderProduct not found' });
+        if (!orderProduct) return res.status(404);
         res.json(orderProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -40,7 +40,7 @@ exports.getOrderProductById = async (req, res) => {
 exports.updateOrderProduct = async (req, res) => {
     try {
         const orderProduct = await OrderProduct.findByPk(req.params.id);
-        if (!orderProduct) return res.status(404).json({ message: 'OrderProduct not found' });
+        if (!orderProduct) return res.status(404);
 
         await orderProduct.update(req.body);
         res.json(orderProduct);
@@ -52,7 +52,7 @@ exports.updateOrderProduct = async (req, res) => {
 exports.deleteOrderProduct = async (req, res) => {
     try {
         const orderProduct = await OrderProduct.findByPk(req.params.id);
-        if (!orderProduct) return res.status(404).json({ message: 'OrderProduct not found' });
+        if (!orderProduct) return res.status(404);
 
         await orderProduct.destroy();
         res.status(204).end();
