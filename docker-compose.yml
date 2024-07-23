@@ -5,20 +5,22 @@ services:
     image: node:20.0.0-alpine
     user: node
     working_dir: /home/node
-    entrypoint: sh -c
-    command: '"npm install && npm run dev -- --host 0.0.0.0"'
+    entrypoint: ["sh", "-c"]
+    command: ["npm install && npm run dev -- --host 0.0.0.0"]
     restart: always
     ports:
       - 8000:8000
     volumes:
       - ./front:/home/node
+    depends_on:
+      - server
 
   server:
     image: node:20.0.0-alpine
     user: node
     working_dir: /home/node
-    entrypoint: sh -c
-    command: '"npm install && npm run dev"'
+    entrypoint: ["sh", "-c"]
+    command: ["npm install && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run dev"]
     restart: always
     ports:
       - 3000:3000
@@ -36,7 +38,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./mongodata:/data/db
+      - mongodata:/data/db
 
   postgresdb:
     image: postgres:13
@@ -46,7 +48,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
   pgadmin:
     image: elestio/pgadmin
@@ -56,7 +58,7 @@ services:
     env_file:
       - .env.local
     volumes:
-      - ./pgadmin:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
     depends_on:
       - postgresdb
 
