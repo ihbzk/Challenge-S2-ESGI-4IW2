@@ -64,7 +64,7 @@ services:
     image: node:20.0.0-alpine
     working_dir: /home/node
     entrypoint: sh -c
-    command: 'npx sequelize-cli db:migrate'
+    command: 'npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all'
     depends_on:
       - postgresdb
     volumes:
