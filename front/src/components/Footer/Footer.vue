@@ -17,12 +17,12 @@ const footerNavigation = {
     { name: 'Trouver un magasin', route: 'StoreLocator' },
   ],
   entreprise: [
-    { name: 'Qui nous sommes', href: '#' },
-    { name: 'Durabilité', href: '#' },
-    { name: 'Presse', href: '#' },
-    { name: 'Carrières', href: '#' },
-    { name: 'Conditions générales', href: '#' },
-    { name: 'Confidentialité', href: '#' },
+    { name: 'Qui nous sommes', route: 'AboutUs' },
+    { name: 'Durabilité', route: 'Sustainability' },
+    { name: 'Presse', route: 'Press' },
+    { name: 'Carrières', route: 'Careers' },
+    { name: 'Conditions générales', route: 'TermsOfService' },
+    { name: 'Confidentialité', route: 'PrivacyPolicy' },
   ],
   legal: [
     { name: 'Mentions Légales', route: 'LegalMentions' },
