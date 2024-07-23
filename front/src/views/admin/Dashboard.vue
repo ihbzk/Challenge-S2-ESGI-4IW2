@@ -246,7 +246,7 @@
         try {
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/widgets`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -296,7 +296,7 @@
         try {
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets/${widget.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/widgets/${widget.id}`, {
             method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -320,7 +320,7 @@
         try {
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets/${widgetId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/widgets/${widgetId}`, {
             method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -347,7 +347,7 @@
     const getWidgets = async () => {
         try {
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/widgets`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/widgets`, {
                 headers: {
                     'method': 'GET',
                     'Content-Type': 'application/json',
@@ -376,7 +376,7 @@
     const getUsers = async () => {
         try {
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
                 headers: {
                     'method': 'GET',
                     'Content-Type': 'application/json',
@@ -404,7 +404,7 @@
     const getProducts = async () => {
         try {
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
                 headers: {
                     'method': 'GET',
                     'Content-Type': 'application/json',

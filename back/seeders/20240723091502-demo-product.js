@@ -13,7 +13,9 @@ module.exports = {
         dateAdded: new Date(),
         illustration: 'laptop.png',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        categoryId: 1,
+        brandId: 1
       },
       {
         id: 2,
@@ -25,7 +27,9 @@ module.exports = {
         dateAdded: new Date(),
         illustration: 'smartphone.png',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        categoryId: 2,
+        brandId: 2
       },
       {
         id: 3,
@@ -37,7 +41,9 @@ module.exports = {
         dateAdded: new Date(),
         illustration: 'headphones.png',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        categoryId: 3,
+        brandId: 3
       }
     ]);
   },

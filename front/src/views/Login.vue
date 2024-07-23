@@ -26,7 +26,7 @@ const login = async () => {
             return;
         }
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/login`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

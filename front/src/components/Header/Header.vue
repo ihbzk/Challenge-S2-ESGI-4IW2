@@ -48,7 +48,7 @@ const closeCart = () => {
 const logout = async () => {
   try {
     const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -73,7 +73,7 @@ const logout = async () => {
 onMounted(async () => {
   try {
     // Charger les catégories depuis l'API
-    const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`);
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/categories`);
     categories.value = response.data;
 
     // Charger le panier depuis sessionStorage

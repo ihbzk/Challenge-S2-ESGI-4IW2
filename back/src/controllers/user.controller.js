@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
 
             const context = {
                 firstname: user.firstname,
-                renewalUrl: `http://${process.env.HOST}:${process.env.PORT_FRONTEND}/reset-password?token=${hashedToken}`,
+                renewalUrl: `${process.env.FRONTEND_URL}/reset-password?token=${hashedToken}`,
             };
         
             try {
@@ -117,7 +117,7 @@ exports.forgotPassword = async (req, res) => {
 
         const context = {
             firstname: user.firstname,
-            resetPasswordUrl: `http://${process.env.HOST}:${process.env.PORT_FRONTEND}/reset-password?token=${hashedToken}`,
+            resetPasswordUrl: `${process.env.FRONTEND_URL}/reset-password?token=${hashedToken}`,
         };
 
         // Envoyer l'email de réinitialisation de mot de passe
@@ -244,7 +244,7 @@ exports.register = async (req, res) => {
         await newUser.save();
 
         // Envoyer l'email de confirmation avec le token
-        const confirmationUrl = `http://${process.env.HOST}:${process.env.PORT_FRONTEND}/confirm?token=${confirmationToken}`;
+        const confirmationUrl = `${process.env.FRONTEND_URL}/confirm?token=${confirmationToken}`;
         await sendMail({
             from: 'noreply@example.com',
             to: email,

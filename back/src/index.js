@@ -2,9 +2,6 @@ const express = require('express');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv').config({ path: './.env.local' });
 
-// cela permet de charger les modèles et de les associer
-const models = require('./models');
-
 const userRoutes = require('./routes/user.routes');
 const productRoutes = require('./routes/product.routes');
 const paymentRoutes = require('./routes/payment.routes');
@@ -14,9 +11,6 @@ const widgetRoutes = require('./routes/widget.routes');
 const categoryRoutes = require('./routes/category.routes');
 const brandRoutes = require('./routes/brand.routes');
 const searchRoutes = require('./routes/search.routes');
-const orderRoutes = require('./routes/order.routes');
-const orderProductRoutes = require('./routes/orderProduct.routes')
-
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -27,7 +21,7 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-  origin: 'http://localhost:8000',
+  origin: ['http://localhost:8000', 'https://informacart.fr'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
@@ -42,18 +36,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(bodyParser.json());
-app.use('/', userRoutes);
-app.use('/', productRoutes);
-app.use('/', searchRoutes);
-app.use('/api/payments', paymentRoutes);
+app.use('/api', userRoutes);
+app.use('/api', productRoutes);
+app.use('/api', searchRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/paypal', paypalRoutes);
 app.use('/api/delivery', deliveryRoutes);
-app.use('/', widgetRoutes);
-app.use('/', categoryRoutes);
-app.use('/', brandRoutes);
-app.use('/', orderRoutes);
-app.use('/', orderProductRoutes);
+app.use('/api', widgetRoutes);
+app.use('/api', categoryRoutes);
+app.use('/api', brandRoutes);
 
 // Middleware de gestion des erreurs
 app.use((err, req, res, next) => {

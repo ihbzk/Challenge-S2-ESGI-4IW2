@@ -56,7 +56,7 @@ const updateInfo = async () => {
       return;
     }
 
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${user.value.id}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${user.value.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const deleteAccount = async () => {
   const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
   if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
     try {
-      const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${user.value.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${user.value.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${authToken}`,

@@ -17,7 +17,7 @@ const fetchProducts = async () => {
   loading.value = true;
   try {
     const params = new URLSearchParams(route.query as Record<string, string>).toString();
-    const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/search?${params}`);
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/search?${params}`);
     products.value = response.data;
   } catch (error) {
     console.error(error);
