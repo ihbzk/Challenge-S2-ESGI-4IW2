@@ -271,7 +271,7 @@ const emit = defineEmits(['delete-item', 'delete-selected', 'edit-item'])
 
 // Pagination state
 const currentPage = ref(1)
-const itemsPerPage = ref(10)
+const itemsPerPage = ref(20)
 const totalPages = computed(() => Math.ceil(filteredItems.value.length / itemsPerPage.value))
 
 // Sorted and paginated items
