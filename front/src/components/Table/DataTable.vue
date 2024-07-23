@@ -89,7 +89,7 @@
                     v-for="column in visibleColumns"
                     :key="column.key"
                     scope="col"
-                    class="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
+                    class="min-w-[6rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
                     @click="sortData(column.key)"
                   >
                     <a href="#" class="group inline-flex cursor-pointer">
@@ -139,7 +139,16 @@
                       'text-gray-900': !selectedPeople.includes(item.id)
                     }"
                   >
-                    {{ item[column.key] }}
+                    <template v-if="column.key === 'illustration' && item[column.key]">
+                      <img
+                        :src="item[column.key]"
+                        alt="Product Image"
+                        style="width: 100px; height: auto"
+                      />
+                    </template>
+                    <template v-else>
+                      {{ item[column.key] }}
+                    </template>
                   </td>
                   <td
                     class="whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-3 flex gap-4"
@@ -233,13 +242,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, defineProps, watch } from 'vue'
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MagnifyingGlassIcon
-} from '@heroicons/vue/20/solid'
+import { ref, computed, defineProps } from 'vue'
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const props = defineProps({
