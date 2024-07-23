@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios'
 import DataTable from '@/components/Table/DataTable.vue'
+import ModalConfirmation from '@/components/ModalConfirmation/ModalConfirmation.vue'
 import Modal from '@/components/Modal.vue'
 import { ref, onMounted } from 'vue'
 
@@ -158,15 +159,14 @@ onMounted(async () => {
         <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div>
       </div>
     </Modal>
-    <Modal
+    <ModalConfirmation
       v-if="isDeleteModalOpen"
-      :isOpen="isDeleteModalOpen"
+      v-model:isOpen="isDeleteModalOpen"
       title="Confirmation de suppression"
-      confirmText="Supprimer"
-      @close="isDeleteModalOpen = false"
+      content="Êtes-vous sûr de vouloir faire cette action ?"
+      confirmButtonText="Oui, supprimer"
+      cancelButtonText="Non, annuler"
       @confirm="deleteBrand"
-    >
-      <p>Êtes-vous sûr de vouloir supprimer cette marque ?</p>
-    </Modal>
+    />
   </div>
 </template>
