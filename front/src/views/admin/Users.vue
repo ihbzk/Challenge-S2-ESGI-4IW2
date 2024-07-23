@@ -151,16 +151,15 @@
     </Modal>
 
     <!-- confirmation de suppression -->
-    <Modal
+    <ModalConfirmation
       v-if="isDeleteModalOpen"
-      :isOpen="isDeleteModalOpen"
+      v-model:isOpen="isDeleteModalOpen"
       title="Confirmation de suppression"
-      confirmText="Supprimer"
-      @close="isDeleteModalOpen = false"
+      content="Êtes-vous sûr de vouloir faire cette action ?"
+      confirmButtonText="Oui, supprimer"
+      cancelButtonText="Non, annuler"
       @confirm="deleteUser"
-    >
-      <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
-    </Modal>
+    />
   </div>
 </template>
 
@@ -168,6 +167,7 @@
 import axios from 'axios'
 import Modal from '@/components/Modal.vue'
 import DataTable from '@/components/Table/DataTable.vue'
+import ModalConfirmation from '@/components/ModalConfirmation/ModalConfirmation.vue'
 import { ref, onMounted } from 'vue'
 import { registerSchema } from '@/composables/validation'
 
@@ -273,49 +273,6 @@ const updateUser = async () => {
     console.error('Failed to update user', error)
   }
 }
-
-// const updateUser = async () => {
-//   errors.value = {} // on vide les erreurs précédentes
-
-//   const result = registerSchema.safeParse(editingUser.value)
-//   if (!result.success) {
-//     result.error.errors.forEach((e) => {
-//       errors.value[e.path[0]] = e.message
-//     })
-
-//     return
-//   }
-
-//   try {
-//     let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
-//     const userId = editingUser.value.id
-
-//     const response = await fetch(
-//       `${import.meta.env.VITE_API_URL}/users/${userId}`,
-//       {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${authToken}`
-//         },
-//         body: JSON.stringify(editingUser.value)
-//       }
-//     )
-
-//     if (!response.ok) {
-//       throw new Error("Erreur lors de la mise à jour de l'utilisateur")
-//     }
-
-//     const updatedUser = await response.json()
-//     const index = users.value.findIndex((user) => user.id === userId)
-//     users.value[index] = updatedUser
-
-//     isEditModalOpen.value = false
-//   } catch (error) {
-//     errors.value.general = error.message
-//     console.error("Échec de la mise à jour de l'utilisateur", error)
-//   }
-// }
 
 const confirmDeleteUser = (index) => {
   userToDelete.value = [index]

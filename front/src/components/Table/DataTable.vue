@@ -5,7 +5,7 @@
         <input
           type="text"
           v-model="searchQuery"
-          placeholder="Search table..."
+          placeholder="Rechercher..."
           class="block rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-600 focus:ring-opacity-50"
         />
         <Menu as="div" class="relative inline-block text-left">
@@ -13,7 +13,7 @@
             <MenuButton
               class="inline-flex w-full justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
             >
-              Filters
+              Filtrer
               <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
             </MenuButton>
           </div>
@@ -61,14 +61,14 @@
                 @click="deleteSelected"
                 class="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
               >
-                Delete selected
+                Supprimer
               </button>
               <button
                 type="button"
                 @click="exportToCSV"
                 class="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
               >
-                Export CSV
+                Exporter CSV
               </button>
             </div>
             <!-- Table -->
@@ -177,28 +177,28 @@
           :disabled="currentPage === 1"
           class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          Previous
+          Précédent
         </button>
         <button
           @click="nextPage"
           :disabled="currentPage === totalPages"
           class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          Next
+          Suivant
         </button>
       </div>
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p class="text-sm text-gray-700">
-            Showing
+            Affichage de
             <span class="font-medium">{{ (currentPage - 1) * itemsPerPage + 1 }}</span>
-            to
+            à
             <span class="font-medium">{{
               Math.min(currentPage * itemsPerPage, filteredItems.length)
             }}</span>
-            of
+            sur
             <span class="font-medium">{{ filteredItems.length }}</span>
-            results
+            résultats
           </p>
         </div>
         <div>
@@ -301,7 +301,6 @@ const indeterminate = computed(
 
 const toggleSelectAll = (event) => {
   if (event.target.checked) {
-    // Select all filtered items, not just those on the current page
     selectedPeople.value = filteredItems.value.map((item) => item.id)
   } else {
     selectedPeople.value = []
@@ -337,9 +336,7 @@ const paginationRange = computed(() => {
   return pages
 })
 
-// Function to handle CSV export of selected items
 function exportToCSV() {
-  // Ensure CSV export uses only selected items that match the current filter
   const selectedItems = filteredItems.value.filter((item) => selectedPeople.value.includes(item.id))
   if (selectedItems.length === 0) {
     alert('No items selected for export.')
