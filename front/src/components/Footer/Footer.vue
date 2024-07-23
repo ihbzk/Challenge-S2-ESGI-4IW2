@@ -8,13 +8,13 @@ const footerNavigation = {
     { name: 'Accessoires informatiques', href: '#' },
   ],
   serviceClient: [
-    { name: 'Contact', href: '#' },
-    { name: 'Expédition', href: '#' },
-    { name: 'Retours', href: '#' },
-    { name: 'Garantie', href: '#' },
-    { name: 'Paiements sécurisés', href: '#' },
-    { name: 'FAQ', href: '#' },
-    { name: 'Trouver un magasin', href: '#' },
+    { name: 'Contact', route: 'Contact' },
+    { name: 'Expédition', route: 'Shipping' },
+    { name: 'Retours', route: 'Returns' },
+    { name: 'Garantie', route: 'Warranty' },
+    { name: 'Paiements sécurisés', route: 'SecurePayments' },
+    { name: 'FAQ', route: 'FAQ' },
+    { name: 'Trouver un magasin', route: 'StoreLocator' },
   ],
   entreprise: [
     { name: 'Qui nous sommes', href: '#' },
@@ -63,7 +63,8 @@ const footerNavigation = {
                   <h3 class="text-sm font-medium text-gray-900">Service Client</h3>
                   <ul role="list" class="mt-6 space-y-6">
                     <li v-for="item in footerNavigation.serviceClient" :key="item.name" class="text-sm">
-                      <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
+                      <router-link v-if="item.route" :to="{ name: item.route }" class="text-gray-500 hover:text-gray-600">{{ item.name }}</router-link>
+                      <a v-else :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
                     </li>
                   </ul>
                 </div>
