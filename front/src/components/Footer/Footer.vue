@@ -1,28 +1,28 @@
 <script setup lang="ts">
 const footerNavigation = {
-  products: [
-    { name: 'Bags', href: '#' },
-    { name: 'Tees', href: '#' },
-    { name: 'Objects', href: '#' },
-    { name: 'Home Goods', href: '#' },
-    { name: 'Accessories', href: '#' },
+  produits: [
+  { name: 'Ordinateurs portables', href: '#' },
+    { name: 'Ordinateurs de bureau', href: '#' },
+    { name: 'Tablettes', href: '#' },
+    { name: 'Moniteurs', href: '#' },
+    { name: 'Accessoires informatiques', href: '#' },
   ],
-  customerService: [
+  serviceClient: [
     { name: 'Contact', href: '#' },
-    { name: 'Shipping', href: '#' },
-    { name: 'Returns', href: '#' },
-    { name: 'Warranty', href: '#' },
-    { name: 'Secure Payments', href: '#' },
+    { name: 'Expédition', href: '#' },
+    { name: 'Retours', href: '#' },
+    { name: 'Garantie', href: '#' },
+    { name: 'Paiements sécurisés', href: '#' },
     { name: 'FAQ', href: '#' },
-    { name: 'Find a store', href: '#' },
+    { name: 'Trouver un magasin', href: '#' },
   ],
-  company: [
-    { name: 'Who we are', href: '#' },
-    { name: 'Sustainability', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Terms & Conditions', href: '#' },
-    { name: 'Privacy', href: '#' },
+  entreprise: [
+    { name: 'Qui nous sommes', href: '#' },
+    { name: 'Durabilité', href: '#' },
+    { name: 'Presse', href: '#' },
+    { name: 'Carrières', href: '#' },
+    { name: 'Conditions générales', href: '#' },
+    { name: 'Confidentialité', href: '#' },
   ],
   legal: [
     { name: 'Mentions Légales', route: 'LegalMentions' },
@@ -31,17 +31,17 @@ const footerNavigation = {
     { name: 'Politique de Cookies', route: 'CookiePolicy' },
     { name: 'Politique de Retour et de Remboursement', route: 'RefundPolicy' },
   ],
-  bottomLinks: [
-    { name: 'Accessibility', href: '#' },
-    { name: 'Privacy', href: '#' },
-    { name: 'Terms', href: '#' },
+  liensBas: [
+    { name: 'Accessibilité', href: '#' },
+    { name: 'Confidentialité', href: '#' },
+    { name: 'Conditions', href: '#' },
   ],
 }
 </script>
 
 <template>
   <footer aria-labelledby="footer-heading" class="bg-white">
-    <h2 id="footer-heading" class="sr-only">Footer</h2>
+    <h2 id="footer-heading" class="sr-only">Pied de page</h2>
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="border-t border-gray-200">
         <div class="pb-20 pt-16">
@@ -52,17 +52,17 @@ const footerNavigation = {
             <div class="grid grid-cols-2 gap-8 xl:col-span-2">
               <div class="space-y-12 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
                 <div>
-                  <h3 class="text-sm font-medium text-gray-900">Products</h3>
+                  <h3 class="text-sm font-medium text-gray-900">Produits</h3>
                   <ul role="list" class="mt-6 space-y-6">
-                    <li v-for="item in footerNavigation.products" :key="item.name" class="text-sm">
+                    <li v-for="item in footerNavigation.produits" :key="item.name" class="text-sm">
                       <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <h3 class="text-sm font-medium text-gray-900">Customer Service</h3>
+                  <h3 class="text-sm font-medium text-gray-900">Service Client</h3>
                   <ul role="list" class="mt-6 space-y-6">
-                    <li v-for="item in footerNavigation.customerService" :key="item.name" class="text-sm">
+                    <li v-for="item in footerNavigation.serviceClient" :key="item.name" class="text-sm">
                       <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
                     </li>
                   </ul>
@@ -70,9 +70,9 @@ const footerNavigation = {
               </div>
               <div class="space-y-12 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
                 <div>
-                  <h3 class="text-sm font-medium text-gray-900">Company</h3>
+                  <h3 class="text-sm font-medium text-gray-900">Entreprise</h3>
                   <ul role="list" class="mt-6 space-y-6">
-                    <li v-for="item in footerNavigation.company" :key="item.name" class="text-sm">
+                    <li v-for="item in footerNavigation.entreprise" :key="item.name" class="text-sm">
                       <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
                     </li>
                   </ul>
@@ -93,13 +93,13 @@ const footerNavigation = {
         <div class="lg:grid lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8">
           <div class="flex items-center rounded-lg bg-gray-100 p-6 sm:p-10">
             <div class="mx-auto max-w-sm">
-              <h3 class="font-semibold text-gray-900">Sign up for our newsletter</h3>
-              <p class="mt-2 text-sm text-gray-500">The latest news, articles, and resources, sent to your inbox weekly.</p>
+              <h3 class="font-semibold text-gray-900">Inscrivez-vous à notre newsletter</h3>
+              <p class="mt-2 text-sm text-gray-500">Les dernières nouvelles, articles et ressources, envoyés chaque semaine dans votre boîte de réception.</p>
               <form class="mt-4 sm:mt-6 sm:flex">
-                <label for="email-address" class="sr-only">Email address</label>
+                <label for="email-address" class="sr-only">Adresse e-mail</label>
                 <input id="email-address" type="text" autocomplete="email" required="" class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
                 <div class="mt-3 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
-                  <button type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white">Sign up</button>
+                  <button type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white">S'inscrire</button>
                 </div>
               </form>
             </div>
@@ -110,9 +110,9 @@ const footerNavigation = {
               <div class="absolute inset-0 bg-indigo-600 bg-opacity-90" />
             </div>
             <div class="relative mx-auto max-w-sm text-center">
-              <h3 class="text-2xl font-bold tracking-tight text-white">Get early access</h3>
+              <h3 class="text-2xl font-bold tracking-tight text-white">Obtenez un accès anticipé</h3>
               <p class="mt-2 text-gray-200">
-                Did you sign up to the newsletter? If so, use the keyword we sent you to get access. <a href="#" class="whitespace-nowrap font-bold text-white hover:text-gray-200">Go now<span aria-hidden="true"> &rarr;</span></a>
+                Vous êtes inscrit à la newsletter ? Si oui, utilisez le mot-clé que nous vous avons envoyé pour obtenir l'accès. <a href="#" class="whitespace-nowrap font-bold text-white hover:text-gray-200">Allez-y maintenant<span aria-hidden="true"> &rarr;</span></a>
               </p>
             </div>
           </div>
@@ -120,17 +120,17 @@ const footerNavigation = {
       </div>
       <div class="py-10 md:flex md:items-center md:justify-between">
         <div class="text-center md:text-left">
-          <p class="text-sm text-gray-500">&copy; 2024 All Rights Reserved</p>
+          <p class="text-sm text-gray-500">&copy; 2024 Tous droits réservés</p>
         </div>
         <div class="mt-4 flex items-center justify-center md:mt-0">
           <div class="flex space-x-8">
-            <a v-for="item in footerNavigation.bottomLinks" :key="item.name" :href="item.href" class="text-sm text-gray-500 hover:text-gray-600">{{ item.name }}</a>
+            <a v-for="item in footerNavigation.liensBas" :key="item.name" :href="item.href" class="text-sm text-gray-500 hover:text-gray-600">{{ item.name }}</a>
           </div>
           <div class="ml-6 border-l border-gray-200 pl-6">
             <a href="#" class="flex items-center text-gray-500 hover:text-gray-600">
               <img src="https://tailwindui.com/img/flags/flag-canada.svg" alt="" class="h-auto w-5 flex-shrink-0" />
-              <span class="ml-3 text-sm">Change</span>
-              <span class="sr-only">location and currency</span>
+              <span class="ml-3 text-sm">Changer</span>
+              <span class="sr-only">emplacement et devise</span>
             </a>
           </div>
         </div>
