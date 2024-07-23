@@ -5,14 +5,14 @@ import axios from 'axios';
 import Cart from '../components/Cart/Cart.vue';
 import { StarIcon, ShoppingCartIcon } from '@heroicons/vue/20/solid';
 
-const products = ref([]);
-const cart = ref([]);
+const products = ref<ProductInterface[]>([]);
+const cart = ref<ProductCartInterface[]>([]);
 const loading = ref(true);
 const cartOpen = ref(false);
 
 const route = useRoute();
 
-// Fetch products based on query parameters
+// Fonction pour récupérer les produits basés sur les paramètres de requête
 const fetchProducts = async () => {
   loading.value = true;
   try {
@@ -26,13 +26,13 @@ const fetchProducts = async () => {
   }
 };
 
-// Watch for changes in the route query parameters
+// Observer les changements dans les paramètres de requête de la route
 watch(() => route.query.q, fetchProducts);
 
-// Fetch products when component is mounted
+// Récupérer les produits lorsque le composant est monté
 onMounted(fetchProducts);
 
-// Add a product to the cart
+// Fonction pour ajouter un produit au panier
 const addProductToCart = (productId: number) => {
   const product = products.value.find(product => product.id === productId);
   if (product) {
@@ -42,11 +42,12 @@ const addProductToCart = (productId: number) => {
     } else {
       cart.value.push({ ...product, quantity: 1 });
     }
-    cartOpen.value = true;
+    cartOpen.value = true;  // Ouvrir le panier après l'ajout
+    sessionStorage.setItem('cart', JSON.stringify(cart.value)); // Synchroniser avec sessionStorage
   }
 };
 
-// Remove a product from the cart
+// Fonction pour retirer un produit du panier
 const removeProductFromCart = (productId: number) => {
   const productFromCart = cart.value.find(product => product.id === productId);
   if (productFromCart) {
@@ -55,8 +56,19 @@ const removeProductFromCart = (productId: number) => {
     } else {
       productFromCart.quantity--;
     }
+    sessionStorage.setItem('cart', JSON.stringify(cart.value)); // Synchroniser avec sessionStorage
   }
 };
+
+// Charger le panier depuis sessionStorage
+const loadCart = () => {
+  const savedCart = sessionStorage.getItem('cart');
+  if (savedCart) {
+    cart.value = JSON.parse(savedCart);
+  }
+};
+
+loadCart();
 </script>
 
 <template>

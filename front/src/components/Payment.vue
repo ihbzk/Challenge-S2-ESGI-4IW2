@@ -1,16 +1,15 @@
 <template>
-  <div class="max-w-md mx-auto p-4 bg-white shadow-md rounded">
+  <div>
     <form @submit.prevent="handleSubmit">
-      <div id="card-element" class="mb-4"><!-- Stripe Element will be inserted here --></div>
-      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Payer</button>
+      <div id="card-element"><!-- Stripe Element will be inserted here --></div>
+      <button type="submit">Payer</button>
     </form>
-    <div v-if="error" class="text-red-500 mt-4">{{ error }}</div>
+    <div v-if="error">{{ error }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 
@@ -18,21 +17,27 @@ const stripe = ref(null);
 const elements = ref(null);
 const error = ref('');
 const clientSecret = ref('');
-const router = useRouter();
 
 onMounted(async () => {
   try {
+    // Load Stripe.js
     stripe.value = await loadStripe('pk_test_51PbKHAIwDc1XOowALUAMUSiEm7AvQkTkCp097tPeoq8Xl1N4ZfdjmJL979D8QUdnltcenf0cMHFECVtcn01tR90S00m3VtnWuV');
+
+    // Fetch the client secret from the backend
     const { data } = await axios.post('http://localhost:3000/api/payments/create-payment-intent', {
-      amount: 2000 // Montant en centimes
+      amount: 2000 // replace with your desired amount in cents
     });
     clientSecret.value = data.clientSecret;
+
+    // Create an instance of Elements
     elements.value = stripe.value.elements();
+
+    // Create and mount the Card Element
     const cardElement = elements.value.create('card');
     cardElement.mount('#card-element');
   } catch (err) {
-    console.error('Erreur lors du chargement de Stripe ou de la création de l\'intention de paiement:', err);
-    error.value = 'Échec de l\'initialisation du paiement. Veuillez réessayer plus tard.';
+    console.error('Error loading Stripe or creating payment intent:', err);
+    error.value = 'Failed to initialize payment. Please try again later.';
   }
 });
 
@@ -42,7 +47,7 @@ const handleSubmit = async () => {
       payment_method: {
         card: elements.value.getElement('card'),
         billing_details: {
-          name: 'Utilisateur Test',
+          name: 'Test User',
         },
       },
     });
@@ -50,17 +55,18 @@ const handleSubmit = async () => {
     if (stripeError) {
       error.value = stripeError.message;
     } else {
-      console.log('Paiement réussi', paymentIntent);
+      console.log('Payment successful', paymentIntent);
       error.value = '';
     }
   } catch (err) {
-    console.error('Erreur lors de la confirmation du paiement par carte:', err);
-    error.value = 'Échec du paiement. Veuillez réessayer.';
+    console.error('Error confirming card payment:', err);
+    error.value = 'Payment failed. Please try again.';
   }
 };
 </script>
 
 <style scoped>
+/* Add some basic styling */
 #card-element {
   margin: 10px 0;
 }

@@ -42,7 +42,7 @@ exports.getProductById = async (req, res) => {
             ]
         });
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404);
         }
         res.status(200).json(product);
     } catch (error) {
@@ -54,7 +54,7 @@ exports.updateProductById = async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.id);
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404);
         }
         await product.update(req.body);
         res.status(200).json(product);
@@ -67,7 +67,7 @@ exports.deleteProductById = async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.id);
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404);
         }
         await product.destroy();
         res.status(204).end();
@@ -84,7 +84,7 @@ exports.updateProductStock = async (req, res) => {
         }
         const product = await Product.findByPk(id);
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404);
         }
         product.stock = stock;
         await product.save();
@@ -102,7 +102,7 @@ exports.updateProductPromotion = async (req, res) => {
         }
         const product = await Product.findByPk(id);
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404);
         }
         product.promotion = promotion;
         await product.save();

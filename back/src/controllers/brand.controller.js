@@ -23,7 +23,7 @@ exports.getBrandById = async (req, res) => {
     try {
         const brand = await Brand.findByPk(req.params.id);
         if (!brand) {
-            return res.status(404).json({ message: 'Brand not found' });
+            return res.status(404);
         }
         res.status(200).json(brand);
     } catch (error) {
@@ -35,7 +35,7 @@ exports.updateBrandById = async (req, res) => {
     try {
         const brand = await Brand.findByPk(req.params.id);
         if (!brand) {
-            return res.status(404).json({ message: 'Brand not found' });
+            return res.status(404);
         }
         await brand.update(req.body);
         res.status(200).json(brand);
@@ -48,7 +48,7 @@ exports.deleteBrandById = async (req, res) => {
     try {
         const brand = await Brand.findByPk(req.params.id);
         if (!brand) {
-            return res.status(404).json({ message: 'Brand not found' });
+            return res.status(404);
         }
 
         const products = await Product.findAll({ where: { brandId: req.params.id } });
