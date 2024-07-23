@@ -12,10 +12,11 @@ import Settings from '../views/admin/Settings.vue';
 import Products from '../views/admin/Products.vue';
 import Categories from '../views/admin/Categories.vue';
 import Brands from '../views/admin/Brands.vue';
-import Delivery from '../components/Delivery.vue';
-import Checkout from '@/components/Checkout.vue';
-import Payment from '@/components/Payment.vue';
-import PayPalButton from '@/components/PayPalButton.vue';
+import Delivery from '../components/Payment/Delivery.vue';
+import Checkout from '@/components/Payment/Checkout.vue';
+import Payment from '@/components/Payment/Payment.vue';
+import PayPalButton from '@/components/Payment/PayPalButton.vue';
+import ConfirmationPage from '@/components/Payment/ConfirmationPage.vue';
 
 // Import des pages du compte utilisateur
 import AccountLayout from '../components/AccountLayout.vue';
@@ -217,6 +218,11 @@ const routes = [
     path: '/careers',
     name: 'Careers',
     component: Careers
+  },
+  {
+    path: '/confirmation',
+    name: 'ConfirmationPage',
+    component: ConfirmationPage
   },
   {
     path: '/legal-mentions',

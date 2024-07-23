@@ -93,3 +93,20 @@ export const widgetSchema = z.object({
     createdAt: z.date().optional(),
     updatedAt: z.date().optional(),
 });
+
+export const informationsSchema = z.object({
+    email: z.string().email({ message: "Le format de l'adresse email est invalide" }),
+    newsletter: z.boolean().optional(),
+});
+
+export const orderSchema = z.object({
+    firstName: z.string().min(1, { message: 'Le prénom est obligatoire' }).optional(),
+    lastName: z.string().min(1, { message: 'Le nom est obligatoire' }),
+    address: z.string().min(1, { message: 'L\'adresse est obligatoire' }),
+    apartment: z.string().optional(),
+    city: z.string().min(1, { message: 'La ville est obligatoire' }),
+    postalCode: z.string()
+      .length(5, { message: 'Le code postal doit comporter exactement 5 chiffres' })
+      .regex(/^\d{5}$/, { message: 'Le code postal doit contenir uniquement des chiffres' }),
+    country: z.string().min(1, { message: 'Le pays est obligatoire' }),
+});
