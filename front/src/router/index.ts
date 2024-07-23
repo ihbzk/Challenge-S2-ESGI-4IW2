@@ -38,6 +38,10 @@ import Warranty from '../views/Warranty.vue';
 import SecurePayments from '../views/SecurePayments.vue';
 import FAQ from '../views/FAQ.vue';
 import StoreLocator from '../views/StoreLocator.vue';
+import AboutUs from '../views/AboutUs.vue';
+import Sustainability from '../views/Sustainability.vue';
+import Press from '../views/Press.vue';
+import Careers from '../views/Careers.vue';
 import LegalMentions from '../views/LegalMentions.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
@@ -193,6 +197,26 @@ const routes = [
     path: '/store-locator',
     name: 'StoreLocator',
     component: StoreLocator
+  },
+  {
+    path: '/about-us',
+    name: 'AboutUs',
+    component: AboutUs
+  },
+  {
+    path: '/sustainability',
+    name: 'Sustainability',
+    component: Sustainability
+  },
+  {
+    path: '/press',
+    name: 'Press',
+    component: Press
+  },
+  {
+    path: '/careers',
+    name: 'Careers',
+    component: Careers
   },
   {
     path: '/legal-mentions',

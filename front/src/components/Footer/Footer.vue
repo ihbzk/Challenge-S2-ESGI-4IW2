@@ -74,7 +74,8 @@ const footerNavigation = {
                   <h3 class="text-sm font-medium text-gray-900">Entreprise</h3>
                   <ul role="list" class="mt-6 space-y-6">
                     <li v-for="item in footerNavigation.entreprise" :key="item.name" class="text-sm">
-                      <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
+                      <router-link v-if="item.route" :to="{ name: item.route }" class="text-gray-500 hover:text-gray-600">{{ item.name }}</router-link>
+                      <a v-else :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
                     </li>
                   </ul>
                 </div>
