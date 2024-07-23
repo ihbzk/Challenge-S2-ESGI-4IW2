@@ -4,8 +4,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Products', [
       {
-        productName: 'Laptop',
-        description: 'High-performance laptop with 16GB RAM and 512GB SSD.',
+        id: 1,
+        productName: 'MacBook Pro',
+        description: 'Ordinateur Apple de dernière génération.',
         price: 1200.00,
         promotion: false,
         stock: 30,
@@ -15,8 +16,9 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        productName: 'Smartphone',
-        description: 'Latest model smartphone with advanced features.',
+        id: 2,
+        productName: 'iPhone 13',
+        description: 'Smartphone Apple de dernière génération.',
         price: 800.00,
         promotion: true,
         stock: 50,
@@ -26,8 +28,9 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        productName: 'Headphones',
-        description: 'Noise-cancelling headphones with Bluetooth connectivity.',
+        id: 3,
+        productName: 'Airpods',
+        description: 'Écouteurs Apple de dernière génération.',
         price: 150.00,
         promotion: false,
         stock: 100,
