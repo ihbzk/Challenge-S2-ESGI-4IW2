@@ -23,7 +23,6 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - mongodb
       - postgresdb
     env_file:
       - .env.local
@@ -59,6 +58,18 @@ services:
       - ./pgadmin:/var/lib/pgadmin
     depends_on:
       - postgresdb
+
+  sequelize-cli:
+    image: node:20.0.0-alpine
+    working_dir: /home/node
+    entrypoint: sh -c
+    command: 'npx sequelize-cli db:migrate'
+    depends_on:
+      - postgresdb
+    volumes:
+      - ./back:/home/node
+    env_file:
+      - .env.local
 
 volumes:
   mongodata:

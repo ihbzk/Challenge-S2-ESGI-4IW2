@@ -18,6 +18,7 @@
     "@stripe/stripe-js": "^4.1.0",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
+    "dotenv": "^16.4.5",
     "gridstack": "^10.3.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
