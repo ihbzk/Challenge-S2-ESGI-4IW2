@@ -23,3 +23,6 @@ const closePopup = () => {
   emits('close');
 };
 </script>
+
+<style scoped>
+</style>

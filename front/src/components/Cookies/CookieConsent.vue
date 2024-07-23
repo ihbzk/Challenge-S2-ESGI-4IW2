@@ -16,11 +16,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import PopUp from './PopUp.vue';
 
-const visible = ref(true);
+const visible = ref(false);
 const accepted = ref(false);
+
+onMounted(() => {
+  const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+  if (!cookiesAccepted) {
+    visible.value = true;
+  }
+});
 
 const handleClose = () => {
   visible.value = false;
@@ -28,7 +35,6 @@ const handleClose = () => {
 
 const acceptCookies = () => {
   if (accepted.value) {
-    // Logique pour enregistrer le consentement des cookies
     localStorage.setItem('cookiesAccepted', 'true');
     visible.value = false;
   } else {
