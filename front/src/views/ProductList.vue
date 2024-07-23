@@ -51,7 +51,7 @@ const cartEmpty = computed(() => state.cart.length === 0)
 
 const fetchProducts = async () => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products`)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/products`)
     const data = await response.json()
     console.log('Produits récupérés:', data)
     state.products = data
@@ -62,7 +62,7 @@ const fetchProducts = async () => {
 
 const fetchCategories = async () => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`)
     const data = await response.json()
     console.log('Catégories récupérées:', data)
     state.categories = data

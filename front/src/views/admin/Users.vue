@@ -194,7 +194,7 @@ const editingUser = ref({})
 const errors = ref({})
 
 const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
-const apiUrl = `http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users`
+const apiUrl = `${import.meta.env.VITE_API_URL}/users`
 const axiosInstance = axios.create({
   baseURL: apiUrl,
   headers: {
@@ -291,7 +291,7 @@ const updateUser = async () => {
 //     const userId = editingUser.value.id
 
 //     const response = await fetch(
-//       `http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${userId}`,
+//       `${import.meta.env.VITE_API_URL}/users/${userId}`,
 //       {
 //         method: 'PUT',
 //         headers: {

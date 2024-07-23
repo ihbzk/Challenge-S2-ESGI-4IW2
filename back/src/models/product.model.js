@@ -1,5 +1,7 @@
 const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('./database'); // Import the sequelize instance
+const Category = require('./category.model');
+const Brand = require('./brand.model');
 
 class Product extends Model {}
 
@@ -34,10 +36,33 @@ Product.init({
     illustration: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+    },
+    brandId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Brands',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     }
 }, {
     sequelize,
     modelName: 'Product',
 });
+
+Product.belongsTo(Category, { foreignKey: 'categoryId' });
+Product.belongsTo(Brand, { foreignKey: 'brandId' });
 
 module.exports = Product;

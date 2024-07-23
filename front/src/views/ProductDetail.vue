@@ -62,7 +62,7 @@ const toggleCart = () => {
 // Fonction pour récupérer un produit spécifique
 const fetchProduct = async (id: number) => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products/${id}`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/products/${id}`);
     const data = await response.json();
     state.product = data;
 
@@ -77,7 +77,7 @@ const fetchProduct = async (id: number) => {
 // Fonction pour récupérer tous les produits
 const fetchProducts = async () => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/products`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
     const data = await response.json();
     products.value = data;
   } catch (err) {
@@ -88,7 +88,7 @@ const fetchProducts = async () => {
 // Fonction pour récupérer toutes les catégories
 const fetchCategories = async () => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
     const data = await response.json();
     categories.value = data;
   } catch (err) {

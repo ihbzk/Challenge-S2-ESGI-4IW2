@@ -16,11 +16,13 @@ services:
       - server
 
   server:
-    image: node:20.0.0-alpine
+    build:
+      context: ./back
+      dockerfile: Dockerfile
     user: node
-    working_dir: /home/node
+    working_dir: /app
     entrypoint: ["sh", "-c"]
-    command: ["npm install && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run dev"]
+    command: ["npm install && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run dev"]
     restart: always
     ports:
       - 3000:3000
@@ -30,7 +32,7 @@ services:
     env_file:
       - .env.local
     volumes:
-      - ./back:/home/node
+      - ./back:/app
 
   mongodb:
     image: mongo:4.4.6

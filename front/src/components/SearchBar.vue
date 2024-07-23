@@ -30,7 +30,7 @@ async function fetchSuggestions() {
     }
 
     try {
-        const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/suggest`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/suggest`, {
             params: { q: query.value }
         })
         suggestions.value = response.data

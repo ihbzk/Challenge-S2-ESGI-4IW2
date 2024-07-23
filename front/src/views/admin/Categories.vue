@@ -18,7 +18,7 @@ const editingCategory = ref({})
 const errors = ref({})
 const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
 const axiosInstance = axios.create({
-  baseURL: `http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}`,
+  baseURL: `${import.meta.env.VITE_API_URL}`,
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${authToken}`

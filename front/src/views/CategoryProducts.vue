@@ -20,10 +20,10 @@ const sortOptions = [
 onMounted(async () => {
     const categoryId = route.params.id;
     try {
-        const categoryResponse = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories/${categoryId}`);
+        const categoryResponse = await fetch(`${import.meta.env.VITE_API_URL}/categories/${categoryId}`);
         category.value = await categoryResponse.json();
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories/${categoryId}/products`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/categories/${categoryId}/products`);
         products.value = await response.json();
     } catch (error) {
         console.error('Error fetching category or products:', error);

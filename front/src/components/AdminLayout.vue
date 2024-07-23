@@ -70,7 +70,7 @@
   const logout = async () => {
     try {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${authToken}`,
