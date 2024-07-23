@@ -2,50 +2,194 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Products', [
-      {
-        id: 1,
-        productName: 'MacBook Pro',
-        description: 'Ordinateur Apple de dernière génération.',
-        price: 1200.00,
-        promotion: false,
-        stock: 30,
-        dateAdded: new Date(),
-        illustration: 'laptop.png',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        categoryId: 1,
-        brandId: 1
-      },
-      {
-        id: 2,
-        productName: 'iPhone 13',
-        description: 'Smartphone Apple de dernière génération.',
-        price: 800.00,
-        promotion: true,
-        stock: 50,
-        dateAdded: new Date(),
-        illustration: 'smartphone.png',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        categoryId: 2,
-        brandId: 2
-      },
-      {
-        id: 3,
-        productName: 'Airpods',
-        description: 'Écouteurs Apple de dernière génération.',
-        price: 150.00,
-        promotion: false,
-        stock: 100,
-        dateAdded: new Date(),
-        illustration: 'headphones.png',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        categoryId: 3,
-        brandId: 3
-      }
-    ]);
+    const products = [
+      // Apple products
+      { productName: 'MacBook Pro', description: 'Ordinateur portable haut de gamme avec puce M1.', price: 2399.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=MacBook+Pro' },
+      { productName: 'iPhone 13', description: 'Smartphone avec un écran Super Retina XDR.', price: 999.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 2, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=iPhone+13' },
+      { productName: 'iPad Pro', description: 'Tablette avec écran Liquid Retina.', price: 1099.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 3, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=iPad+Pro' },
+      { productName: 'Apple Watch', description: 'Montre intelligente avec suivi de la santé.', price: 399.99, promotion: false, stock: 100, dateAdded: new Date(), categoryId: 4, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=Apple+Watch' },
+      { productName: 'AirPods Pro', description: 'Écouteurs sans fil avec réduction de bruit active.', price: 249.99, promotion: true, stock: 150, dateAdded: new Date(), categoryId: 4, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=AirPods+Pro' },
+      { productName: 'iMac', description: 'Ordinateur de bureau tout-en-un.', price: 1799.99, promotion: false, stock: 10, dateAdded: new Date(), categoryId: 1, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=iMac' },
+      { productName: 'Magic Keyboard', description: 'Clavier sans fil avec pavé numérique.', price: 129.99, promotion: false, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=Magic+Keyboard' },
+      { productName: 'Magic Mouse', description: 'Souris sans fil rechargeable.', price: 79.99, promotion: true, stock: 120, dateAdded: new Date(), categoryId: 4, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=Magic+Mouse' },
+      { productName: 'HomePod mini', description: 'Enceinte intelligente avec Siri intégré.', price: 99.99, promotion: false, stock: 90, dateAdded: new Date(), categoryId: 4, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=HomePod+mini' },
+      { productName: 'Apple TV', description: 'Boîtier de streaming pour TV.', price: 179.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 1, illustration: 'https://via.placeholder.com/800x600.png?text=Apple+TV' },
+
+      // Microsoft products
+      { productName: 'Surface Laptop', description: 'Ordinateur portable avec écran tactile.', price: 1499.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Surface+Laptop' },
+      { productName: 'Surface Pro', description: 'Tablette hybride avec clavier détachable.', price: 1299.99, promotion: true, stock: 40, dateAdded: new Date(), categoryId: 3, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Surface+Pro' },
+      { productName: 'Xbox Series X', description: 'Console de jeu de nouvelle génération.', price: 499.99, promotion: false, stock: 70, dateAdded: new Date(), categoryId: 7, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Xbox+Series+X' },
+      { productName: 'Microsoft 365', description: 'Suite bureautique avec Word, Excel, PowerPoint.', price: 99.99, promotion: false, stock: 200, dateAdded: new Date(), categoryId: 4, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Microsoft+365' },
+      { productName: 'Surface Headphones', description: 'Casque audio avec suppression du bruit.', price: 249.99, promotion: true, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Surface+Headphones' },
+      { productName: 'Surface Book', description: 'Ordinateur portable avec écran détachable.', price: 1999.99, promotion: false, stock: 15, dateAdded: new Date(), categoryId: 1, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Surface+Book' },
+      { productName: 'Microsoft Ergonomic Keyboard', description: 'Clavier ergonomique pour une meilleure posture.', price: 59.99, promotion: false, stock: 100, dateAdded: new Date(), categoryId: 4, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Ergonomic+Keyboard' },
+      { productName: 'Surface Mouse', description: 'Souris sans fil avec design ergonomique.', price: 49.99, promotion: true, stock: 150, dateAdded: new Date(), categoryId: 4, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Surface+Mouse' },
+      { productName: 'Microsoft Band', description: 'Bracelet connecté pour le suivi de la santé.', price: 199.99, promotion: false, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Microsoft+Band' },
+      { productName: 'Microsoft Surface Dock', description: 'Station d\'accueil pour appareils Surface.', price: 199.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 4, brandId: 2, illustration: 'https://via.placeholder.com/800x600.png?text=Surface+Dock' },
+
+      // Google products
+      { productName: 'Pixel 6', description: 'Smartphone avec caméra exceptionnelle.', price: 799.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 2, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Pixel+6' },
+      { productName: 'Pixelbook Go', description: 'Ordinateur portable léger et performant.', price: 999.99, promotion: true, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Pixelbook+Go' },
+      { productName: 'Nest Hub', description: 'Assistant vocal avec écran.', price: 129.99, promotion: false, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Nest+Hub' },
+      { productName: 'Chromecast', description: 'Clé HDMI pour le streaming.', price: 49.99, promotion: false, stock: 150, dateAdded: new Date(), categoryId: 4, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Chromecast' },
+      { productName: 'Nest Wifi', description: 'Système de wifi maillé pour une couverture étendue.', price: 169.99, promotion: true, stock: 60, dateAdded: new Date(), categoryId: 8, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Nest+Wifi' },
+      { productName: 'Google Home', description: 'Enceinte connectée avec assistant vocal.', price: 99.99, promotion: false, stock: 100, dateAdded: new Date(), categoryId: 4, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Google+Home' },
+      { productName: 'Pixel Buds', description: 'Écouteurs sans fil avec Google Assistant intégré.', price: 179.99, promotion: false, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Pixel+Buds' },
+      { productName: 'Google Nest Thermostat', description: 'Thermostat intelligent pour un contrôle précis.', price: 249.99, promotion: false, stock: 70, dateAdded: new Date(), categoryId: 4, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Nest+Thermostat' },
+      { productName: 'Google Nest Cam', description: 'Caméra de sécurité avec vision nocturne.', price: 199.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Nest+Cam' },
+      { productName: 'Google Pixel Slate', description: 'Tablette avec Chrome OS.', price: 699.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 3, brandId: 3, illustration: 'https://via.placeholder.com/800x600.png?text=Pixel+Slate' },
+
+      // Samsung products
+      { productName: 'Galaxy S21', description: 'Smartphone haut de gamme avec écran AMOLED.', price: 999.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 2, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Galaxy+S21' },
+      { productName: 'Galaxy Tab S7', description: 'Tablette puissante avec stylet inclus.', price: 649.99, promotion: true, stock: 40, dateAdded: new Date(), categoryId: 3, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Galaxy+Tab+S7' },
+      { productName: 'Galaxy Watch', description: 'Montre connectée avec suivi de fitness.', price: 299.99, promotion: false, stock: 100, dateAdded: new Date(), categoryId: 4, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Galaxy+Watch' },
+      { productName: 'Galaxy Buds Pro', description: 'Écouteurs sans fil avec ANC.', price: 199.99, promotion: true, stock: 150, dateAdded: new Date(), categoryId: 4, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Galaxy+Buds+Pro' },
+      { productName: 'Samsung QLED TV', description: 'Téléviseur avec technologie QLED.', price: 1199.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 5, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Samsung+QLED+TV' },
+      { productName: 'Samsung Galaxy Book', description: 'Ordinateur portable avec Windows 10.', price: 899.99, promotion: true, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Galaxy+Book' },
+      { productName: 'Samsung SSD 980 Pro', description: 'Disque SSD NVMe pour des performances ultimes.', price: 229.99, promotion: false, stock: 200, dateAdded: new Date(), categoryId: 9, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Samsung+SSD' },
+      { productName: 'Samsung Smart Monitor', description: 'Écran intelligent avec applications intégrées.', price: 349.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 5, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Samsung+Monitor' },
+      { productName: 'Samsung Jet Bot', description: 'Aspirateur robot connecté.', price: 499.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 4, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Samsung+Jet+Bot' },
+      { productName: 'Samsung Galaxy Fit', description: 'Bracelet connecté pour le suivi de la santé.', price: 99.99, promotion: true, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 4, illustration: 'https://via.placeholder.com/800x600.png?text=Galaxy+Fit' },
+
+      // Dell products
+      { productName: 'Dell XPS 13', description: 'Ordinateur portable compact et performant.', price: 1299.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=Dell+XPS+13' },
+      { productName: 'Dell Inspiron 15', description: 'Ordinateur portable pour un usage quotidien.', price: 749.99, promotion: true, stock: 40, dateAdded: new Date(), categoryId: 1, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=Dell+Inspiron+15' },
+      { productName: 'Dell Alienware M15', description: 'Ordinateur portable gaming avec RGB.', price: 1999.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=Alienware+M15' },
+      { productName: 'Dell P2720D', description: 'Moniteur QHD pour professionnels.', price: 399.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 5, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=Dell+Monitor' },
+      { productName: 'Dell UltraSharp U2721DE', description: 'Moniteur avec connectivité USB-C.', price: 549.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 5, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=UltraSharp' },
+      { productName: 'Dell G5 Desktop', description: 'PC de bureau gaming avec refroidissement liquide.', price: 1299.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=Dell+G5' },
+      { productName: 'Dell KM636', description: 'Ensemble clavier et souris sans fil.', price: 49.99, promotion: true, stock: 100, dateAdded: new Date(), categoryId: 4, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=KM636' },
+      { productName: 'Dell Latitude 9410', description: 'Ordinateur portable pour entreprises.', price: 1799.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=Latitude+9410' },
+      { productName: 'Dell Precision 5750', description: 'Station de travail mobile.', price: 2399.99, promotion: true, stock: 15, dateAdded: new Date(), categoryId: 1, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=Precision+5750' },
+      { productName: 'Dell OptiPlex 7080', description: 'PC de bureau compact.', price: 899.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 1, brandId: 5, illustration: 'https://via.placeholder.com/800x600.png?text=OptiPlex' },
+
+      // HP products
+      { productName: 'HP Spectre x360', description: 'Ordinateur portable convertible avec écran tactile.', price: 1599.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=Spectre+x360' },
+      { productName: 'HP Envy 13', description: 'Ordinateur portable léger et élégant.', price: 999.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=Envy+13' },
+      { productName: 'HP Pavilion 15', description: 'Ordinateur portable pour un usage quotidien.', price: 749.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 1, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=Pavilion+15' },
+      { productName: 'HP Elite Dragonfly', description: 'Ordinateur portable professionnel ultraléger.', price: 1899.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=Elite+Dragonfly' },
+      { productName: 'HP Omen 15', description: 'Ordinateur portable gaming.', price: 1499.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=Omen+15' },
+      { productName: 'HP DeskJet 2720', description: 'Imprimante multifonction.', price: 59.99, promotion: false, stock: 100, dateAdded: new Date(), categoryId: 6, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=DeskJet+2720' },
+      { productName: 'HP LaserJet Pro MFP', description: 'Imprimante laser multifonction.', price: 199.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 6, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=LaserJet+Pro' },
+      { productName: 'HP ZBook Firefly', description: 'Station de travail mobile.', price: 2099.99, promotion: false, stock: 15, dateAdded: new Date(), categoryId: 1, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=ZBook+Firefly' },
+      { productName: 'HP ProBook 450', description: 'Ordinateur portable pour PME.', price: 899.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=ProBook+450' },
+      { productName: 'HP Reverb G2', description: 'Casque de réalité virtuelle.', price: 599.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 4, brandId: 6, illustration: 'https://via.placeholder.com/800x600.png?text=Reverb+G2' },
+
+      // Lenovo products
+      { productName: 'Lenovo ThinkPad X1 Carbon', description: 'Ordinateur portable ultraléger pour professionnels.', price: 1699.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=ThinkPad+X1' },
+      { productName: 'Lenovo Yoga C940', description: 'Ordinateur portable convertible avec écran tactile.', price: 1499.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=Yoga+C940' },
+      { productName: 'Lenovo Legion 5', description: 'Ordinateur portable gaming.', price: 1299.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 1, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=Legion+5' },
+      { productName: 'Lenovo IdeaPad Flex 5', description: 'Ordinateur portable convertible.', price: 699.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 1, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=IdeaPad+Flex' },
+      { productName: 'Lenovo ThinkBook 15', description: 'Ordinateur portable pour PME.', price: 799.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=ThinkBook+15' },
+      { productName: 'Lenovo Tab P11 Pro', description: 'Tablette avec écran OLED.', price: 499.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 3, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=Tab+P11' },
+      { productName: 'Lenovo Smart Clock', description: 'Réveil intelligent avec Google Assistant.', price: 79.99, promotion: true, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=Smart+Clock' },
+      { productName: 'Lenovo ThinkVision', description: 'Moniteur professionnel.', price: 299.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 5, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=ThinkVision' },
+      { productName: 'Lenovo Mirage VR', description: 'Casque de réalité virtuelle.', price: 399.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 4, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=Mirage+VR' },
+      { productName: 'Lenovo Chromebook Duet', description: 'Tablette détachable avec clavier.', price: 299.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 3, brandId: 7, illustration: 'https://via.placeholder.com/800x600.png?text=Chromebook+Duet' },
+
+      // Asus products
+      { productName: 'Asus ROG Zephyrus G14', description: 'Ordinateur portable gaming ultra-puissant.', price: 1799.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=Zephyrus+G14' },
+      { productName: 'Asus ZenBook Duo', description: 'Ordinateur portable avec double écran.', price: 1499.99, promotion: true, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=ZenBook+Duo' },
+      { productName: 'Asus VivoBook S15', description: 'Ordinateur portable avec design élégant.', price: 899.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=VivoBook+S15' },
+      { productName: 'Asus Chromebook Flip', description: 'Ordinateur portable convertible avec Chrome OS.', price: 699.99, promotion: true, stock: 40, dateAdded: new Date(), categoryId: 1, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=Chromebook+Flip' },
+      { productName: 'Asus TUF Gaming A15', description: 'Ordinateur portable gaming robuste.', price: 1299.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 1, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=TUF+Gaming' },
+      { productName: 'Asus ROG Phone 5', description: 'Smartphone gaming avec écran AMOLED.', price: 999.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 2, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=ROG+Phone+5' },
+      { productName: 'Asus ProArt PA278QV', description: 'Moniteur professionnel pour créateurs.', price: 499.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 5, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=ProArt' },
+      { productName: 'Asus ZenScreen MB16AC', description: 'Moniteur portable.', price: 249.99, promotion: true, stock: 60, dateAdded: new Date(), categoryId: 5, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=ZenScreen' },
+      { productName: 'Asus ROG Strix Scar 15', description: 'Ordinateur portable gaming haute performance.', price: 1999.99, promotion: false, stock: 15, dateAdded: new Date(), categoryId: 1, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=Strix+Scar' },
+      { productName: 'Asus ZenBook Flip', description: 'Ordinateur portable convertible avec écran tactile.', price: 1399.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 8, illustration: 'https://via.placeholder.com/800x600.png?text=ZenBook+Flip' },
+
+      // Acer products
+      { productName: 'Acer Swift 3', description: 'Ordinateur portable léger avec bonne autonomie.', price: 799.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Swift+3' },
+      { productName: 'Acer Predator Helios 300', description: 'Ordinateur portable gaming avec refroidissement avancé.', price: 1399.99, promotion: true, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Predator+Helios' },
+      { productName: 'Acer Chromebook Spin 713', description: 'Ordinateur portable convertible avec Chrome OS.', price: 599.99, promotion: false, stock: 35, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Chromebook+Spin' },
+      { productName: 'Acer Aspire 5', description: 'Ordinateur portable pour un usage quotidien.', price: 549.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Aspire+5' },
+      { productName: 'Acer Nitro 5', description: 'Ordinateur portable gaming abordable.', price: 999.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Nitro+5' },
+      { productName: 'Acer Spin 5', description: 'Ordinateur portable convertible avec stylet.', price: 899.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Spin+5' },
+      { productName: 'Acer ConceptD 7', description: 'Ordinateur portable pour créateurs.', price: 1799.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=ConceptD+7' },
+      { productName: 'Acer Predator X34', description: 'Moniteur gaming incurvé.', price: 899.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 5, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Predator+X34' },
+      { productName: 'Acer B276HK', description: 'Moniteur 4K pour professionnels.', price: 499.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 5, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=B276HK' },
+      { productName: 'Acer Enduro N3', description: 'Ordinateur portable robuste pour environnements difficiles.', price: 1099.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 9, illustration: 'https://via.placeholder.com/800x600.png?text=Enduro+N3' },
+
+      // Sony products
+      { productName: 'Sony PlayStation 5', description: 'Console de jeu de nouvelle génération.', price: 499.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 7, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=PlayStation+5' },
+      { productName: 'Sony WH-1000XM4', description: 'Casque sans fil avec ANC.', price: 349.99, promotion: true, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=WH-1000XM4' },
+      { productName: 'Sony A8H OLED', description: 'Téléviseur OLED 4K.', price: 1799.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 5, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=A8H+OLED' },
+      { productName: 'Sony Alpha 7C', description: 'Appareil photo hybride compact.', price: 2099.99, promotion: false, stock: 15, dateAdded: new Date(), categoryId: 4, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=Alpha+7C' },
+      { productName: 'Sony SRS-XB43', description: 'Enceinte Bluetooth avec basses puissantes.', price: 249.99, promotion: true, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=SRS-XB43' },
+      { productName: 'Sony Xperia 1 II', description: 'Smartphone avec écran 4K HDR OLED.', price: 1199.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 2, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=Xperia+1+II' },
+      { productName: 'Sony WF-1000XM3', description: 'Écouteurs sans fil avec ANC.', price: 199.99, promotion: true, stock: 100, dateAdded: new Date(), categoryId: 4, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=WF-1000XM3' },
+      { productName: 'Sony X900H', description: 'Téléviseur LED 4K HDR.', price: 1299.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 5, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=X900H' },
+      { productName: 'Sony PS-LX310BT', description: 'Platine vinyle Bluetooth.', price: 229.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 4, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=PS-LX310BT' },
+      { productName: 'Sony HT-G700', description: 'Barre de son avec Dolby Atmos.', price: 499.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 4, brandId: 10, illustration: 'https://via.placeholder.com/800x600.png?text=HT-G700' },
+
+      // LG products
+      { productName: 'LG Gram 17', description: 'Ordinateur portable ultraléger avec écran 17 pouces.', price: 1599.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=Gram+17' },
+      { productName: 'LG Wing', description: 'Smartphone avec double écran pivotant.', price: 999.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 2, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=Wing' },
+      { productName: 'LG OLED CX', description: 'Téléviseur OLED 4K avec IA.', price: 1999.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 5, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=OLED+CX' },
+      { productName: 'LG UltraGear 27GN950', description: 'Moniteur gaming 4K avec taux de rafraîchissement élevé.', price: 899.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 5, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=UltraGear+27GN950' },
+      { productName: 'LG Tone Free', description: 'Écouteurs sans fil avec boîtier de chargement UV.', price: 149.99, promotion: true, stock: 70, dateAdded: new Date(), categoryId: 4, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=Tone+Free' },
+      { productName: 'LG UltraFine 5K', description: 'Moniteur 5K pour professionnels.', price: 1299.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 5, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=UltraFine+5K' },
+      { productName: 'LG CineBeam', description: 'Projecteur 4K UHD.', price: 2499.99, promotion: false, stock: 10, dateAdded: new Date(), categoryId: 5, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=CineBeam' },
+      { productName: 'LG V60 ThinQ', description: 'Smartphone avec écran OLED et double écran optionnel.', price: 899.99, promotion: true, stock: 40, dateAdded: new Date(), categoryId: 2, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=V60+ThinQ' },
+      { productName: 'LG G8X ThinQ', description: 'Smartphone avec double écran.', price: 799.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 2, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=G8X+ThinQ' },
+      { productName: 'LG 34WN80C', description: 'Moniteur ultra-large courbé.', price: 599.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 5, brandId: 11, illustration: 'https://via.placeholder.com/800x600.png?text=34WN80C' },
+
+      // Huawei products
+      { productName: 'Huawei MateBook X Pro', description: 'Ordinateur portable premium avec écran tactile.', price: 1499.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 1, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=MateBook+X+Pro' },
+      { productName: 'Huawei P40 Pro', description: 'Smartphone avec caméra Leica.', price: 999.99, promotion: true, stock: 30, dateAdded: new Date(), categoryId: 2, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=P40+Pro' },
+      { productName: 'Huawei MatePad Pro', description: 'Tablette avec écran OLED.', price: 699.99, promotion: false, stock: 25, dateAdded: new Date(), categoryId: 3, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=MatePad+Pro' },
+      { productName: 'Huawei Watch GT 2', description: 'Montre connectée avec longue autonomie.', price: 199.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 4, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=Watch+GT+2' },
+      { productName: 'Huawei FreeBuds 3', description: 'Écouteurs sans fil avec ANC.', price: 179.99, promotion: false, stock: 70, dateAdded: new Date(), categoryId: 4, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=FreeBuds+3' },
+      { productName: 'Huawei MateStation S', description: 'PC de bureau compact.', price: 599.99, promotion: false, stock: 15, dateAdded: new Date(), categoryId: 1, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=MateStation+S' },
+      { productName: 'Huawei MateView', description: 'Moniteur 4K avec connectivité sans fil.', price: 799.99, promotion: true, stock: 20, dateAdded: new Date(), categoryId: 5, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=MateView' },
+      { productName: 'Huawei Sound X', description: 'Enceinte sans fil avec son de haute qualité.', price: 349.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 4, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=Sound+X' },
+      { productName: 'Huawei AX3', description: 'Routeur WiFi 6.', price: 99.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 8, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=AX3' },
+      { productName: 'Huawei E5577', description: 'Hotspot mobile 4G.', price: 79.99, promotion: true, stock: 80, dateAdded: new Date(), categoryId: 8, brandId: 12, illustration: 'https://via.placeholder.com/800x600.png?text=E5577' },
+
+      // Xiaomi products
+      { productName: 'Xiaomi Mi 11', description: 'Smartphone avec écran AMOLED et caméra 108MP.', price: 799.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 2, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Mi+11' },
+      { productName: 'Xiaomi Mi Notebook Pro', description: 'Ordinateur portable avec écran haute résolution.', price: 1099.99, promotion: true, stock: 25, dateAdded: new Date(), categoryId: 1, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Notebook+Pro' },
+      { productName: 'Xiaomi Mi Pad 5', description: 'Tablette avec écran 120Hz.', price: 499.99, promotion: false, stock: 35, dateAdded: new Date(), categoryId: 3, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Mi+Pad+5' },
+      { productName: 'Xiaomi Mi Watch', description: 'Montre connectée avec GPS intégré.', price: 199.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 4, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Mi+Watch' },
+      { productName: 'Xiaomi Mi Band 6', description: 'Bracelet connecté avec suivi de la santé.', price: 49.99, promotion: false, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Mi+Band+6' },
+      { productName: 'Xiaomi Mi TV Q1', description: 'Téléviseur QLED 4K.', price: 1299.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 5, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Mi+TV+Q1' },
+      { productName: 'Xiaomi Mi True Wireless Earbuds', description: 'Écouteurs sans fil avec son de haute qualité.', price: 79.99, promotion: true, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=True+Wireless+Earbuds' },
+      { productName: 'Xiaomi Mi Router AX1800', description: 'Routeur WiFi 6.', price: 99.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 8, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Router+AX1800' },
+      { productName: 'Xiaomi Mi Air Purifier 3H', description: 'Purificateur d\'air intelligent.', price: 149.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 4, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Air+Purifier+3H' },
+      { productName: 'Xiaomi Mi Electric Scooter Pro 2', description: 'Trottinette électrique.', price: 599.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 4, brandId: 13, illustration: 'https://via.placeholder.com/800x600.png?text=Scooter+Pro+2' },
+
+      // OnePlus products
+      { productName: 'OnePlus 9', description: 'Smartphone avec écran AMOLED et caméra Hasselblad.', price: 729.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 2, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=OnePlus+9' },
+      { productName: 'OnePlus 8T', description: 'Smartphone avec écran 120Hz.', price: 649.99, promotion: true, stock: 40, dateAdded: new Date(), categoryId: 2, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=OnePlus+8T' },
+      { productName: 'OnePlus Nord 2', description: 'Smartphone milieu de gamme avec caméra performante.', price: 399.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 2, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=OnePlus+Nord+2' },
+      { productName: 'OnePlus Watch', description: 'Montre connectée avec suivi de la santé.', price: 159.99, promotion: true, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=OnePlus+Watch' },
+      { productName: 'OnePlus Buds Pro', description: 'Écouteurs sans fil avec ANC.', price: 149.99, promotion: false, stock: 70, dateAdded: new Date(), categoryId: 4, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=Buds+Pro' },
+      { productName: 'OnePlus TV U1S', description: 'Téléviseur 4K avec Android TV.', price: 999.99, promotion: false, stock: 20, dateAdded: new Date(), categoryId: 5, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=TV+U1S' },
+      { productName: 'OnePlus Power Bank', description: 'Batterie externe avec charge rapide.', price: 29.99, promotion: true, stock: 100, dateAdded: new Date(), categoryId: 4, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=Power+Bank' },
+      { productName: 'OnePlus Wireless Charger', description: 'Chargeur sans fil avec support.', price: 69.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 4, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=Wireless+Charger' },
+      { productName: 'OnePlus Backpack', description: 'Sac à dos avec design ergonomique.', price: 89.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 4, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=Backpack' },
+      { productName: 'OnePlus Explorer Sling', description: 'Sacoche avec rangement intelligent.', price: 49.99, promotion: false, stock: 80, dateAdded: new Date(), categoryId: 4, brandId: 14, illustration: 'https://via.placeholder.com/800x600.png?text=Explorer+Sling' },
+
+      // Nokia products
+      { productName: 'Nokia 8.3 5G', description: 'Smartphone 5G avec caméra PureView.', price: 599.99, promotion: false, stock: 40, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=8.3+5G' },
+      { productName: 'Nokia 5.4', description: 'Smartphone avec Android One.', price: 199.99, promotion: true, stock: 50, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=5.4' },
+      { productName: 'Nokia 3.4', description: 'Smartphone abordable avec bonne autonomie.', price: 129.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=3.4' },
+      { productName: 'Nokia 1.4', description: 'Smartphone d\'entrée de gamme avec Android Go.', price: 99.99, promotion: true, stock: 80, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=1.4' },
+      { productName: 'Nokia XR20', description: 'Smartphone robuste avec 5G.', price: 499.99, promotion: false, stock: 30, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=XR20' },
+      { productName: 'Nokia G50', description: 'Smartphone avec grande batterie.', price: 299.99, promotion: true, stock: 40, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=G50' },
+      { productName: 'Nokia C20', description: 'Smartphone d\'entrée de gamme avec écran HD+', price: 119.99, promotion: false, stock: 50, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=C20' },
+      { productName: 'Nokia 3310', description: 'Téléphone classique avec design emblématique.', price: 49.99, promotion: true, stock: 100, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=3310' },
+      { productName: 'Nokia 2720 Flip', description: 'Téléphone à clapet avec 4G.', price: 79.99, promotion: false, stock: 60, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=2720+Flip' },
+      { productName: 'Nokia 225 4G', description: 'Téléphone classique avec connectivité 4G.', price: 49.99, promotion: true, stock: 80, dateAdded: new Date(), categoryId: 2, brandId: 15, illustration: 'https://via.placeholder.com/800x600.png?text=225+4G' },
+    ];
+
+    await queryInterface.bulkInsert('Products', products.map((product, index) => ({
+      id: index + 1,
+      ...product,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })), {});
   },
 
   async down(queryInterface, Sequelize) {
