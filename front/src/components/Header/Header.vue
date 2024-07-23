@@ -103,7 +103,7 @@ const loadCart = () => {
             Livraison gratuite à partir de 100€ d'achat
           </p>
           <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-            <router-link :to="{ name: 'Register' }" class="text-sm font-medium text-white hover:text-gray-100">
+            <router-link v-if="!isAuthenticated" :to="{ name: 'Register' }" class="text-sm font-medium text-white hover:text-gray-100">
               Inscription
             </router-link>
             <span class="h-6 w-px bg-gray-600" aria-hidden="true"></span>
