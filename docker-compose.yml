@@ -20,7 +20,7 @@ services:
     user: node
     working_dir: /home/node
     entrypoint: ["sh", "-c"]
-    command: ["npm install && npm run dev"]
+    command: ["npm install && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run dev"]
     restart: always
     ports:
       - 3000:3000
@@ -61,18 +61,6 @@ services:
       - pgadmin:/var/lib/pgadmin
     depends_on:
       - postgresdb
-
-  sequelize-cli:
-    image: node:20.0.0-alpine
-    working_dir: /home/node
-    entrypoint: ["sh", "-c"]
-    command: ["npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"]
-    depends_on:
-      - postgresdb
-    volumes:
-      - ./back:/home/node
-    env_file:
-      - .env.local
 
 volumes:
   mongodata:
