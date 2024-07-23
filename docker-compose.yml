@@ -20,7 +20,7 @@ services:
       context: ./back
       dockerfile: Dockerfile
     user: node
-    working_dir: /home/node
+    working_dir: /app
     entrypoint: ["sh", "-c"]
     command: ["npm install && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run dev"]
     restart: always

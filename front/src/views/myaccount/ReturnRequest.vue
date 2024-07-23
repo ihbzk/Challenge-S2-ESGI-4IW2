@@ -31,7 +31,7 @@ const fetchOrders = async () => {
   let authToken = localStorage.getItem('token') || sessionStorage.getItem('token');
 
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/orders/user/${user.value.id}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/orders/user/${user.value.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

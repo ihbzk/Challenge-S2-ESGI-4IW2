@@ -43,7 +43,7 @@ const categories = ref([])
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/api/categories`);
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/categories`);
     categories.value = response.data;
   } catch (error) {
     console.error(error);
@@ -53,7 +53,7 @@ onMounted(async () => {
 const logout = async () => {
     try {
         const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/logout`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${authToken}`,

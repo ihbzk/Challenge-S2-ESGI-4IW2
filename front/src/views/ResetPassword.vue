@@ -25,7 +25,7 @@ token.value = router.currentRoute.value.query.token
 
 const resetPasswordVerifyToken = async () => {
     try {
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/reset-password-token-verify?token=${token.value}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/reset-password-token-verify?token=${token.value}`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ const resetPassword = async () => {
     }
   
     try {
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/reset-password`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/reset-password`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'

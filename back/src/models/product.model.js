@@ -1,5 +1,7 @@
 const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('./database'); // Import the sequelize instance
+const Category = require('./category.model');
+const Brand = require('./brand.model');
 
 class Product extends Model {}
 
@@ -39,5 +41,17 @@ Product.init({
     sequelize,
     modelName: 'Product',
 });
+
+Product.belongsTo(Category, { foreignKey: 'categoryId' });
+Product.belongsTo(Brand, { foreignKey: 'brandId' });
+
+(async () => {
+    try {
+        await sequelize.authenticate();
+        await sequelize.sync();
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+})();
 
 module.exports = Product;

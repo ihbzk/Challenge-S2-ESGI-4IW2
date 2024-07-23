@@ -58,13 +58,13 @@ const latestProducts = computed(() => {
 
 onMounted(async () => {
   try {
-    const productResponse = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/api/products`)
+    const productResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/products`)
     if (!productResponse.ok) {
       throw new Error('Failed to fetch products')
     }
     state.products = await productResponse.json()
 
-    const categoryResponse = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/api/categories`)
+    const categoryResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/categories`)
     if (!categoryResponse.ok) {
       throw new Error('Failed to fetch categories')
     }

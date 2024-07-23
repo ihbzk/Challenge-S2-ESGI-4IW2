@@ -150,7 +150,7 @@ const prevStep = () => {
 
 const submitOrder = async () => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/orders`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

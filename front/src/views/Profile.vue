@@ -9,7 +9,7 @@ const password = ref('');
 onMounted(async () => {
   if (isAuthenticated.value) {
     try {
-      const response = await axios.get(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/me`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -30,7 +30,7 @@ const updateProfile = async () => {
       ...(password.value && { password: password.value })
     };
 
-    await axios.put(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${user.value.id}`, updatedData, {
+    await axios.put(`${import.meta.env.VITE_API_URL}/users/${user.value.id}`, updatedData, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
       }
@@ -45,7 +45,7 @@ const updateProfile = async () => {
 const deleteAccount = async () => {
   if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
     try {
-      await axios.delete(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${user.value.id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/users/${user.value.id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }

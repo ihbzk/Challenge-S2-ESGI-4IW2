@@ -131,7 +131,7 @@
     const getUsers = async () => {
     try {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -171,7 +171,7 @@
     try {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -222,7 +222,7 @@
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const userId = editingUser.value.id;
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${userId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -257,7 +257,7 @@
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             const userId = users.value[userToDelete.value].id;
 
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/users/${userId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

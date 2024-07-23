@@ -18,7 +18,7 @@ const errors = ref({});
 const getBrands = async () => {
     try {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/brands`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const createBrand = async () => {
     try {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/brands`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const updateBrand = async () => {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const brandId = editingBrand.value.id;
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands/${brandId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/brands/${brandId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const deleteBrand = async () => {
       let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
       const brandId = brands.value[brandToDelete.value].id;
 
-      const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/brands/${brandId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/brands/${brandId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

@@ -19,7 +19,7 @@ const checkAuth = async (): Promise<void> => {
             return;
         }
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/me`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${storedToken}`,

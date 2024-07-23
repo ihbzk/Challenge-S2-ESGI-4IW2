@@ -11,7 +11,7 @@ token.value = router.currentRoute.value.query.token;
 
 const confirmVerifyToken = async () => {
     try {
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/confirm-token-verify?token=${token.value}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/confirm-token-verify?token=${token.value}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ onMounted(() => {
 
 const confirmAccount = async () => {
     try {
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/confirm?token=${token.value}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/confirm?token=${token.value}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

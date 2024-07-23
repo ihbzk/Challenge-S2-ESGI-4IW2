@@ -18,7 +18,7 @@ const errors = ref({});
 const getCategories = async () => {
     try {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const createCategory = async () => {
     try {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const updateCategory = async () => {
         let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         const categoryId = editingCategory.value.id;
 
-        const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories/${categoryId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/categories/${categoryId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const deleteCategory = async () => {
             let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             const categoryId = categories.value[categoryToDelete.value].id;
 
-            const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/categories/${categoryId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/categories/${categoryId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
