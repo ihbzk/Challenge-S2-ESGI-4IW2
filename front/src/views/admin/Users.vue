@@ -193,12 +193,13 @@ const newUser = ref({
 const editingUser = ref({})
 const errors = ref({})
 
+const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
 const apiUrl = `${import.meta.env.VITE_API_URL}/users`
 const axiosInstance = axios.create({
   baseURL: apiUrl,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+    Authorization: `Bearer ${authToken}`
   }
 })
 
