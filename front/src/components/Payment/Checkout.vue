@@ -11,12 +11,12 @@
               <p class="text-lg font-semibold">{{ item.productName }}</p>
               <p class="text-gray-600">{{ item.quantity }} x {{ item.price }} €</p>
             </div>
-            <p class="font-bold text-gray-900">{{ item.quantity * item.price }} €</p>
+            <p class="font-bold text-gray-900">{{ (item.quantity * item.price).toFixed(2) }} €</p>
           </li>
         </ul>
         <div class="flex justify-between items-center font-bold text-xl mt-4 border-t border-gray-300 pt-4">
           <p>Total</p>
-          <p class="text-indigo-600">{{ cartTotal }} €</p>
+          <p class="text-indigo-600">{{ cartTotal.toFixed(2) }} €</p>
         </div>
       </div>
 
@@ -41,10 +41,6 @@
             <label for="email-phone" class="block text-gray-700">E-mail</label>
             <input v-model="formData.email" type="text" id="email-phone" class="w-full mt-1 p-2 border border-gray-300 rounded" />
             <div v-if="showErrors.email" class="text-red-500 text-sm mt-1">{{ errors.email }}</div>
-            <div class="flex items-center mt-4">
-              <input v-model="formData.newsletter" type="checkbox" id="newsletter" class="mr-2" />
-              <label for="newsletter" class="text-gray-600">Inscrivez-vous à notre newsletter et recevez par mail un code promo de 10% !</label>
-            </div>
           </form>
         </div>
 
@@ -69,10 +65,6 @@
               <input v-model="formData.address" type="text" id="address" class="w-full mt-1 p-2 border border-gray-300 rounded" />
               <div v-if="showErrors.address" class="text-red-500 text-sm mt-1">{{ errors.address }}</div>
             </div>
-            <div class="mt-4">
-              <label for="apartment" class="block text-gray-700">Appartement, suite, etc. (facultatif)</label>
-              <input v-model="formData.apartment" type="text" id="apartment" class="w-full mt-1 p-2 border border-gray-300 rounded" />
-            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div>
                 <label for="city" class="block text-gray-700">Ville</label>
@@ -91,7 +83,6 @@
               <div v-if="showErrors.country" class="text-red-500 text-sm mt-1">{{ errors.country }}</div>
             </div>
           </form>
-          <Delivery />
         </div>
 
         <!-- Paiement -->
@@ -102,10 +93,10 @@
             <button @click="showStripe = false; showPayPal = true" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Payer avec PayPal</button>
           </div>
           <div v-if="showStripe">
-            <Payment :onPaymentSuccess="onPaymentSuccess" :amount="cartTotal" />
+            <Payment :onPaymentSuccess="handlePaymentSuccess" :amount="cartTotal" :order="formData" />
           </div>
           <div v-if="showPayPal">
-            <PayPalButton :onPaymentSuccess="onPaymentSuccess" :amount="cartTotal" />
+            <PayPalButton :onPaymentSuccess="handlePaymentSuccess" :amount="cartTotal" :order="formData" />
           </div>
         </div>
 
@@ -113,20 +104,6 @@
         <div class="flex justify-between mt-8">
           <button v-if="currentStep > 1" @click="prevStep" class="btn btn-secondary">Retour</button>
           <button v-if="currentStep < 3" @click="nextStep" class="btn btn-primary">Suivant</button>
-          <!-- <button v-if="currentStep === 3" @click="submitOrder" class="btn btn-primary">Valider la commande</button> -->
-        </div>
-
-        <!-- Display errors at the end -->
-        <div v-if="showFinalErrors" class="mt-8">
-          <h3 class="text-lg font-semibold mb-2">Erreur(s) dans le formulaire</h3>
-          <div v-if="errors.email" class="text-red-500 text-sm mb-2">{{ errors.email }}</div>
-          <div v-if="errors.firstName" class="text-red-500 text-sm mb-2">{{ errors.firstName }}</div>
-          <div v-if="errors.lastName" class="text-red-500 text-sm mb-2">{{ errors.lastName }}</div>
-          <div v-if="errors.address" class="text-red-500 text-sm mb-2">{{ errors.address }}</div>
-          <div v-if="errors.apartment" class="text-red-500 text-sm mb-2">{{ errors.apartment }}</div>
-          <div v-if="errors.city" class="text-red-500 text-sm mb-2">{{ errors.city }}</div>
-          <div v-if="errors.postalCode" class="text-red-500 text-sm mb-2">{{ errors.postalCode }}</div>
-          <div v-if="errors.country" class="text-red-500 text-sm mb-2">{{ errors.country }}</div>
         </div>
       </div>
     </div>
@@ -145,20 +122,20 @@ const { user, isAuthenticated } = useAuth();
 
 const currentStep = ref(1);
 const cart = ref<ProductCartInterface[]>([]);
-const cartTotal = computed(() => 
-  cart.value.reduce((acc, product) => acc + product.price * product.quantity, 0)
-);
+
+const cartTotal = computed(() => {
+  const total = cart.value.reduce((acc, product) => acc + product.price * product.quantity, 0);
+  return parseFloat(total.toFixed(2));
+});
 
 const formData = ref({
   email: '',
   firstName: '',
   lastName: '',
   address: '',
-  apartment: '',
   city: '',
   postalCode: '',
   country: '',
-  newsletter: false
 });
 
 const errors = ref({
@@ -166,7 +143,6 @@ const errors = ref({
   firstName: '',
   lastName: '',
   address: '',
-  apartment: '',
   city: '',
   postalCode: '',
   country: ''
@@ -177,13 +153,11 @@ const showErrors = ref({
   firstName: false,
   lastName: false,
   address: false,
-  apartment: false,
   city: false,
   postalCode: false,
   country: false
 });
 
-const showFinalErrors = ref(false);
 const showStripe = ref(false);
 const showPayPal = ref(false);
 
@@ -194,7 +168,6 @@ onMounted(() => {
   }
 });
 
-// validation de la première étape
 const validateInformations = () => {
   const result = informationsSchema.safeParse(formData.value);
   if (result.success) {
@@ -207,7 +180,6 @@ const validateInformations = () => {
   }
 };
 
-// validation de la deuxième étape
 const validateOrder = () => {
   const result = orderSchema.safeParse(formData.value);
   if (result.success) {
@@ -236,53 +208,44 @@ const prevStep = () => {
   }
 };
 
-const onPaymentSuccess = async () => {
-  showFinalErrors.value = true;
-  validateOrder();
-
-  if (Object.values(errors.value).every(error => error === '')) {
-    try {
-      const response = await fetch(`http://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT_BACKEND}/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken') || sessionStorage.getItem('authToken')}`,
+const handlePaymentSuccess = async (paymentDetails) => {
+  // Handle payment success
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken') || sessionStorage.getItem('authToken')}`,
+      },
+      body: JSON.stringify({
+        userId: user.value.id,
+        totalAmount: cartTotal.value,
+        email: formData.value.email,
+        deliveryAddress: {
+          nom: formData.value.lastName,
+          prénom: formData.value.firstName,
+          rue: formData.value.address,
+          ville: formData.value.city,
+          code_postal: formData.value.postalCode,
+          pays: formData.value.country,
         },
-        body: JSON.stringify({
-          userId: user.value.id,
-          totalAmount: cartTotal.value,
-          email: formData.value.email,
-          deliveryAddress: {
-            nom: formData.value.lastName,
-            prénom: formData.value.firstName,
-            rue: formData.value.address,
-            ville: formData.value.city,
-            code_postal: formData.value.postalCode,
-            pays: formData.value.country,
-          },
-          products: cart.value.map(product => ({
-            id: product.id,
-            quantity: product.quantity
-          })),
-        }),
-      });
+        products: cart.value.map(product => ({
+          id: product.id,
+          quantity: product.quantity
+        })),
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to submit order');
-      }
-
-      const order = await response.json();
-      alert('Order submitted!');
-      sessionStorage.removeItem('cart');
-      console.log(order);
-    } catch (error) {
-      alert('Failed to submit order');
-      console.error(error);
+    if (!response.ok) {
+      throw new Error('Failed to submit order');
     }
+
+    const order = await response.json();
+  } catch (error) {
+    console.error(error);
   }
 };
 
-// Compute progress width based on currentStep
 const progressWidth = computed(() => {
   switch (currentStep.value) {
     case 1:

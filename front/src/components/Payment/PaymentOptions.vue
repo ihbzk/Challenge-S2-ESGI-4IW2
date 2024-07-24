@@ -16,10 +16,10 @@
       </button>
     </div>
     <div v-if="showStripe">
-      <Payment :amount="amount" :onPaymentSuccess="onPaymentSuccess" />
+      <Payment :amount="amount" :onPaymentSuccess="onPaymentSuccess" :order="order" />
     </div>
     <div v-if="showPayPal">
-      <PayPalButton :amount="amount" :onPaymentSuccess="onPaymentSuccess" />
+      <PayPalButton :amount="amount" :onPaymentSuccess="onPaymentSuccess" :order="order" />
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ import Payment from '@/components/Payment/Payment.vue';
 import PayPalButton from '@/components/Payment/PayPalButton.vue';
 
 // Props (if needed)
-const props = defineProps(['onPaymentSuccess', 'amount']);
+const props = defineProps(['onPaymentSuccess', 'amount', 'order']);
 
 // State for showing payment methods
 const showStripe = ref(false);

@@ -41,7 +41,7 @@ const trackingInfo = ref(null);
 const successMessage = ref('');
 
 onMounted(async () => {
-  const { data } = await axios.get('http://localhost:3000/api/delivery/options');
+  const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/delivery/options`);
   deliveryOptions.value = data;
 });
 
@@ -51,7 +51,7 @@ const createDelivery = async () => {
     return;
   }
 
-  const { data } = await axios.post('http://localhost:3000/api/delivery/create', {
+  const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/delivery/create`, {
     address: address.value,
     optionId: selectedOptionId.value
   });

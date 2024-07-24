@@ -8,7 +8,7 @@ class OrderProduct extends Model {}
 OrderProduct.init({
     quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         defaultValue: 1
     },
 }, {

@@ -8,32 +8,62 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
+const props = defineProps({
+  onPaymentSuccess: Function,
+  amount: Number,
+  order: Object
+});
+
 const router = useRouter();
 
-const props = defineProps(['onPaymentSuccess', 'amount']);
-
 onMounted(() => {
+  // Check if PayPal SDK is loaded
   if (window.paypal) {
     window.paypal.Buttons({
       createOrder: function(data, actions) {
         return actions.order.create({
           purchase_units: [{
             amount: {
-              value: props.amount
+              value: props.amount.toFixed(2) // Ensure the amount is in the correct format
             }
           }]
         });
       },
-      onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
+      onApprove: async function(data, actions) {
+        try {
+          // Capture the order
+          const details = await actions.order.capture();
           alert('Transaction complétée par ' + details.payer.name.given_name);
 
-          // Appeler la fonction de succès de paiement
-          props.onPaymentSuccess(details);
+          console.log('Payment successful', details);
 
-          // on redirige l'utilisateur vers une page de confirmation
-          router.push({ name: 'ConfirmationPage'});
-        });
+          // Call the success payment function
+          if (props.onPaymentSuccess) {
+            props.onPaymentSuccess(details);
+
+            // Clear the cart
+            await sessionStorage.removeItem('cart');
+
+            // Redirect the user to the confirmation page
+            router.push({ 
+              name: 'ConfirmationPage', 
+              query: { 
+                order: encodeURIComponent(JSON.stringify({
+                  firstName: props.order.firstName,
+                  lastName: props.order.lastName,
+                  address: props.order.address,
+                  city: props.order.city,
+                  postalCode: props.order.postalCode,
+                  country: props.order.country,
+                  amount: props.amount,
+                  date: new Date().toISOString()
+                }))
+              }
+            });
+          }
+        } catch (err) {
+          console.error('Erreur lors de la capture de la transaction', err);
+        }
       },
       onError: function(err) {
         console.error('Erreur lors de la transaction', err);
