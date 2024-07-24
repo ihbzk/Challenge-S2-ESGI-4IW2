@@ -142,24 +142,33 @@ Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le reposit
 ### Attribution des tâches
 
 **Ilyesse HAMCHERIF** :
-- Gestion des stocks
-- Historique de commande
-- Panel dʼadministration
+- Recherche produits
+- Intégration en front de l'application (Panier, Header, Footer, Filtres...)
+- Crud Marque et Catégories
+- Initialisation du projet
+- Système de filtre et de tri dans le front des produits
+- Mise en production
 
 **Théo DAVIGNY** :
 - Authentification
 - Historique de commande
-- Panel dʼadministration
+- Edition profil
+- Panel dʼadministration (Crud Utilisateurs et Produits, Dashboard avec Datavisualisation / Widgets)
+- Composant Modal / Middlewares / Validations
+- Création du docker-compose
 
 **Victor DE DOMENICO** :
-- Gestion des stocks
-- Historique de commande
-- Panel dʼadministration
+- Intégration dʼune plateforme de paiement
+- “Suppressionˮ de compte
+- Tests unitaires / Migrations / Seeders
+- Pages légales, et popup du cookie
 
 **Stéphan GUEORGUIEFF** :
-- Gestion des stocks
-- Historique de commande
-- Panel dʼadministration
+- Gestion des stocks 
+- Composant Table ( selections, tri, export, pagination) + Adaptation de tous les crud pour fonctionner avec ce composant
+- Composant ModalConfirmation
+- Logique de l'ajout de panier + calcul des prix
+- Achat du pack tailwind prenium pour l'intégralité du design du site 
 
 ## 🔐 Commits Auto-signés
 
