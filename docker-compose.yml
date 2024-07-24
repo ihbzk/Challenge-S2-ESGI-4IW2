@@ -22,7 +22,7 @@ services:
     user: node
     working_dir: /app
     entrypoint: ["sh", "-c"]
-    command: ["npm install && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run dev"]
+    command: ["npm install && npm run dev"]
     restart: always
     ports:
       - 3000:3000
