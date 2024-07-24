@@ -1,13 +1,13 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { ChevronDownIcon } from '@heroicons/vue/24/outline'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { ChevronDownIcon } from '@heroicons/vue/24/outline';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 
 const products = ref([]);
 const category = ref({});
 const route = useRoute();
-const selectedSortOption = ref('Les plus populaires')
+const selectedSortOption = ref('Les plus populaires');
 
 const sortOptions = [
     { id: 'Les plus populaires', name: 'Les plus populaires', current: true },
@@ -15,10 +15,9 @@ const sortOptions = [
     { id: 'Les nouveautés', name: 'Les nouveautés', current: false },
     { id: 'Prix croissant', name: 'Prix croissant', current: false },
     { id: 'Prix décroissant', name: 'Prix décroissant', current: false },
-]
+];
 
-onMounted(async () => {
-    const categoryId = route.params.id;
+const fetchCategoryAndProducts = async (categoryId) => {
     try {
         const categoryResponse = await fetch(`${import.meta.env.VITE_API_URL}/categories/${categoryId}`);
         category.value = await categoryResponse.json();
@@ -28,33 +27,44 @@ onMounted(async () => {
     } catch (error) {
         console.error('Error fetching category or products:', error);
     }
+};
+
+onMounted(() => {
+    fetchCategoryAndProducts(route.params.id);
 });
 
+watch(
+    () => route.params.id,
+    (newId) => {
+        fetchCategoryAndProducts(newId);
+    }
+);
+
 const sortProducts = (sortOption) => {
-    selectedSortOption.value = sortOption
+    selectedSortOption.value = sortOption;
 
     switch (sortOption) {
         case 'Les plus populaires':
-            products.value.sort((a, b) => b.popularity - a.popularity)
-            break
+            products.value.sort((a, b) => b.popularity - a.popularity);
+            break;
         case 'Les mieux notés':
-            products.value.sort((a, b) => b.rating - a.rating)
-            break
+            products.value.sort((a, b) => b.rating - a.rating);
+            break;
         case 'Les nouveautés':
-            products.value.sort((a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime())
-            break
+            products.value.sort((a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime());
+            break;
         case 'Prix croissant':
-            products.value.sort((a, b) => a.price - b.price)
-            break
+            products.value.sort((a, b) => a.price - b.price);
+            break;
         case 'Prix décroissant':
-            products.value.sort((a, b) => b.price - a.price)
-            break
+            products.value.sort((a, b) => b.price - a.price);
+            break;
     }
-}
+};
 
 const sortedProducts = computed(() => {
-    return products.value
-})
+    return products.value;
+});
 </script>
 
 <template>

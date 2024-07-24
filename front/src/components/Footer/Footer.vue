@@ -46,7 +46,7 @@ const footerNavigation = {
       <div class="border-t border-gray-200">
         <div class="pb-20 pt-16">
           <div class="md:flex md:justify-center">
-            <img src="../../assets/images/logo.svg" alt="InformaCart" class="h-8 w-auto">
+            <img src="../../assets/images/logo2.svg" alt="InformaCart" class="h-8 w-auto">
           </div>
           <div class="mx-auto mt-16 max-w-5xl xl:grid xl:grid-cols-2 xl:gap-8">
             <div class="grid grid-cols-2 gap-8 xl:col-span-2">
