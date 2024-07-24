@@ -130,26 +130,6 @@ Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le reposit
     - Pour le back : `cd back && npm run test`
     - Pour le front : `cd front && npm run test`
 
-### Attribution des tâches
-**Ilyesse HAMCHERIF** - [@ihbzk] :
-- Gestion des stocks
-- Historique de commande
-- Panel dʼadministration
-
-**Théo DAVIGNY** - [@Thivalaine] :
-- Gestion des stocks
-- Historique de commande
-- Panel dʼadministration
-
-**Victor DE DOMENICO** - [@Nirdeo] :
-- Gestion des stocks
-- Historique de commande
-- Panel dʼadministration
-
-**Stéphan GUEORGUIEFF** - [@StephanG2a] :
-- Gestion des stocks
-- Historique de commande
-- Panel dʼadministration
 
 ## 🛠️ Collaborateurs
 
@@ -157,6 +137,29 @@ Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le reposit
 - **Théo DAVIGNY** - [@Thivalaine](https://github.com/Thivalaine)
 - **Victor DE DOMENICO** - [@Nirdeo](https://github.com/Nirdeo)
 - **Stéphan GUEORGUIEFF** - [@StephanG2a](https://github.com/StephanG2a)
+
+
+### Attribution des tâches
+
+**Ilyesse HAMCHERIF** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
+
+**Théo DAVIGNY** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
+
+**Victor DE DOMENICO** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
+
+**Stéphan GUEORGUIEFF** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
 
 ## 🔐 Commits Auto-signés
 
