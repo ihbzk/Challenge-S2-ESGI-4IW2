@@ -96,23 +96,40 @@ Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le reposit
 - **ROLE_STORE_KEEPER : gestion des stocks**
 - **ROLE_ADMIN : accès au panel admin**
 
+
 ## 🚀 Démarrage rapide
 
 ### Prérequis
 
 - Docker
-- ... [autres prérequis]
+- Node.js (version 14 ou supérieure)
+- npm (version 6 ou supérieure)
+- PostgreSQL (version 13 ou supérieure)
+- MongoDB (version 4 ou supérieure)
 
 ### Installation
 
-1. Clonez ce dépôt (SSH) : git@github.com:ihbzk/Challenge-S2-ESGI-4IW2.git
-2. Accédez au dossier du projet : cd back / cd front
-3. Lancez les deux application (back & front) avec Docker : docker-compose up -d
-4. ... [autres étapes d'installation si nécessaire]
+1. Clonez ce dépôt (SSH) : `git@github.com:ihbzk/Challenge-S2-ESGI-4IW2.git`
+2. Pour lancer le projet il y a deux façons :
+    - Avec Docker : `docker-compose up -d`
+    - Sans Docker :
+        - D'abord, installez les dépendances du back et du front :
+            - Pour le back : `cd back && npm install`
+            - Pour le front : `cd front && npm install`
+        - Ensuite, lancez les deux applications :
+            - Pour le back : `cd back && npm run dev`
+            - Pour le front : `cd front && npm run dev`
+   - Avec et sans Docker, il faut remplir les variables d'environnement dans le fichier `.env` du dossier `back` et `front` afin de configurer les applications.
+3. Pour lancer les migrations de la base de données, exécutez les commandes suivantes :
+    - Pour le back : `cd back && npm run migrate:up`
+    - Pour les annuler : `cd back && npm run migrate:undo`
+4. Pour lancer les seeds de la base de données, exécutez les commandes suivantes :
+    - Pour le back : `cd back && npm run seed:up`
+    - Pour les annuler : `cd back && npm run seed:undo`
+5. Pour lancer les tests, exécutez la commande suivante :
+    - Pour le back : `cd back && npm run test`
+    - Pour le front : `cd front && npm run test`
 
-## 📖 Documentation
-
-Vous pouvez accéder à la documentation complète [ici](lien_vers_la_documentation).
 
 ## 🛠️ Collaborateurs
 
@@ -120,6 +137,29 @@ Vous pouvez accéder à la documentation complète [ici](lien_vers_la_documentat
 - **Théo DAVIGNY** - [@Thivalaine](https://github.com/Thivalaine)
 - **Victor DE DOMENICO** - [@Nirdeo](https://github.com/Nirdeo)
 - **Stéphan GUEORGUIEFF** - [@StephanG2a](https://github.com/StephanG2a)
+
+
+### Attribution des tâches
+
+**Ilyesse HAMCHERIF** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
+
+**Théo DAVIGNY** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
+
+**Victor DE DOMENICO** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
+
+**Stéphan GUEORGUIEFF** :
+- Gestion des stocks
+- Historique de commande
+- Panel dʼadministration
 
 ## 🔐 Commits Auto-signés
 
