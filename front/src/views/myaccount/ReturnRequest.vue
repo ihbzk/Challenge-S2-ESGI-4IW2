@@ -29,7 +29,7 @@ const orderedProducts = ref([]);
 const selectedProducts = ref([]);
 
 const fetchOrders = async () => {
-  let authToken = localStorage.getItem('token') || sessionStorage.getItem('token');
+  let authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
   try {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/orders/user/${user.value.id}`, {
