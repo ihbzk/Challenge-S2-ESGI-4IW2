@@ -147,7 +147,7 @@ Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le reposit
 - Panel dʼadministration
 
 **Théo DAVIGNY** :
-- Gestion des stocks
+- Authentification
 - Historique de commande
 - Panel dʼadministration
 
