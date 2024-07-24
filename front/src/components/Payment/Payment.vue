@@ -4,7 +4,7 @@
       <div id="card-element"><!-- Stripe Element will be inserted here --></div>
       <button type="submit">Payer</button>
     </form>
-    <div v-if="error">{{ error }}</div>
+    <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const props = defineProps(['onPaymentSuccess', 'amount']);
+const props = defineProps(['onPaymentSuccess', 'amount', 'order']);
 
 const stripe = ref(null);
 const elements = ref(null);
@@ -29,8 +29,8 @@ onMounted(async () => {
     stripe.value = await loadStripe(`${import.meta.env.VITE_STRIPE_PUBLIC_KEY}`);
 
     // Fetch the client secret from the backend
-    const { data } = await axios.post('http://localhost:3000/api/payments/create-payment-intent', {
-      // on convertit le montant en centimes
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/payments/create-payment-intent`, {
+      // Convert the amount to cents
       amount: props.amount * 100,
     });
     clientSecret.value = data.clientSecret;
@@ -53,22 +53,41 @@ const handleSubmit = async () => {
       payment_method: {
         card: elements.value.getElement('card'),
         billing_details: {
-          name: 'Test User',
+          name: `${props.order.firstName} ${props.order.lastName}`,
         },
       },
     });
 
     if (stripeError) {
       error.value = stripeError.message;
-    } else {
+    } else if (paymentIntent.status === 'succeeded') {
       console.log('Payment successful', paymentIntent);
       error.value = '';
 
-      // on appelle la fonction de succès de paiement
-      props.onPaymentSuccess(paymentIntent);
+      // Call the payment success function
+      if (props.onPaymentSuccess) {
+        props.onPaymentSuccess(paymentIntent);
 
-      // on redirige l'utilisateur vers la page de confirmation
-      router.push({ name: 'ConfirmationPage' });
+        // Clear the cart
+        await sessionStorage.removeItem('cart');
+
+      // Redirect the user to the confirmation page
+      router.push({ 
+        name: 'ConfirmationPage', 
+        query: { 
+          order: encodeURIComponent(JSON.stringify({
+            firstName: props.order.firstName,
+            lastName: props.order.lastName,
+            address: props.order.address,
+            city: props.order.city,
+            postalCode: props.order.postalCode,
+            country: props.order.country,
+            amount: props.amount,
+            date: new Date().toISOString()
+          }))
+        }
+      });
+      }
     }
   } catch (err) {
     console.error('Error confirming card payment:', err);
@@ -84,5 +103,8 @@ const handleSubmit = async () => {
 }
 button {
   margin-top: 10px;
+}
+.error {
+  color: red;
 }
 </style>

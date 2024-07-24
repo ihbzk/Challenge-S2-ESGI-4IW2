@@ -24,8 +24,6 @@ import AccountInfo from '../views/myaccount/AccountInfo.vue';
 import OrderHistory from '../views/myaccount/OrderHistory.vue';
 import BillingRequest from '../views/myaccount/BillingRequest.vue';
 import ReturnRequest from '../views/myaccount/ReturnRequest.vue';
-import Search from '../views/myaccount/Search.vue';
-import Reorder from '../views/myaccount/Reorder.vue';
 import ProductList from '../views/ProductList.vue';
 import ProductDetail from '../views/ProductDetail.vue';
 import SearchResults from '../views/SearchResults.vue';
@@ -142,8 +140,6 @@ const routes = [
       { path: 'history', name: 'OrderHistory', component: OrderHistory, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
       { path: 'billing', name: 'BillingRequest', component: BillingRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
       { path: 'return', name: 'ReturnRequest', component: ReturnRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
-      { path: 'search', name: 'Search', component: Search, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
-      { path: 'reorder', name: 'Reorder', component: Reorder, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } }
     ]
   },
   {

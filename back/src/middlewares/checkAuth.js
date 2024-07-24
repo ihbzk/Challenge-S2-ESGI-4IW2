@@ -10,6 +10,7 @@ module.exports = async function checkAuth(req, res, next) {
     }
 
     const [type, token] = header.split(/\s+/);
+    
 
     if (type !== 'Bearer') {
         return res.sendStatus(401);

@@ -62,7 +62,4 @@ Product.init({
     modelName: 'Product',
 });
 
-Product.belongsTo(Category, { foreignKey: 'categoryId' });
-Product.belongsTo(Brand, { foreignKey: 'brandId' });
-
 module.exports = Product;

@@ -10,8 +10,6 @@
               <li><router-link class="text-white hover:text-gray-300" :to="{ name: 'OrderHistory' }">Historique des commandes</router-link></li>
               <li><router-link class="text-white hover:text-gray-300" :to="{ name: 'BillingRequest' }">Facturation</router-link></li>
               <li><router-link class="text-white hover:text-gray-300" :to="{ name: 'ReturnRequest' }">Retours</router-link></li>
-              <li><router-link class="text-white hover:text-gray-300" :to="{ name: 'Search' }">Recherche</router-link></li>
-              <li><router-link class="text-white hover:text-gray-300" :to="{ name: 'Reorder' }">Commander à nouveau</router-link></li>
             </ul>
           </nav>
         </div>
