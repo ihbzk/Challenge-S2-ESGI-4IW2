@@ -37,8 +37,10 @@
 import { ref, onMounted } from 'vue';
 import useAuth from '@/composables/useAuth';
 import { userInfoSchema } from '@/composables/validation';
+import { useRouter } from 'vue-router';
 
 const { user, checkAuth, isAuthenticated } = useAuth();
+const router = useRouter();
 
 const firstname = ref('');
 const lastname = ref('');
