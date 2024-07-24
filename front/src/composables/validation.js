@@ -109,3 +109,32 @@ export const orderSchema = z.object({
       .regex(/^\d{5}$/, { message: 'Le code postal doit contenir uniquement des chiffres' }),
     country: z.string().min(1, { message: 'Le pays est obligatoire' }),
 });
+
+export const userInfoSchema = z.object({
+    firstname: z.string().nonempty({ message: 'Le prénom est obligatoire' }),
+    lastname: z.string().nonempty({ message: 'Le nom de famille est obligatoire' }),
+    email: z.string().email({ message: "Le format de l'adresse email est invalide" }),
+    password: z.string().optional().refine((value) => {
+      if (value) {
+        return (
+          value.length >= 12 &&
+          /[a-z]/.test(value) &&
+          /[A-Z]/.test(value) &&
+          /\d/.test(value) &&
+          /[\W_]/.test(value)
+        );
+      }
+      return true;
+    }, {
+      message: 'Le mot de passe doit contenir au moins 12 caractères, une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial',
+    }),
+    confirmPassword: z.string().optional(),
+  }).superRefine(({ password, confirmPassword }, ctx) => {
+    if (password && password !== confirmPassword) {
+      ctx.addIssue({
+        path: ['confirmPassword'],
+        message: 'Les mots de passe ne correspondent pas',
+      });
+    }
+  });
+  
