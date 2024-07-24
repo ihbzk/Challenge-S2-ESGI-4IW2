@@ -1,6 +1,6 @@
 # Challenge S2 G19 - ESGI 4IW2
 
-## Projet : ?
+## Projet : InformaCart - Vente de matériel informatique
 
 Description du projet
 

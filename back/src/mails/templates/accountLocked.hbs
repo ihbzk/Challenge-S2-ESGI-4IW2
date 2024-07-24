@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compte bloqué</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #4f46e5;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #4338ca;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.goopics.net/vmzwmf.png" alt="InformaCart" class="logo">
+            <h2 style="font-size: 24px; font-weight: bold; color: #1f2937; margin-top: 20px">Compte bloqué</h2>
+        </div>
+        <p style="text-align: center; color: #1f2937">Bonjour {{ firstname }},</p>
+        <p style="text-align: center; color: #1f2937">Votre compte a été verrouillé en raison de plusieurs tentatives de connexion échouées.</p>
+        <p style="text-align: center; color: #1f2937">Veuillez réessayer dans {{ lockDuration }}.</p>
+        <p style="text-align: center; color: #1f2937">Merci de votre compréhension.</p>
+        <div class="footer">
+            <p style="color: #6b7280">©2024 InformaCart. Tous droits réservés.</p>
+        </div>
+    </div>
+</body>
+</html>

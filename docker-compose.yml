@@ -1,0 +1,72 @@
+version: "3.8"
+
+services:
+  client:
+    image: node:20.0.0-alpine
+    user: node
+    working_dir: /home/node
+    entrypoint: ["sh", "-c"]
+    command: ["npm install && npm run dev -- --host 0.0.0.0"]
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - ./front:/home/node
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    user: node
+    working_dir: /app
+    entrypoint: ["sh", "-c"]
+    command: ["npm install && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm run dev"]
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+      - postgresdb
+    env_file:
+      - .env.local
+    volumes:
+      - ./back:/app
+
+  mongodb:
+    image: mongo:4.4.6
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+
+  postgresdb:
+    image: postgres:13
+    env_file:
+      - .env.local
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: elestio/pgadmin
+    restart: always
+    ports:
+      - 5050:5050
+    env_file:
+      - .env.local
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgresdb
+
+volumes:
+  mongodata:
+  pgdata:
+  pgadmin:
+  back:
+  front:

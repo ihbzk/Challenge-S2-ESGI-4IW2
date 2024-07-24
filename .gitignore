@@ -1,0 +1,15 @@
+.idea/
+
+front/.vscode/
+front/.npm/
+
+# postgres data and mongo data
+mongodata
+pgdata
+pgadmin
+
+# env files
+.env.local
+
+back/node_modules/
+back/.npm
