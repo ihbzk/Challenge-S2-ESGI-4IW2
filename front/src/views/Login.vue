@@ -71,7 +71,7 @@ const login = async () => {
     <div class="flex min-h-full flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div class="w-full max-w-lg space-y-10 bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
         <div>
-          <img src="../assets/images/logo.svg" alt="InformaCart" class="mx-auto h-10 w-auto">
+          <img src="../assets/images/logo2.svg" alt="InformaCart" class="mx-auto h-10 w-auto">
           <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Se connecter à votre compte</h2>
           <p class="mt-2 text-sm leading-6 text-gray-500">
             Pas encore de compte ?

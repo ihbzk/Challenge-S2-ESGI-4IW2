@@ -263,7 +263,8 @@ const routes = [
   {
     path: '/category/:id',
     name: 'CategoryProducts',
-    component: CategoryProducts
+    component: CategoryProducts,
+    props: true
   },
 ];
 

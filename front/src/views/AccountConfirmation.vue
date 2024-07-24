@@ -66,7 +66,7 @@ const confirmAccount = async () => {
         <div class="flex min-h-full flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
             <div class="w-full max-w-sm space-y-10 bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
                 <div>
-                    <img src="../assets/images/logo.svg" alt="InformaCart" class="mx-auto h-10 w-auto">
+                    <img src="../assets/images/logo2.svg" alt="InformaCart" class="mx-auto h-10 w-auto">
                     <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Confirmation de compte</h2>
                 </div>
                 <div v-if="message" class="text-center text-green-500 font-bold mb-4">{{ message }}</div>
