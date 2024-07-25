@@ -134,12 +134,12 @@ const routes = [
     path: '/profile',
     name: 'AccountLayout',
     component: AccountLayout,
-    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] },
+    meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_COMPTA', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN'] },
     children: [
-      { path: 'info', name: 'AccountInfo', component: AccountInfo, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
-      { path: 'history', name: 'OrderHistory', component: OrderHistory, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
-      { path: 'billing', name: 'BillingRequest', component: BillingRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
-      { path: 'return', name: 'ReturnRequest', component: ReturnRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
+      { path: 'info', name: 'AccountInfo', component: AccountInfo, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_COMPTA', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN']} },
+      { path: 'history', name: 'OrderHistory', component: OrderHistory, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_COMPTA', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN'] } },
+      { path: 'billing', name: 'BillingRequest', component: BillingRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_COMPTA', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN'] } },
+      { path: 'return', name: 'ReturnRequest', component: ReturnRequest, meta: { requiresAuth: true, roles: ['ROLE_USER', 'ROLE_COMPTA', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN'] } },
     ]
   },
   {
@@ -263,7 +263,8 @@ const routes = [
   {
     path: '/category/:id',
     name: 'CategoryProducts',
-    component: CategoryProducts
+    component: CategoryProducts,
+    props: true
   },
 ];
 

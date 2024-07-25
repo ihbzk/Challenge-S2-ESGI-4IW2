@@ -7,15 +7,15 @@ import { ref, onMounted, computed } from 'vue'
 import { productSchema } from '@/composables/validation'
 
 const productColumns = ref([
-  { key: 'id', label: 'Id', visible: true },
+  // { key: 'id', label: 'Id', visible: true },
   { key: 'productName', label: 'Nom', visible: true },
   { key: 'description', label: 'Description', visible: true },
   { key: 'category', label: 'Catégorie', visible: true },
   { key: 'brand', label: 'Marque', visible: true },
   { key: 'price', label: 'Prix', visible: true },
-  { key: 'promotion', label: 'Promotion', visible: true },
-  { key: 'stock', label: 'Stock', visible: true },
-  { key: 'illustration', label: 'Illustration', visible: true, isImage: true }
+  // { key: 'promotion', label: 'Promotion', visible: true },
+  { key: 'stock', label: 'Stock', visible: true }
+  // { key: 'illustration', label: 'Illustration', visible: true, isImage: true }
 ])
 const products = ref([])
 const categories = ref([])

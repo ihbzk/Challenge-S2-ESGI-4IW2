@@ -7,25 +7,25 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'addProductToCart', productId: number): void
+  (e: 'add-product-to-cart', productId: number): void
 }>();
 </script>
 
 <template>
-  <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }">
-    <div class="product flex flex-col">
+  <div class="product flex flex-col">
+    <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }">
       <div class="product-image aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md" :style="{ backgroundImage: 'url(' + product.illustration + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'contain' }"></div>
-      <div class="p-10 flex flex-col">
-        <h3 class="mt-1 font-semibold text-gray-900 text-center">{{ product.productName }}</h3>
-        <div class="flex flex-col items-center">
-          <p class="mt-1 text-gray-900">{{ product.price }}€</p>
-          <button class="group -m-2 mt-2 flex items-center p-2" @click="emit('addProductToCart', product.id)">
-            <ShoppingCartIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-          </button>
-        </div>
+    </router-link>
+    <div class="p-10 flex flex-col">
+      <h3 class="mt-1 font-semibold text-gray-900 text-center">{{ product.productName }}</h3>
+      <div class="flex flex-col items-center">
+        <p class="mt-1 text-gray-900">{{ product.price }}€</p>
+        <button class="group -m-2 mt-2 flex items-center p-2" @click="emit('add-product-to-cart', product.id)">
+          <ShoppingCartIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+        </button>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <style lang="scss" scoped>

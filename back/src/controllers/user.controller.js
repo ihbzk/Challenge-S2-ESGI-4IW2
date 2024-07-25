@@ -379,6 +379,15 @@ exports.createUser = async (req, res) => {
   try {
     const { firstname, lastname, email, password, role } = req.body;
 
+    // Vérifier si l'utilisateur existe déjà
+    let existingUser = await User.findOne({ where: { email } });
+
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ message: "L'adresse email est déjà utilisée" });
+    }
+
     const newUser = await User.create({
       firstname,
       lastname,
@@ -424,6 +433,13 @@ exports.updateUser = async (req, res) => {
 
     const { firstname, lastname, email, password, role } = req.body;
 
+    // si l'utilisateur est administrateur, il peut modifier le rôle de l'utilisateur sinon il garde son role
+    if (req.user.role === "ROLE_ADMIN") {
+      selectedRole = role;
+    } else {
+      selectedRole = user.role;
+    }
+
     // on hache le mot de passe si un nouveau mot de passe est fourni
     let hashedPassword = user.password;
     if (password) {
@@ -436,7 +452,7 @@ exports.updateUser = async (req, res) => {
         lastname,
         email,
         password: hashedPassword,
-        role,
+        role: selectedRole
       },
       {
         where: { id },

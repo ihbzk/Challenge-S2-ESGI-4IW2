@@ -1,65 +1,73 @@
-const { DataTypes, Model, Sequelize } = require('sequelize');
-const sequelize = require('./database'); // Import the sequelize instance
-const Category = require('./category.model');
-const Brand = require('./brand.model');
+const { DataTypes, Model, Sequelize } = require("sequelize");
+const sequelize = require("./database"); // Import the sequelize instance
+const Category = require("./category.model");
+const Brand = require("./brand.model");
 
 class Product extends Model {}
 
-Product.init({
+Product.init(
+  {
     productName: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     description: {
-        type: DataTypes.TEXT,
-        allowNull: false
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
     price: {
-        type: DataTypes.FLOAT,
-        allowNull: false
+      type: DataTypes.FLOAT,
+      allowNull: false,
     },
     promotion: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     stock: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
     dateAdded: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.NOW,
     },
     illustration: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    stockAlertThreshold: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 10,
     },
     categoryId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Categories',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Categories",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
     },
     brandId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Brands',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-    }
-}, {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Brands",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
+    },
+  },
+  {
     sequelize,
-    modelName: 'Product',
-});
+    modelName: "Product",
+  }
+);
 
 module.exports = Product;

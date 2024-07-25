@@ -7,13 +7,13 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'addProductToCart', productId: number): void
+  (e: 'add-product-to-cart', productId: number): void
 }>()
 </script>
 
 <template>
   <div>
-    <ShopProductList @add-product-to-cart="emit('addProductToCart', $event)" :products="products" />
+    <ShopProductList @add-product-to-cart="emit('add-product-to-cart', $event)" :products="products" />
   </div>
 </template>
 

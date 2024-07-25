@@ -83,7 +83,7 @@ const cartItemCount = computed(() => state.cart.reduce((acc, product) => acc + p
     <TheHeader :cart="state.cart" :cartOpen="state.cartOpen" @remove-product-from-cart="(productId) => state.cart = state.cart.filter(product => product.id !== productId)" @open-cart="openCart" @close-cart="closeCart" />
     <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img src="../assets/images/logo.svg" alt="InformaCart" class="mx-auto h-10 w-auto">
+        <img src="../assets/images/logo2.svg" alt="InformaCart" class="mx-auto h-10 w-auto">
         <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Réinitialiser le mot de passe</h2>
       </div>
 
