@@ -158,8 +158,8 @@ Ce projet est hébergé sur GitHub à l'adresse suivante : [Lien vers le reposit
 - Création du docker-compose
 
 **Victor DE DOMENICO** :
-- Intégration dʼune plateforme de paiement
-- “Suppressionˮ de compte
+- Intégration dʼune plateforme de paiement (Stripe/Paypal) et mock API livraison
+- “Suppression anonymiséˮ de compte
 - Tests unitaires / Migrations / Seeders
 - Pages légales, et popup du cookie
 
